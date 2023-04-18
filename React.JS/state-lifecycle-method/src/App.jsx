@@ -15,6 +15,8 @@ function Clock() {
   // console.log('d:', d)
 
   const [date, setDate] = useState(new Date())
+  console.log('date:', date)
+  console.log('date:', date.toLocaleTimeString());
   return (
     <div className="App">
       <h1>Hello World</h1>
