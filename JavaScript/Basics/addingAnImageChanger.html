@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <img src="https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w="
+        alt="">
+</body>
+</html>
+<!-- 
+    The return statement tells the browser to return the result variable out of the function 
+    so it is available to use. This is necessary because variables defined inside functions 
+    are only available inside those functions. This is called variable scoping.
+ -->
+<script>
+
+    const myImage = document.querySelector("img");
+    myImage.onclick = () => {
+        console.log('click');
+        const mySrc = myImage.getAttribute("src");
+        console.log('mySrc:', mySrc)
+        if (mySrc === "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=") {
+            myImage.setAttribute("src", "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg");
+        } else {
+            myImage.setAttribute("src", "https://media.istockphoto.com/id/1322277517/photo/wild-grass-in-the-mountains-at-sunset.jpg?s=612x612&w=0&k=20&c=6mItwwFFGqKNKEAzv0mv6TaxhLN3zSE43bWmFN--J5w=");
+        }
+    }
+</script>

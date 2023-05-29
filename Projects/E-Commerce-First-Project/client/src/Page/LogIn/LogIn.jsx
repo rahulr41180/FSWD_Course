@@ -10,7 +10,7 @@ export const LogIn = () => {
             <h3 className="logoName">LogIn</h3>
             <form action="">
                 <input type="email" name="" id="" placeholder="Email Id" />
-                <input type="text" name="" id="" placeholder="New Password" />
+                <input type="text" name="" id="" placeholder="Password" />
                 <button type="submit">Submit</button>
             </form>
         </Container>

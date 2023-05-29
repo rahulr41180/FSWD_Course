@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <!-- In index.html, add the following line just before the <script> element: -->
+    <button>Change User</button>
+</body>
+</html>
+
+<script>
+    // In main.js, place the following code at the bottom of the file, 
+    // exactly as it is written. This takes references to the new button and the heading, 
+    
+    // storing each inside variables:
+    let myButton = document.querySelector("button");
+    let myHeading = document.querySelector("h1");
+
+    // Add the following function to set the personalized greeting. 
+    // This won't do anything yet, but this will change soon.
+    // const setUserName = () => {
+    //     const myName = prompt("Please enter your name.");
+    //     localStorage.setItem("name", myName);
+    //     myHeading.textContent = `Mozilla is cool, ${myName}`;
+    // }
+
+    // To avoid these problems, you could check that the user hasn't entered a blank name.
+    // Update your setUserName() function to this:
+
+    const setUserName = () => {
+        const myName = prompt("Please enter your name.");
+        console.log('myName:', myName)
+        const myNameExist = localStorage.getItem("name");
+
+        console.log('myNameExist:', myNameExist);
+        if((!myName && !myNameExist) || (!myName && myNameExist === null)) {
+            setUserName();
+        } else if(!myName && myNameExist !== null) {
+            myHeading.textContent = `Mozilla is cool, ${myNameExist}`;
+        } else {
+            localStorage.setItem("name", myName);
+            myHeading.textContent = `Mozilla is cool, ${myName}`;
+        }
+    }
+
+    // Add the following condition block. 
+    // We could call this initialization code, 
+    // as it structures the app when it first loads.
+
+    if(!localStorage.getItem("name")) {
+        setUserName();
+    } else {
+        const storedName = localStorage.getItem("name");
+        myHeading.textContent = `Mozilla is cool, ${storedName}`
+    }
+
+    // Put this onclick event handler (below) on the button. When clicked, setUserName() runs. 
+    
+    // This allows the user to enter a different name by pressing the button.
+
+    myButton.onclick = () => {
+        setUserName();
+    }
+
+</script>
