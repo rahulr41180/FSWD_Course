@@ -10,9 +10,9 @@ const userSchema = new mongoose.Schema({
         trim : true, // from triming the white space
     },
     email : {
+
         type : String,
         required : true,
-
         unique : true
     },
     password : {
@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
         required : true
     },
     phone : {
+
         type : String,
         required : true
     },
@@ -30,11 +31,8 @@ const userSchema = new mongoose.Schema({
         type : Number,
         default : 0
     }
-    
 },{
-
     timestamps : true
-
 });
 
 export default mongoose.model("users", userSchema);

@@ -1,0 +1,38 @@
+
+React lets you combine your markup, CSS, and JavaScript into custom “components”, reusable UI elements for your app. 
+
+React components are regular JavaScript functions, but their names must start with a capital letter or they won’t work!
+
+The component returns an <img /> tag with src and alt attributes. <img /> is written like HTML, but it is actually JavaScript under the hood! This syntax is called JSX, and it lets you embed markup inside JavaScript.
+return <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />;
+
+But if your markup isn’t all on the same line as the return keyword, you must wrap it in a pair of parentheses:
+Without parentheses, any code on the lines after return will be ignored!
+return (
+  <div>
+
+    <img src="https://i.imgur.com/MK3eW3As.jpg" alt="Katherine Johnson" />
+    
+  </div>
+);
+
+Components can render other components, but you must never nest their definitions:
+export default function Gallery() {
+  // 🔴 Never define a component inside another component!
+  function Profile() {
+    // ...
+  }
+  // ...
+}
+
+The snippet above is very slow and causes bugs. Instead, define every component at the top level:
+export default function Gallery() {
+  // ...
+}
+
+// ✅ Declare components at the top level
+function Profile() {
+  // ...
+}
+
+When a child component needs some data from a parent, pass it by props instead of nesting definitions.
