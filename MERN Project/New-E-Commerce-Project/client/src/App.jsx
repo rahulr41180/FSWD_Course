@@ -10,6 +10,9 @@ import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { PolicyPage } from "./pages/PolicyPage";
 import { PageNotFoundPage } from "./pages/PageNotFoundPage";
+import { RegisterPage } from "./pages/Auth/RegisterPage";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -25,6 +28,7 @@ function App() {
       <Route path="/about" element={<><AboutPage /></>} />
       <Route path="/contact" element={<><ContactPage /></>} />
       <Route path="/policy" element={<><PolicyPage /></>} />
+      <Route path="/register" element={<><RegisterPage /></>} />
       {/* path="*" : * means is if there is any route which will not match with any route than 
       route show "*"(Default) route content means Page Not Found Page */}
       <Route path="*" element={<><PageNotFoundPage /></>} />
