@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     address : {
         type : String
     },
+    secretKey : {
+        type : String,
+        required : true
+    },
     role : {
         type : Number,
         default : 0

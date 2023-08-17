@@ -67,7 +67,7 @@ is surrounded by double quotes.
 
 # print("This doesn't "execute""); : Here I want to print "execute" with the double quotes inside the
 # whole string
-# For that we can use : forward slash (\") for producing one double quotes(") but for producing double double quotes so we will double backslash with double quotes
+# For that we can use : forward slash (\") for producing one double quotes(") but for producing double quotes so we will double backslash with double quotes
 # Like : \" Text Here \"
 
 print("This will \"execute\" ");
