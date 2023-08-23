@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game | rRathor</title>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+
+        body {
+            width: 50%;
+            max-width: 800px;
+            min-width: 480px;
+            margin: 0 auto;
+        }
+        .form input[type="number"] {
+            width: 200px;
+            border: 1px solid blue;
+
+        }
+        .lastResult {
+            color: white;
+            padding: 3px;
+        }
+        .replay-game {
+            display: none;
+        }
+        .restart-game {
+
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
+
+    <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
+    <div class="form">
+        <label for="guessField">Enter a guess: </label>
+        <input type="number" min="1" max="100" required id="guessField" class="guessField">
+        <input onclick="submitGuess()" type="submit" value="Submit guess" class="guessSubmit">
+    </div>
+  
+    <div class="resultParas">
+        <p class="guesses"></p>
+
+        <p class="lastResult"></p>
+        <p class="lowOrHi"></p>
+    </div>
+    <div class="replay-game">
+        <button class="replay-game-button">Replay the game</button>
+    </div>
+    <div class="restart-game">
+        <button class="restart-game-button">Restart the game</button>
+    </div>
+</body>
+</html>
+
+<script>
+    let randomNumber = Math.round(Math.random() * 100);
+    if(randomNumber === 0) {
+
+        randomNumber += 1;
+    }
+    var guesses = [];
+    let flag = "";
+
+    const submitGuess = () => {
+        console.log("randomNumber :", randomNumber);
+        const value = Number(document.querySelector("#guessField").value);
+        console.log('value:', value);
+
+        guesses.push(value);
+        document.querySelector(".guesses").textContent = guesses.join(" ");
+        if(randomNumber !== value) {
+            document.querySelector(".lastResult").textContent = "Wrong!";
+            document.querySelector(".lastResult").style.backgroundColor = "red";
+            flag = "Wrong"
+        } else if(randomNumber === value) {
+            document.querySelector(".lastResult").textContent = "";
+            document.querySelector(".lastResult").textContent = "You Won";
+
+            document.querySelector(".lastResult").style.backgroundColor = "green";
+            flag = "Won"
+        }
+        if(value > randomNumber) {
+            document.querySelector(".lowOrHi").textContent = "Last guess was too high!";
+        } else if(value < randomNumber) {
+            document.querySelector(".lowOrHi").textContent = "Last guess was too low!";
+        } else {
+            document.querySelector(".lowOrHi").textContent = "Your guess is matched with random number, So you have won the match!";
+
+        }
+
+        if(flag === "Won") {
+            guesses = [];
+            document.querySelector(".lastResult").textContent = "";
+            document.querySelector(".lowOrHi").textContent = "";
+            document.querySelector(".lastResult").style.backgroundColor = "white";
+            document.querySelector(".guesses").textContent = "";
+            document.querySelector("#guessField").value = "";
+
+        }
+    }
+    
+</script>
