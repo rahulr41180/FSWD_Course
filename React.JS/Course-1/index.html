@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Video.JS Current Playback Time Example</title>
+    <!-- Importing Video.js CSS / JS using CDN URL -->
+    <link href="https://vjs.zencdn.net/7.19.2/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+</head>
+
+<body>
+    <video id="my-video-player" class="video-js vjs-default-skin vjs-big-play-centered" autoplay="true" preload="true"
+        controls="true" muted="true" fluid="true" poster=" https://www.tutorialspoint.com/videos/sample.png"
+        data-setup='{}'>
+        <source src="https://www.tutorialspoint.com/videos/sample720.mp4" type="video/mp4">
+    </video>
+    <script>
+        // Get a reference to the video element
+        var video = document.getElementById('my-video-player');
+
+        // Set the specific time in seconds when you want to stop the video
+        var stopTime = 10; // Stop the video at 10 seconds
+
+        // Listen for the 'timeupdate' event on the video
+        video.addEventListener('timeupdate', function () {
+            // Check if the current time has reached the stop time
+            if (video.currentTime >= stopTime) {
+                // Pause the video
+                video.pause();
+            }
+            
+        });
+    </script>
+</body>
+
+</html>

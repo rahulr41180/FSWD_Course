@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Video Screenshot Example</title>
+</head>
+<body>
+    <video id="myVideo" controls>
+        <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <canvas id="screenshotCanvas" style="display: none;"></canvas>
+
+    <script>
+        // Get references to the video element and the canvas element
+        var video = document.getElementById('myVideo');
+        var canvas = document.getElementById('screenshotCanvas');
+
+        // Set the specific time in seconds when you want to capture the screenshot
+        var captureTime = 2; // Capture the screenshot at 5 seconds
+
+        // Listen for the 'timeupdate' event on the video
+        video.addEventListener('timeupdate', function() {
+            // Check if the current time has reached the capture time
+            if (video.currentTime >= captureTime) {
+                // Set the canvas dimensions to match the video dimensions
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                // Draw the current frame of the video onto the canvas
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Convert the canvas image data to a data URL
+                var screenshotDataUrl = canvas.toDataURL('image/png');
+
+                // Create an image element to display the screenshot
+                var screenshotImg = new Image();
+                screenshotImg.src = screenshotDataUrl;
+
+                // Append the image element to the document
+                document.body.appendChild(screenshotImg);
+
+                // Pause the video
+                video.pause();
+            }
+        });
+    </script>
+</body>
+</html>

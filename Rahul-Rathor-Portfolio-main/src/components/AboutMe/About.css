@@ -1,0 +1,227 @@
+
+#about {
+    
+    /* border: 1px solid yellow; */
+    height: fit-content;
+    padding-top: 6vw;
+    padding-bottom: 1vw;
+}
+
+.about__container {
+    
+    /* border: 1px solid yellow; */
+    padding: .2vw;
+    width: 90vw;
+    display: grid;
+    grid-template-columns: 60% 35%;
+    gap: 3.5%;
+
+}
+
+/* .about__content {
+    border: 1px solid black;
+} */
+
+.about__me {
+    /* border: 1px solid white; */
+    margin: 2vw 1vw 0 0;
+    height: 27rem;
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 2rem;
+    background: linear-gradient(45deg, transparent, var(--color-primary), transparent);
+    display: grid;
+    place-items: center;
+}
+
+.about__me-image {
+    display: flex;
+    height: 100%;
+    border-radius: 2rem;
+    overflow: hidden;
+    transform: rotate(0deg);
+    
+    transition: var(--transition);
+}
+
+
+.about__me-image:hover {
+    transform: rotate(0deg);
+}
+
+.about__cards {
+    width: 99%;
+    margin: auto;
+    /* border: 1px solid; */
+    display: grid;
+    /* grid-template-columns: repeat(1,1fr); */
+    /* grid-template-columns: 40%; */
+    gap: 1.5rem;
+}
+
+.about__card {
+
+    background: var(--color-bg-variant);
+    margin: auto;
+    width: 35%;
+    height: 14vw;
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    
+    transition: var(--transition);
+}
+
+.about__card:hover {
+    background: transparent;
+
+    border-color: var(--color-primary-variant);
+    cursor: default;
+}
+
+.about__icon {
+    color: var(--color-primary);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.about__card h5 {
+    font-size: 0.95rem;
+}
+
+.about__card small {
+    font-size: 0.7rem;
+    color: var(--color-light);
+}
+
+.about__content p {
+    margin: 1rem 0 2.6rem;
+    text-align: justify;
+    color: var(--color-light);
+}
+
+/* --------------- Media Queries (Medium Devices) ----------------- */
+
+@media screen and (max-width : 1024px) {
+
+    .about__container {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 0;
+    }
+    .about__me {
+        width: 50%;
+        height: 22.5rem;
+        margin: 2rem auto;
+    }
+    .about__cards {
+        /* border: 1px solid; */
+        margin: auto;
+        width: 55vw;
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        gap: 1.5rem;
+    }
+    .about__card{
+        padding: 1vw;
+        margin: auto;
+    }
+    .about__content p {
+        margin: 1rem 0 1.5rem;
+    }
+
+    .about__me-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    .about__icon {
+        font-size: 3vw;
+        margin-bottom: .2vw;
+    }
+    .about__card > h5 {
+        font-size: 2vw;
+        margin-top: 0vw;
+    }
+    .about__card > small {
+        
+        font-size: 1.5vw;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* ------------------- Media Queries (Small Devices) --------------- */
+
+@media screen and (max-width : 600px) {
+
+    .about__container {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 0;
+    }
+    .about__me {
+        width: 55vw;
+        height: 40vw;
+        margin: 0 auto 2rem;
+    }
+    .about__me-image {
+        width: 100%;
+        height: 100%;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    .about__cards {
+        /* border: 1px solid; */
+        margin: auto;
+        width: 65vw;
+        display: grid;
+        grid-template-columns: (1,1fr);
+        gap: 1rem;
+    }
+    .about__card{
+        width: 35%;
+        height: fit-content;
+        padding: 1vw 1vw;
+        margin: auto;
+    }
+    .about__content {
+        text-align: center;
+    }
+    .about__content p {
+        font-size: 2.5vw;
+        margin: 1.5rem 0;
+    }
+    
+    .about__me-image {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        border-radius: 2rem;
+        overflow: hidden;
+        transform: rotate(0deg);
+        
+        transition: var(--transition);
+    }
+    img {
+        width: 100%;
+        height: 100%;
+    }
+    .about__icon {
+        font-size: 4vw;
+        margin-bottom: .2vw;
+    }
+    .about__card > h5 {
+        font-size: 2.5vw;
+        margin-top: 0vw;
+    }
+    .about__card > small {
+        
+        font-size: 1.8vw;
+    }
+}

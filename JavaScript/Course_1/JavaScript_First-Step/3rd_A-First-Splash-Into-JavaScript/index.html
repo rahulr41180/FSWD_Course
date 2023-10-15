@@ -26,7 +26,7 @@
             color: white;
             padding: 3px;
         }
-        .replay-game {
+        .start-new-game {
             display: none;
         }
         .restart-game {
@@ -40,6 +40,7 @@
 
     <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
     <div class="form">
+
         <label for="guessField">Enter a guess: </label>
         <input type="number" min="1" max="100" required id="guessField" class="guessField">
         <input onclick="submitGuess()" type="submit" value="Submit guess" class="guessSubmit">
@@ -51,21 +52,26 @@
         <p class="lastResult"></p>
         <p class="lowOrHi"></p>
     </div>
-    <div class="replay-game">
-        <button class="replay-game-button">Replay the game</button>
+    <div class="start-new-game">
+        <button class="start-new-game-button" onclick="startNewGame()">Start new game</button>
     </div>
+
     <div class="restart-game">
-        <button class="restart-game-button">Restart the game</button>
+        <button class="restart-game-button" onclick="restartGame()">Restart the game</button>
     </div>
 </body>
 </html>
 
 <script>
-    let randomNumber = Math.round(Math.random() * 100);
-    if(randomNumber === 0) {
-
-        randomNumber += 1;
+    let randomNumber = 0;
+    const randomNum = () => {
+        randomNumber = Math.round(Math.random() * 100);
+        if(randomNumber === 0) {
+            randomNumber += 1;
+        }
     }
+
+    randomNum();
     var guesses = [];
     let flag = "";
 
@@ -73,8 +79,8 @@
         console.log("randomNumber :", randomNumber);
         const value = Number(document.querySelector("#guessField").value);
         console.log('value:', value);
-
         guesses.push(value);
+        
         document.querySelector(".guesses").textContent = guesses.join(" ");
         if(randomNumber !== value) {
             document.querySelector(".lastResult").textContent = "Wrong!";
@@ -83,8 +89,8 @@
         } else if(randomNumber === value) {
             document.querySelector(".lastResult").textContent = "";
             document.querySelector(".lastResult").textContent = "You Won";
-
             document.querySelector(".lastResult").style.backgroundColor = "green";
+            
             flag = "Won"
         }
         if(value > randomNumber) {
@@ -93,18 +99,50 @@
             document.querySelector(".lowOrHi").textContent = "Last guess was too low!";
         } else {
             document.querySelector(".lowOrHi").textContent = "Your guess is matched with random number, So you have won the match!";
-
         }
 
         if(flag === "Won") {
             guesses = [];
+            document.querySelector("#guessField").value = "";
+            document.querySelector(".start-new-game").style.display = "block";
+            document.querySelector("#guessField").disabled = true;
+            document.querySelector(".guessSubmit").disabled = true;
+            flag = "";
+        } else if((guesses.length >= 10) && flag === "Wrong") {
+            guesses = [];
+
             document.querySelector(".lastResult").textContent = "";
             document.querySelector(".lowOrHi").textContent = "";
-            document.querySelector(".lastResult").style.backgroundColor = "white";
-            document.querySelector(".guesses").textContent = "";
+            document.querySelector(".lastResult").textContent = "Game Over!";
+            document.querySelector(".lastResult").style.backgroundColor = "red";
+            document.querySelector(".restart-game").style.display = "block";
             document.querySelector("#guessField").value = "";
-
+            document.querySelector("#guessField").disabled = true;
+            document.querySelector(".guessSubmit").disabled = true;
         }
+
     }
-    
+    const startNewGame = () => {
+        console.log("start-new");
+        randomNum();
+        document.querySelector("#guessField").disabled = false;
+        document.querySelector(".guessSubmit").disabled = false;
+        document.querySelector(".lastResult").textContent = "";
+        document.querySelector(".guesses").textContent = "";
+        document.querySelector(".lowOrHi").textContent = "";
+
+        document.querySelector(".lastResult").style.backgroundColor = "white";
+        document.querySelector(".start-new-game").style.display = "none";
+    }
+
+    const restartGame = () => {
+        randomNum();
+        document.querySelector("#guessField").disabled = false;
+        document.querySelector(".guessSubmit").disabled = false;
+        document.querySelector(".lastResult").textContent = "";
+
+        document.querySelector(".guesses").textContent = "";
+        document.querySelector(".lastResult").style.backgroundColor = "white";
+        document.querySelector(".restart-game").style.display = "none";
+    }
 </script>

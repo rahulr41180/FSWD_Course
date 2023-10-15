@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema({
     },
     photo : {
 
-        type : Buffer,
+        data : Buffer,
         // With the help of type : Buffer we can save the file.
         contentType : String
         // This will ensure that what is the type of file means file is image file or document file.
