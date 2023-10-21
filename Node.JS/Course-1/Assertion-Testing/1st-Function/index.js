@@ -20,6 +20,7 @@ function add(a,b) {
 // var expected = add(1,2);
 // assert(expected === 3, "One plus two is three");
 
+
 /*
 It will not provide any output because the case is true. 
 If you want to see output, you need to make the test fail.

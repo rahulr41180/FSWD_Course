@@ -144,3 +144,9 @@ Here's the corrected code using the post-increment operator (x++):
 So, the output of x is 11 because it was incremented, 
 and the output of y is 10 because it holds the previous value of x before the increment.
 */
+
+// Question - 6 :
+
+/*
+Could you please explain var in more details?
+*/
