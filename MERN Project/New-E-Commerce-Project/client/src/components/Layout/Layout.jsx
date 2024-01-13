@@ -8,7 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export const Layout = ({ children, title, description, keywords, author }) => {
     return (
-      <div>
+      <div style={{width : "100%"}}>
         <Helmet>
           <meta charSet="utf-8" />
 
@@ -20,6 +20,7 @@ export const Layout = ({ children, title, description, keywords, author }) => {
           <title>{ title }</title>
         </Helmet>
         <Header />
+        
         <main style={{
 
           border : "1px solid yellow",

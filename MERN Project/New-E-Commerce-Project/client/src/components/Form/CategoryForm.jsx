@@ -1,5 +1,5 @@
 
-import {memo} from "react";
+import { memom } from "react";
 
 export const CategoryForm = ({ handleSubmit, value, setValue }) => {
 

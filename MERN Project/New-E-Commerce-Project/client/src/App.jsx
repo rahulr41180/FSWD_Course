@@ -13,6 +13,8 @@ import { PageNotFoundPage } from "./pages/PageNotFoundPage";
 
 import { RegisterPage } from "./pages/Auth/RegisterPage";
 import { LoginPage } from "./pages/Auth/LoginPage";
+import { SearchPage } from './pages/SearchPage';
+import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { UserDashboard } from './pages/user/UserDashboard';
 import { UserOrders } from './pages/user/UserOrders';
 import { UserProfile } from './pages/user/UserProfile';
@@ -20,6 +22,9 @@ import { AdminDashboard } from './pages/Admin/AdminDashboard';
 import { AdminCreateCategory } from './pages/Admin/AdminCreateCategory';
 import { AdminCreateProduct } from './pages/Admin/AdminCreateProduct';
 import { AdminUser } from './pages/Admin/AdminUser';
+
+import { AdminProduct } from './pages/Admin/AdminProducts';
+import { AdminUpdateProduct } from './pages/Admin/AdminUpdateProduct';
 import { PrivateRoute } from './components/Routes/PrivateRoute';
 import { AdminPrivateRoute } from './components/Routes/AdminPrivateRoute';
 import { ForgotPassword } from './pages/Auth/ForgotPassword';
@@ -42,11 +47,13 @@ function App() {
       <Route path="/policy" element={<><PolicyPage /></>} />
       <Route path="/register" element={<><RegisterPage /></>} />
       <Route path="/login" element={<><LoginPage /></>} />
+      <Route path="/search" element={<><SearchPage /></>} />
+      <Route path="/product-details/:pId" element={<><ProductDetailsPage /></>} />
       <Route path="/forgot-password" element={<><ForgotPassword /></>} />
+
       <Route path="/forgot-secret-key" element={<><ForgotSecretKey /></>} />
       <Route path="/dashboard" element={<><PrivateRoute /></>}>
         <Route path="user" element={<><UserDashboard /></>} />
-
         <Route path="user/orders" element={<><UserOrders /></>} />
         <Route path="user/profile" element={<><UserProfile /></>} />
       </Route>
@@ -55,6 +62,9 @@ function App() {
         <Route path="admin/create-category" element={<><AdminCreateCategory /></>} />
         <Route path="admin/create-product" element={<><AdminCreateProduct /></>} />
         <Route path="admin/users" element={<><AdminUser /></>} />
+        <Route path="admin/products" element={<><AdminProduct /></>} />
+
+        <Route path="admin/product-details/:pId" element={<><AdminUpdateProduct /></>} />
       </Route>
       {/* path="*" : * means is if there is any route which will not match with any route than 
       route show "*"(Default) route content means Page Not Found Page */}

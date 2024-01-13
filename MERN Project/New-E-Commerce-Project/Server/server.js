@@ -40,6 +40,7 @@ app.use(morgan("dev")); // For checking which APIs hits.
 
 // routes
 
+
 app.use("/api/v1/auth", authRoutes);
 
 app.use("/api/v1/category", categoryRoutes);

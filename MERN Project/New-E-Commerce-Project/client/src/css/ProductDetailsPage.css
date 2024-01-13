@@ -1,0 +1,21 @@
+
+.single_product_details {
+
+    height: 25rem;
+}
+.height100 {
+    height: 100%;
+}
+.border {
+    border: 1px solid blue;
+}
+
+
+.similar_product {
+    border: 1px solid blue;
+    height: 20rem;
+}
+
+.similar_product_list {
+    border: 1px solid blue;
+}

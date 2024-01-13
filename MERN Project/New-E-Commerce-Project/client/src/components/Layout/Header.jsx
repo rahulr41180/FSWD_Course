@@ -7,10 +7,11 @@ import { FaShopware } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
+import { SearchFilterProductInputForm } from "../Form/SearchFilterProductInputForm";
 
 export const Header = () => {
 
-    
+
     const [auth, setAuth] = useAuth();
 
     const navigate = useNavigate();
@@ -36,6 +37,7 @@ export const Header = () => {
 
                         <Link to={"/"} className="navbar-brand" style={{ textTransform: "none" }}><FaShopware /> rR e-Com</Link>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <SearchFilterProductInputForm />
                             <li className="nav-item">
                                 <NavLink to={"/"} className="nav-link">Home</NavLink>
                             </li>
@@ -60,8 +62,10 @@ export const Header = () => {
                                                 {auth?.user?.name}
                                             </NavLink>
                                             <ul className="dropdown-menu">
-                                                <li><NavLink className="dropdown-item" to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}>Dashboard</NavLink></li>
-                                                
+
+                                                <li>
+                                                    <NavLink className="dropdown-item" to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}>Dashboard</NavLink>
+                                                </li>
                                                 <li>
                                                     <NavLink onClick={handleLogOut} to={"/login"} className="dropdown-item">LogOut</NavLink>
                                                 </li>

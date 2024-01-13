@@ -62,6 +62,7 @@ const isAdmin = async (req, res, next) => {
             })
 
         } else {
+            console.log("isAdmin")
             next();
         }
     } catch (error) {

@@ -1,15 +1,18 @@
 
-import { Layout } from "../../components/Layout/Layout";
-
-import { AdminMainu } from "../../components/Layout/AdminMainu";
 import { useState, useEffect, useCallback } from "react";
+
+import { Layout } from "../../components/Layout/Layout";
+import { AdminMainu } from "../../components/Layout/AdminMainu";
 import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Select } from "antd";
 const { Option } = Select;
 
 export const AdminCreateProduct = () => {
+
     const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
     // console.log('categories:', categories)
     const [photo, setPhoto] = useState("");
@@ -87,12 +90,17 @@ export const AdminCreateProduct = () => {
             if (data.status) {
                 toast.success(data.message);
                 // console.log(data.result);
+
+                navigate("/dashboard/admin/products");
+            } else {
+                toast.error(data.message);
             }
         } catch (error) {
             console.log(error);
             toast.error("Something went wrong in creation of product");
         }
     }
+
     return (
         <Layout title={"Create Product | rR e-Com"}>
             <div className="container-fluid m-3 p-3">
@@ -151,8 +159,7 @@ export const AdminCreateProduct = () => {
                                     {photo ? (
                                         <>
                                             {/* We can't display image by using directly from photo state
-                                        So for that we can get address of image from browser url because browser url have some property by using that 
-                                        
+                                        So for that we can get address of image from browser url because browser url have some property by using that
                                         we take address of image
                                     */}
                                             <div className="text-center">

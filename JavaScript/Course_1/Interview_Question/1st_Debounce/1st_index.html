@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>Button</button>
+    <h1>0</h1>
+</body>
+</html>
+
+<script>
+    
+    let count = 0;
+    const performDebounce = () => {
+        console.log("Button Clicked");
+        count++;
+        document.querySelector("h1").textContent = count;
+    }
+
+    function debounce(func, delay) {
+        let timerId;
+        console.log('timerId1:', timerId);
+        console.log('func:', func)
+        console.log('delay:', delay)
+        return function() {
+            
+            console.log('timerId2:', timerId)
+            // clearTimeout(timerId);
+            
+            console.log('clearTimeout(timerId):', clearTimeout(timerId));
+            timerId = setTimeout(() => {
+                func();    
+                console.log('timerId3:', timerId)
+            }, delay)
+        }
+    }
+
+    const debounceClick = debounce(performDebounce, 1000);
+
+    console.log('debounceClick:', debounceClick)
+    document.querySelector("button").addEventListener("click", debounceClick);
+
+    
+</script>

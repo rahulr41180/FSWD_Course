@@ -20,6 +20,7 @@ export const AdminPrivateRoute = () => {
     useEffect(() => {
         console.log("useEffect running..")
         const authCheck = async () => {
+            
             console.log("Function Calling..")
             try {
                 
@@ -30,6 +31,7 @@ export const AdminPrivateRoute = () => {
                     // }
                 })
                 console.log('res.data.protected:', res.data.protected)
+
                 if(res.data.protected) {
                     setOk(true);
                 } else {
@@ -39,6 +41,7 @@ export const AdminPrivateRoute = () => {
                 }
             } catch(error) {
                 setPath("/");
+                
                 toast.error("UnAuthorized Access..");
             }
         }
