@@ -1,14 +1,21 @@
 
 .single_product_details {
 
-    height: 25rem;
+    height: 30rem;
 }
-.height100 {
-    height: 100%;
-}
-.border {
-    border: 1px solid blue;
-}
+.height100 { height: 100%; }
+.height75 { height: 75%;}
+.height80 { height: 80%;}
+.height25 { height: 25%;}
+.height20 { height: 20%;}
+.width100 { width: 100%; }
+.width80 { width: 80%; }
+
+.width20 { width: 20%; }
+
+
+.border_blue { border: 1px solid blue !important; }
+.border_Silver { border: 1px solid silver !important; }
 
 
 .similar_product {
@@ -18,4 +25,10 @@
 
 .similar_product_list {
     border: 1px solid blue;
+
+}
+
+
+.selectedImage {
+    border-radius: .6rem;
 }

@@ -5,7 +5,7 @@
   "main": "index.js",
   "type" : "module",
   "scripts": {
-    "start" : "nodemon 1st_hello_world"
+    "start" : "nodemon 5th_expressjs_templating"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,6 @@
+
+1. There are many operations and logics are same in our both component and the components are UserList.jsx and TodoList.jsx
+
+2. For optimised this we are going to use Higher Order Component technique to resolve this.
+
+// Higher Order Component : Higher Order Component is a component which accept a component and return a new component with accepted and own functionality.

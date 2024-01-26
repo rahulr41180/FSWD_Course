@@ -1,22 +1,15 @@
-3,4,5,6,7,2,10,11
-subarraysize = 1 2 3;
-i = 0 ;
-j = i+1;
-count = 0 1;
-equalSubarraySize = 0;
-subarrayCount = 0 1 2 3 4 5 6;
-status = false
 
-3.
-2 <= 8 : true;
-2 === 1 && 0 < 8 : false;
-equalsubarraysize 0 < 2 && 0 < 8 - 2 : 6 : false;
-[0] 3 > 5 : false
-status = false
-equalSubarraySize++;
-equalsubarraysize 1 !== subarraysize 2 : true &&
-status !== false; true;
-	i++;
-equalsubarraysize 2 == subarraysize 2 : true;
-&& status !== false; true;
-	count++;
+array = [3,4,5,6,7,2,10,11];
+
+n = 8;
+k = 5;
+
+counter = 2;
+numberOfSubarray = 6;
+
+i = 7 : true
+	arr[7] 11 > 5 : true
+		counter++
+
+	counter 2 != 0 : true
+		numberOfSubarray = 6

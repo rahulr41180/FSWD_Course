@@ -3,13 +3,17 @@ import "../css/ProductDetailsPage.css"
 
 import { Layout } from "../components/Layout/Layout";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 export const ProductDetailsPage = () => {
 
     const [selectProduct, setSelectProduct] = useState({});
-    console.log('selectProduct:', selectProduct)
+    // console.log('selectProduct:', selectProduct)
+
+    const [similarProducts, setSimilarProduct] = useState([]);
+    console.log('similarProducts:', similarProducts)
+    
     const { pId } = useParams();
     // console.log('pId:', pId)
 
@@ -22,7 +26,6 @@ export const ProductDetailsPage = () => {
             const { data } = await axios.get(`/api/v1/product/get-single-product/${pId}`);
             // console.log('data:', data)
             if(data) {
-
                 setSelectProduct(data);
             }
         } catch (error) {
@@ -31,12 +34,48 @@ export const ProductDetailsPage = () => {
         }
     }
 
+    useEffect(() => {
+        gettingSimilarProductFn();
+    },[selectProduct])
+
+    const gettingSimilarProductFn = async () => {
+
+
+        try {
+            const { data } = await axios.get(`/api/v1/product/get-similar-product/${selectProduct?.product?._id}/${selectProduct?.product?.category._id}`)
+            console.log('data:', data)
+            if(data) {
+                setSimilarProduct(data.products);
+            }
+        } catch(error) {
+
+        }
+
+    }
+
+
     return (
         <Layout title={"Product Details || rR e-Com"}>
-            <div className="container-fluid p-4 single_product_details" style={{ border : "1px solid blue"}}>
-                <div className="row single_product_details_row height100" style={{border : "1px solid blue"}}>
-                    <div className="col-md-5 border p-2 height100">Image</div>
-                    <div className="col-md-7 border p-2 height100">Details</div>
+            <div className="container-fluid p-4 single_product_details border_blue">
+                <div className="row single_product_details_row height100 border_blue">
+                    <div className="d-flex flex-column justify-content-between gap-1 col-md-5 border_blue height100">
+                        <div className="height75 border_blue_blue width100 d-flex justify-content-between gap-1">
+                            <div className="width20 height100 border_blue"></div>
+                            <div className="width80 height100 border_Silver selectedImage">
+                                <img src={`/api/v1/product/get-product-photo/${selectProduct?.product?._id}`} className="selectedImage height100 width100" alt="" />
+
+                            </div>
+                        </div>
+                        <div className="height25 border_blue width100"></div>
+                    </div>
+                    <div className="col-md-7 border_blue p-2 height100">
+
+                        <p className="fw-semibold fs-5 p-0 m-0">{selectProduct?.product?.name}</p>
+                        <p className="fw-normal fs-6 p-0 m-0">{selectProduct?.product?.description}</p>
+                        <p className="fw-normal fs-6 p-0 m-0">₹ {selectProduct?.product?.price}</p>
+
+                        <Link to={""} class="btn btn-secondary">To CART</Link>
+                    </div>
                 </div>
             </div>
             <div className="container-fluid p-4 mt-4 similar_product">

@@ -350,19 +350,45 @@ const searchBaseProductController = async (req, res) => {
         })
     } catch(error) {
         res.status(500).send({
+
             status : false,
             message : "Something went wrong please try with another search",
-
             error : error.message
         })
 
     }
 }
 
+const gettingSimilarProductController = async (req, res) => {
+
+    try {
+        const { pId, cId } = req.params
+        console.log('pId:', pId)
+        console.log('cId:', cId)
+
+        const products = await productModel.find({ category : cId, _id : { $ne : pId}})
+        .select("-photo")
+        .limit(5)
+        .populate("category")
+
+        return res.status(200).send({
+            status : true,
+            products : products
+        })
+    } catch(error) {
+        res.status(500).send({
+            status : false,
+
+            message : "Something went wrong please try with another search",
+            error : error.message
+        })
+    }
+}
+
 export {
     createProductController,
-    getProductController,
 
+    getProductController,
     getSingleProductController,
     getProductPhotoController,
     deleteProductController,
@@ -370,5 +396,7 @@ export {
     productFilterController,
     productPaginationController,
     productCountController,
-    searchBaseProductController
+    searchBaseProductController,
+
+    gettingSimilarProductController
 }

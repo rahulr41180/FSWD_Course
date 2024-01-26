@@ -14,7 +14,8 @@ import {
     productFilterController,
     productPaginationController,
     productCountController,
-    searchBaseProductController
+    searchBaseProductController,
+    gettingSimilarProductController
 } from "../controllers/productController.js";
 
 // formidable is use for managing image file.
@@ -52,6 +53,9 @@ router.get("/product-count", productCountController);
 
 
 // Search Base Product Filter || METHOD : POST
-router.get("/search-base-product/:searchTerm", searchBaseProductController)
+router.get("/search-base-product/:searchTerm", searchBaseProductController);
+
+// Getting Similar Product || METHOD : GET
+router.get("/get-similar-product/:pId/:cId", gettingSimilarProductController);
 
 export default router;

@@ -1,0 +1,9 @@
+
+PaaS : Platform as a Service
+
+As opposed to IaaS, In PaaS you do not get access to the whole OS. You are given the access to and already set up enviroment where
+you can run or develop application.
+
+We Manage : Applications, Data
+
+Cloud Manage : Runtime, Middleware, O/S, Virtualization, Servers, Storage, Networking,

@@ -1,0 +1,41 @@
+
+1. Consistency across environment
+
+2. Isolation
+
+3. Portability
+
+4. Version Control
+
+5. Scalability
+
+6. DevOps Integration
+
+How does Docker works?
+
+1. Images
+
+It is lightweight, standalone, executable package
+
+Which contain : Code, Runtime, Libraries, System tools and operating system
+
+2. Container 
+
+For run the images we need container means
+
+Container is a runnable instance of Docker Image.
+Represent the environment for a specific application
+
+3. Persitent data storage mechanism
+
+4. Docker Network
+
+
+---------------------------- Docker Workflow -------------------------------------
+
+1. Docker Client
+
+2. Docker Host (Docker Daemon)
+
+3. Docker Registry (Docker Hub)
+
