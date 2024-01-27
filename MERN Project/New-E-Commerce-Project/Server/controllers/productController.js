@@ -368,7 +368,7 @@ const gettingSimilarProductController = async (req, res) => {
 
         const products = await productModel.find({ category : cId, _id : { $ne : pId}})
         .select("-photo")
-        .limit(5)
+        .limit(10)
         .populate("category")
 
         return res.status(200).send({

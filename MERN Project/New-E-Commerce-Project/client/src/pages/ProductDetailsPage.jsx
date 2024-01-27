@@ -5,6 +5,9 @@ import { Layout } from "../components/Layout/Layout";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const ProductDetailsPage = () => {
 
@@ -13,20 +16,30 @@ export const ProductDetailsPage = () => {
 
     const [similarProducts, setSimilarProduct] = useState([]);
     console.log('similarProducts:', similarProducts)
-    
+
     const { pId } = useParams();
-    // console.log('pId:', pId)
+    console.log('pId:', pId)
+
+
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 1
+    };
 
     useEffect(() => {
         getSelectedProduct();
-    }, [])
+    }, [pId])
 
     const getSelectedProduct = async () => {
         try {
             const { data } = await axios.get(`/api/v1/product/get-single-product/${pId}`);
             // console.log('data:', data)
-            if(data) {
+            if (data) {
                 setSelectProduct(data);
+                gettingSimilarProductFn(data?.product._id, data?.product.category._id);
             }
         } catch (error) {
 
@@ -34,20 +47,19 @@ export const ProductDetailsPage = () => {
         }
     }
 
-    useEffect(() => {
-        gettingSimilarProductFn();
-    },[selectProduct])
+    // useEffect(() => {
+    //     gettingSimilarProductFn();
+    // },[selectProduct])
 
-    const gettingSimilarProductFn = async () => {
-
+    const gettingSimilarProductFn = async (pId, cId) => {
 
         try {
-            const { data } = await axios.get(`/api/v1/product/get-similar-product/${selectProduct?.product?._id}/${selectProduct?.product?.category._id}`)
+            const { data } = await axios.get(`/api/v1/product/get-similar-product/${pId}/${cId}`)
             console.log('data:', data)
-            if(data) {
+            if (data) {
                 setSimilarProduct(data.products);
             }
-        } catch(error) {
+        } catch (error) {
 
         }
 
@@ -79,9 +91,29 @@ export const ProductDetailsPage = () => {
                 </div>
             </div>
             <div className="container-fluid p-4 mt-4 similar_product">
-
                 <p className="text-center fs-4 ms-0">Similar Products</p>
-                <div className="row height100 similar_product_list"></div>
+
+                <div className="row height92 similar_product_list">
+                    <Slider {...settings}>
+                        {similarProducts?.map((element, index) => {
+                            return (
+                                <div className="card border_Silver width20 height98 p-0 mt-1 me-4">
+                                    <img src={`/api/v1/product/get-product-photo/${element?._id}`} class="card-img-top width100 height60 border_Silver" alt="..." />
+                                    <div className="card-body height39 mt-1 p-2 d-flex flex-column">
+                                        <h5 className="card-title">{element?.name.substring(0, 20)}...</h5>
+                                        <p className="card-text">{element?.description.substring(0, 40)}...</p>
+                                        <p className="card-text mt-1">₹ {element?.price}</p>
+                                        <div className="card-detail-link d-flex flex-row">
+                                            <Link to={""} class="btn btn-secondary">To CART</Link>
+                                            <Link className="btn btn-primary" to={`/product-details/${element?._id}`}>Details</Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                            
+                        })}
+                    </Slider>
+                </div>
             </div>
         </Layout>
     )
