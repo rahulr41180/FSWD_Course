@@ -989,3 +989,9 @@ var g = 5;
 console.log(g);
 var h = 5;
 console.log(h);
+
+
+var i = 5;
+console.log(i);
+var j = 5;
+console.log(j);
