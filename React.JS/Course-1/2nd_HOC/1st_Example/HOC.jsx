@@ -20,6 +20,7 @@ export const HOC = ( WrappedComponent, entity ) => {
         componentDidMount() {
             const getData = async () => {
                 // we will fetch data dynamically based on request means data fetch for users or data fetch for todo
+
                 const res = await fetch(`https://jsonplaceholder.typicode.com/${entity}`)
                 const data = await res.json()
 
@@ -29,16 +30,17 @@ export const HOC = ( WrappedComponent, entity ) => {
                 }
             }
             getData();
+
         }
 
         render() {
-
             let { term, data } = this.state;
             const filteredData = data.filter((element) => {
                 if(entity === "users") {
                     const { name } = element
                     return (
                         name.toLowerCase().indexOf(term.toLowerCase()) >= 0
+
                     )
                 }
                 if(entity === "todos") {
@@ -66,7 +68,6 @@ export const HOC = ( WrappedComponent, entity ) => {
 
                 </>
             )
-
         }
     }
 

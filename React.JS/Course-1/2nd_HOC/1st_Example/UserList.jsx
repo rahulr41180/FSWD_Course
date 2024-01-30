@@ -10,8 +10,8 @@ const UserList = ({ data }) => {
 
 	// useEffect(() => {
 	// 	getUserData()
-	// }, [])
 
+	// }, [])
 
     // This getUserData Fn() have same logic as getTodoData Fn() just difference is /users and /todo
 
@@ -20,9 +20,9 @@ const UserList = ({ data }) => {
 	// 	const data = await res.json()
 	// 	// console.log('data :', data)
 	// 	if (data) {
+
 	// 		setUserList(data)
 	// 	}
-
 	// }
 
 	return (
@@ -30,9 +30,9 @@ const UserList = ({ data }) => {
             {/* This is also repeating in both component */}
 			{/* <h4>UserList</h4> */}
             {/* This is also repeating in both component */}
+
 			{/* <input type="text" value={term} onChange={(event) => setTerm(event.target.value)} /> */}
 			{/* {userList
-
 				.filter((element) => {
 					return (
 						element.name
@@ -40,9 +40,9 @@ const UserList = ({ data }) => {
 							.indexOf(term.toLowerCase()) >= 0
 					)
 				})
+
 				.map((item, index) => {
 					console.log("item :", item);
-
 					return (
 						<>
 							<div key={index}>
@@ -50,9 +50,9 @@ const UserList = ({ data }) => {
 									<strong>{item.name}</strong>
 								</p>
 							</div>
+
 						</>
 					)
-
 			})} */}
 
             {data.map((item, index) => {
@@ -70,7 +70,6 @@ const UserList = ({ data }) => {
 		</>
 	)
 };
-
 
 // Before we are export the UserList but now our main component is not UserList our main component will be the component which
 // will return by Higher Order Component and this UserList component use by HigherComponent for converting it to main component

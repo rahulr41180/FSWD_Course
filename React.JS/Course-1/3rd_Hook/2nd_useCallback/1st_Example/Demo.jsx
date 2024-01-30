@@ -59,9 +59,9 @@ export const Demo = () => {
     )
 }
 
-1. Here we have wraped the incrementHandler function with useCallback and useCallback take a function definition and a array of depecencies and it store the given function definition inside an variable.
+1. Here we have wraped the incrementHandler function with useCallback and useCallback take a function definition and a array of depecencies and it store the given function definition inside React Internal memory and return to variable.
 
-2. So that whenever the Demo component re-render it's not re-create function definition again. It will just return the stored function definition from variable.
+2. So that whenever the Demo component re-render it's not re-create function definition again. It will just return the stored function definition from React Internal memory into variable.
 3. Due to this reference does not change of that function.
 4. If reference does not change that Button component will get same reference from prop if reference value does not changing that than React.memo() will not re-render the Button component again.
 5. What will happen

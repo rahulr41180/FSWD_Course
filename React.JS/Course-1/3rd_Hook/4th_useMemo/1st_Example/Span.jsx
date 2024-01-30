@@ -5,7 +5,7 @@ const Span = ({children}) => {
 
     console.log("Span Component");
     return(
-        <span>{children}</span>
+        <span>{children[0]}</span>
 
     )
 }
