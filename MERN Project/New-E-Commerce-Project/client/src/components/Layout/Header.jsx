@@ -1,20 +1,28 @@
 
 import react from "react";
 
+import { useEffect, memo } from "react";
 import { NavLink, Link } from "react-router-dom";
-
 import { FaShopware } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import { SearchFilterProductInputForm } from "../Form/SearchFilterProductInputForm";
+import useCategories from "../../Hooks/useCategory";
 
-export const Header = () => {
 
+export const Header = memo(({ text }) => {
 
     const [auth, setAuth] = useAuth();
+    const [categories, gettingAllCategory] = useCategories();
+    console.log('categories1:', categories)
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        
+        gettingAllCategory();
+    },[])
 
     const handleLogOut = () => {
         setAuth({
@@ -87,4 +95,4 @@ export const Header = () => {
             </nav>
         </>
     )
-}
+})

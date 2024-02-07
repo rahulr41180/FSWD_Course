@@ -4,10 +4,12 @@ import "../css/ProductDetailsPage.css"
 import { Layout } from "../components/Layout/Layout";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import useCategories from "../Hooks/useCategory";
 import axios from "axios";
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 
 export const ProductDetailsPage = () => {
 
@@ -15,11 +17,14 @@ export const ProductDetailsPage = () => {
     // console.log('selectProduct:', selectProduct)
 
     const [similarProducts, setSimilarProduct] = useState([]);
-    console.log('similarProducts:', similarProducts)
+    // console.log('similarProducts:', similarProducts)
 
     const { pId } = useParams();
+
     console.log('pId:', pId)
 
+    // const categories = useCategories();
+    // console.log('categories:', categories)
 
     const settings = {
         dots: false,
@@ -85,14 +90,17 @@ export const ProductDetailsPage = () => {
                         <p className="fw-semibold fs-5 p-0 m-0">{selectProduct?.product?.name}</p>
                         <p className="fw-normal fs-6 p-0 m-0">{selectProduct?.product?.description}</p>
                         <p className="fw-normal fs-6 p-0 m-0">₹ {selectProduct?.product?.price}</p>
+                        <p className="fw-normal fs-6 p-0 m-0">{selectProduct?.product?.category?.name}</p>
 
                         <Link to={""} class="btn btn-secondary">To CART</Link>
                     </div>
                 </div>
             </div>
-            <div className="container-fluid p-4 mt-4 similar_product">
+            <div className={`${similarProducts?.length < 1 ? "container-fluid p-4 mt-4 similar_product10" : "container-fluid p-4 mt-4 similar_product"}`}>
                 <p className="text-center fs-4 ms-0">Similar Products</p>
-
+                {similarProducts.length < 1 ? (
+                    <p className="text-center fs-5 ms-0">No Similar Product Found.....</p>
+                ) : 
                 <div className="row height92 similar_product_list">
                     <Slider {...settings}>
                         {similarProducts?.map((element, index) => {
@@ -114,6 +122,7 @@ export const ProductDetailsPage = () => {
                         })}
                     </Slider>
                 </div>
+                }
             </div>
         </Layout>
     )

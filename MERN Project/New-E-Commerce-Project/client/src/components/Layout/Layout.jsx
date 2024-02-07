@@ -1,12 +1,14 @@
 
 import React from "react";
 
+import { memo } from "react";
+
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { Helmet } from "react-helmet";
 import toast, { Toaster } from 'react-hot-toast';
 
-export const Layout = ({ children, title, description, keywords, author }) => {
+export const Layout = memo(({ children, title, description, keywords, author }) => {
     return (
       <div style={{width : "100%"}}>
         <Helmet>
@@ -19,7 +21,7 @@ export const Layout = ({ children, title, description, keywords, author }) => {
           </div>
           <title>{ title }</title>
         </Helmet>
-        <Header />
+        <Header text={"rerender"} />
         
         <main style={{
 
@@ -32,7 +34,7 @@ export const Layout = ({ children, title, description, keywords, author }) => {
         <Footer />
       </div>
     )
-}
+})
 
 // Adding default props in the component
 

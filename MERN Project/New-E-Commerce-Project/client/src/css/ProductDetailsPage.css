@@ -29,8 +29,13 @@
 
 .similar_product {
     border: 1px solid blue;
-
     height: 30rem;
+
+}
+
+.similar_product10 {
+    height: 8rem;
+    border: 1px solid blue;
 }
 
 .similar_product_list {
