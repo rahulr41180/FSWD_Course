@@ -25,7 +25,6 @@ export const Layout = memo(({ children, title, description, keywords, author }) 
         
         <main style={{
 
-          border : "1px solid yellow",
           minHeight : "70vh",
         }}>
           <Toaster />

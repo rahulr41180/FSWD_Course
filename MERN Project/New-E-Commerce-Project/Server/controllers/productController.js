@@ -378,7 +378,41 @@ const gettingSimilarProductController = async (req, res) => {
     } catch(error) {
         res.status(500).send({
             status : false,
+            message : "Something went wrong please try with another search",
+            error : error.message
 
+        })
+    }
+}
+
+// Getting Products Based On Selected Category
+
+const gettingProductsBasedOnCategory = async (req, res) => {
+    try {
+        const { cId } = req.params;
+
+        const products = await productModel.find({category : cId})
+        .select("-photo")
+        .populate("category");
+
+        console.log('products:', products)
+        if(products.length < 1) {
+            return res.status(200).send({
+                status : false,
+                message : "No product available for this category please choose another."
+
+            })
+        }
+
+        res.status(200).send({
+            status : true,
+            products : products
+        })
+
+    } catch(error) {
+        res.status(500).send({
+
+            status : false,
             message : "Something went wrong please try with another search",
             error : error.message
         })
@@ -387,9 +421,9 @@ const gettingSimilarProductController = async (req, res) => {
 
 export {
     createProductController,
-
     getProductController,
     getSingleProductController,
+
     getProductPhotoController,
     deleteProductController,
     updateProductController,
@@ -397,6 +431,7 @@ export {
     productPaginationController,
     productCountController,
     searchBaseProductController,
+    gettingSimilarProductController,
+    gettingProductsBasedOnCategory
 
-    gettingSimilarProductController
 }

@@ -1,0 +1,28 @@
+
+.navLinkUnderLink {
+
+    border: none;
+}
+
+.height100 { height: 100%; }
+.height98 { height: 98%; }
+.height92 { height: 92%; }
+.height90 { height: 90%; }
+.height80 { height: 80%; }
+.height75 { height: 75%; }
+
+.height60 { height: 60%; }
+.height50 { height: 50%; }
+.height39 { height: 39%; }
+.height25 { height: 25%; }
+.height20 { height: 20%; }
+.width100 { width: 100%; }
+.width80 { width: 80%; }
+.width30 { width: 30%; }
+.width25 { width: 25%; }
+
+.width20 { width: 20%; }
+
+
+.border_blue { border: 1px solid blue !important; }
+.border_Silver { border: 1px solid silver !important; }

@@ -1,6 +1,7 @@
 
 import react from "react";
 
+import "../../css/Header.css"
 import { useEffect, memo } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { FaShopware } from "react-icons/fa";
@@ -20,9 +21,9 @@ export const Header = memo(({ text }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        
+
         gettingAllCategory();
-    },[])
+    }, [])
 
     const handleLogOut = () => {
         setAuth({
@@ -49,8 +50,19 @@ export const Header = memo(({ text }) => {
                             <li className="nav-item">
                                 <NavLink to={"/"} className="nav-link">Home</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to={"/category"} className="nav-link">Category</NavLink>
+                            <li class="nav-item dropdown">
+
+                                <NavLink className="nav-link dropdown-toggle navLinkUnderLink" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    CATEGORY
+                                </NavLink>
+                                <ul className="dropdown-menu" id="category_dropdown">
+                                    {categories?.map((element, index) => {
+                                        return (
+                                            <li><NavLink className="dropdown-item" to={`/category-based-product/${element.name}/${element._id}`} key={element._id}>{element.name}</NavLink></li>
+                                        )
+                                    })}
+
+                                </ul>
                             </li>
                             {
                                 !auth.user ? (
@@ -66,7 +78,7 @@ export const Header = memo(({ text }) => {
                                 ) : (
                                     <>
                                         <li className="nav-item dropdown">
-                                            <NavLink className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <NavLink className="nav-link dropdown-toggle navLinkUnderLink" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 {auth?.user?.name}
                                             </NavLink>
                                             <ul className="dropdown-menu">

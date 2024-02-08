@@ -1,6 +1,7 @@
 
 import './App.css';
 
+import "./css/Global.css";
 import { Header }  from "./components/Layout/Header";
 import { Layout } from "./components/Layout/Layout";
 import { Footer } from "./components/Layout/Footer";
@@ -9,12 +10,14 @@ import { HomePage } from "./pages/HomePage"
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { PolicyPage } from "./pages/PolicyPage";
-import { PageNotFoundPage } from "./pages/PageNotFoundPage";
 
+import { PageNotFoundPage } from "./pages/PageNotFoundPage";
 import { RegisterPage } from "./pages/Auth/RegisterPage";
 import { LoginPage } from "./pages/Auth/LoginPage";
 import { SearchPage } from './pages/SearchPage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
+import { ProductBasedOnCategoryPage } from './pages/ProductsBasedOnCategoryPage';
+import { CartPage } from './pages/CartPage';
 import { UserDashboard } from './pages/user/UserDashboard';
 import { UserOrders } from './pages/user/UserOrders';
 import { UserProfile } from './pages/user/UserProfile';
@@ -47,10 +50,12 @@ function App() {
       <Route path="/policy" element={<><PolicyPage /></>} />
       <Route path="/register" element={<><RegisterPage /></>} />
       <Route path="/login" element={<><LoginPage /></>} />
+
       <Route path="/search" element={<><SearchPage /></>} />
       <Route path="/product-details/:pId" element={<><ProductDetailsPage /></>} />
+      <Route path="/category-based-product/:categoryName/:cId" element={<><ProductBasedOnCategoryPage /></>} />
+      <Route path="/cart" element={<><CartPage /></>} />
       <Route path="/forgot-password" element={<><ForgotPassword /></>} />
-
       <Route path="/forgot-secret-key" element={<><ForgotSecretKey /></>} />
       <Route path="/dashboard" element={<><PrivateRoute /></>}>
         <Route path="user" element={<><UserDashboard /></>} />
