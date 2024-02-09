@@ -9,18 +9,20 @@ import axios from "axios";
 import { Checkbox, Pagination } from "antd";
 import toast, { Toaster } from 'react-hot-toast';
 import { PriceFilter } from "../Calculation/PricesFilter";
+import { useCartContext } from "../context/CartContext";
 
 export const HomePage = () => {
 
     const [auth, setAuth, handleAuth] = useAuth();
+    const [cartItems, setCartItems, handleCart] = useCartContext();
     // console.log('auth:', auth)
     const [products, setProducts] = useState([]);
     console.log('products:', products)
     const [categories, setCategories] = useState([]);
     // console.log('categories:', categories)
+
     const [filterValue, setFilterValue] = useState({
         categoriesFilter: [],
-
         priceFilter: []
     });
     const [totalProduct, setTotalProduct] = useState(1);
@@ -143,7 +145,6 @@ export const HomePage = () => {
 
     useEffect(() => {
         if (!filterValue.categoriesFilter.length && !filterValue.priceFilter.length) getAllProductsFn();
-
     }, [filterValue.categoriesFilter, filterValue.priceFilter])
 
     return (
@@ -195,7 +196,8 @@ export const HomePage = () => {
                                                 <p className="card-text">{element.description.substring(0, 40)}...</p>
                                                 <p className="card-text mt-1">₹ {element.price}</p>
                                                 <div className="card-detail-link d-flex flex-row">
-                                                    <Link to={""} class="btn btn-secondary">To CART</Link>
+
+                                                    <button onClick={() => { handleCart(element) }} class="btn btn-secondary">To CART</button>
                                                     <Link className="btn btn-primary" to={`/product-details/${element._id}`}>Details</Link>
                                                 </div>
                                             </div>
