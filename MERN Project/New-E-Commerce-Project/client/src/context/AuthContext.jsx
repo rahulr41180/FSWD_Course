@@ -30,8 +30,8 @@ export const AuthContextProvider = ({ children }) => {
         // eslint-disable-next-line
     },[])
 
-    const handleAuth = (data) => {
 
+    const handleAuth = (data) => {
         // console.log('data:', data);
     }
 

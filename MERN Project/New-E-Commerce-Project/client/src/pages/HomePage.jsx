@@ -190,6 +190,7 @@ export const HomePage = () => {
                                 <>
                                     <div className="col">
                                         <div className="card" key={index}>
+                                            
                                             <img src={`/api/v1/product/get-product-photo/${element._id}`} className="card-img-top productCardImage" alt="..." style={{ border: "1px solid silver" }} />
                                             <div className="card-body d-flex flex-column">
                                                 <h5 className="card-title">{element.name.substring(0, 20)}...</h5>
@@ -197,7 +198,7 @@ export const HomePage = () => {
                                                 <p className="card-text mt-1">₹ {element.price}</p>
                                                 <div className="card-detail-link d-flex flex-row">
 
-                                                    <button onClick={() => { handleCart(element) }} class="btn btn-secondary">To CART</button>
+                                                    <button onClick={() => { handleCart(element); toast.success("This product has been added successfully in your cart") }} class="btn btn-secondary">To CART</button>
                                                     <Link className="btn btn-primary" to={`/product-details/${element._id}`}>Details</Link>
                                                 </div>
                                             </div>

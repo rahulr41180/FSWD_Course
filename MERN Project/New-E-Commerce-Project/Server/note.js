@@ -1019,3 +1019,9 @@ var s = 5;
 console.log(s);
 var t = 5;
 console.log(t);
+
+
+var u = 5;
+console.log(u);
+var v = 5;
+console.log(v);

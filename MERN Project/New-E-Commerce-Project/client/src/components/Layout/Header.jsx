@@ -11,10 +11,13 @@ import toast, { Toaster } from 'react-hot-toast';
 import { SearchFilterProductInputForm } from "../Form/SearchFilterProductInputForm";
 import useCategories from "../../Hooks/useCategory";
 
+import { useCartContext } from "../../context/CartContext";
+
 
 export const Header = memo(({ text }) => {
 
     const [auth, setAuth] = useAuth();
+    const [cartItems] = useCartContext();
     const [categories, gettingAllCategory] = useCategories();
     console.log('categories1:', categories)
 
@@ -95,7 +98,7 @@ export const Header = memo(({ text }) => {
                                 )
                             }
                             <li className="nav-item">
-                                <NavLink to={"/cart"} className="nav-link">Cart : [{0}]</NavLink>
+                                <NavLink to={"/cart"} className="nav-link">Cart : [{Object.keys(cartItems).length}]</NavLink>
                             </li>
                         </ul>
                         {/* <form className="d-flex" role="search">
