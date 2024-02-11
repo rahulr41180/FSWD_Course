@@ -17,7 +17,7 @@ export const HomePage = () => {
     const [cartItems, setCartItems, handleCart] = useCartContext();
     // console.log('auth:', auth)
     const [products, setProducts] = useState([]);
-    console.log('products:', products)
+    // console.log('products:', products)
     const [categories, setCategories] = useState([]);
     // console.log('categories:', categories)
 
@@ -29,7 +29,7 @@ export const HomePage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemPerPage, setItemPerPage] = useState(10)
 
-    console.log('filterValue:', filterValue)
+    // console.log('filterValue:', filterValue)
 
     useEffect(() => {
         getTotalProductCount();
@@ -38,7 +38,7 @@ export const HomePage = () => {
     const getTotalProductCount = async () => {
         try {
             const { data } = await axios.get("/api/v1/product/product-count");
-            console.log('data-product:', data)
+            // console.log('data-product:', data)
             if (data.status) {
                 // setTotalPages(Math.ceil(data.totalProduct) / 2);
 
@@ -58,7 +58,7 @@ export const HomePage = () => {
     const getAllProductsFn = async () => {
         try {
             const { data } = await axios.get(`/api/v1/product/product-pagination/${currentPage}/${itemPerPage}`);
-            console.log('data:', data)
+            // console.log('data:', data)
             if (data.status) {
                 setProducts(data.products);
             }
@@ -77,7 +77,7 @@ export const HomePage = () => {
 
                 setCategories(data.allCategories);
             }
-            console.log("data :", data);
+            // console.log("data :", data);
 
         } catch (error) {
             console.log(error);
@@ -97,7 +97,7 @@ export const HomePage = () => {
 
                 priceFilter: filterValue.priceFilter
             });
-            console.log('data:', data)
+            // console.log('data:', data)
             if (data.status) {
                 setProducts(data.products);
             }
@@ -156,11 +156,10 @@ export const HomePage = () => {
                         <h6><u>Filter By Categories</u></h6>
                         {categories.map((element, index) => {
                             return (
-                                <>
-                                    <Checkbox key={index} onChange={(event) => {
+                                    <Checkbox key={index + 1} onChange={(event) => {
                                         handleCategoryFilter(event.target.checked, element._id)
                                     }}>{element.name}</Checkbox>
-                                </>
+                                
                             )
                         })}
                     </div>
@@ -169,16 +168,17 @@ export const HomePage = () => {
                         <h6><u>Filter By Price</u></h6>
                         {PriceFilter.map((element, index) => {
                             return (
-                                <>
-                                    <Checkbox key={index} onChange={(event) => {
+                                
+
+                                    <Checkbox key={index - 1} onChange={(event) => {
                                         handlePriceFilter(event.target.checked, element._id, element.value)
                                     }}>{element.name}</Checkbox>
-                                </>
+                                
                             )
                         })}
                     </div>
                     <div className="d-inline-flex mt-2" id="reset-filter-button">
-                        <button type="button" class="btn btn-danger" onClick={() => window.location.reload()}>Reset Filter</button>
+                        <button type="button" className="btn btn-danger" onClick={() => window.location.reload()}>Reset Filter</button>
                     </div>
                 </div>
 
@@ -187,9 +187,9 @@ export const HomePage = () => {
                     <div id="grid-container" className="row row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-4">
                         {products?.map((element, index) => {
                             return (
-                                <>
-                                    <div className="col">
-                                        <div className="card" key={index}>
+                                
+                                    <div className="col" key={element?._id}>
+                                        <div className="card">
                                             
                                             <img src={`/api/v1/product/get-product-photo/${element._id}`} className="card-img-top productCardImage" alt="..." style={{ border: "1px solid silver" }} />
                                             <div className="card-body d-flex flex-column">
@@ -198,13 +198,13 @@ export const HomePage = () => {
                                                 <p className="card-text mt-1">₹ {element.price}</p>
                                                 <div className="card-detail-link d-flex flex-row">
 
-                                                    <button onClick={() => { handleCart(element); toast.success("This product has been added successfully in your cart") }} class="btn btn-secondary">To CART</button>
+                                                    <button onClick={() => { handleCart(element); toast.success("This product has been added successfully in your cart") }} className="btn btn-secondary">To CART</button>
                                                     <Link className="btn btn-primary" to={`/product-details/${element._id}`}>Details</Link>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </>
+                               
                             )
                         })}
                     </div>

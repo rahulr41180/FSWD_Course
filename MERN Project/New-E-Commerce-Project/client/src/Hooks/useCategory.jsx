@@ -5,7 +5,7 @@ import axios from "axios";
 
 const useCategories = () => {
     const [categories, setCategories] = useState([]);
-    console.log('categories:', categories)
+    // console.log('categories:', categories)
 
     // Function for getting all category;
     const gettingAllCategory = useCallback(async () => {
@@ -15,7 +15,6 @@ const useCategories = () => {
             setCategories(data?.allCategories);
         } catch(error) {
             console.log("error : ", error.message);
-            
         }
     },[])
 

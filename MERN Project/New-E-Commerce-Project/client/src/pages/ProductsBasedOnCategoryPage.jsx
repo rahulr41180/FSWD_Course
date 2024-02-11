@@ -9,14 +9,14 @@ import axios from "axios";
 
 export const ProductBasedOnCategoryPage = () => {
     const { categoryName, cId } = useParams();
-    console.log('cId1:', cId)
+    // console.log('cId1:', cId)
 
     const [products, setProducts] = useState([]);
-    console.log('products:', products)
+    // console.log('products:', products)
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('cId2:', cId);
+        // console.log('cId2:', cId);
         // const gettingProductsBasedOnCategory = async () => {
         //     try {
         //         const { data } = await axios.get(`/api/v1/product/get-products-based-on-category/${cId}`);
@@ -37,7 +37,7 @@ export const ProductBasedOnCategoryPage = () => {
     const gettingProductsBasedOnCategory = async () => {
         try {
             const { data } = await axios.get(`/api/v1/product/get-products-based-on-category/${cId}`);
-            console.log('data:', data)
+            // console.log('data:', data)
 
             if (!data.status) {
 

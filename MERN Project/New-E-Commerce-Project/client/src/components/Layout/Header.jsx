@@ -19,7 +19,7 @@ export const Header = memo(({ text }) => {
     const [auth, setAuth] = useAuth();
     const [cartItems] = useCartContext();
     const [categories, gettingAllCategory] = useCategories();
-    console.log('categories1:', categories)
+    // console.log('categories1:', categories)
 
     const navigate = useNavigate();
 
@@ -53,15 +53,16 @@ export const Header = memo(({ text }) => {
                             <li className="nav-item">
                                 <NavLink to={"/"} className="nav-link">Home</NavLink>
                             </li>
-                            <li class="nav-item dropdown">
+                            <li className="nav-item dropdown">
 
                                 <NavLink className="nav-link dropdown-toggle navLinkUnderLink" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     CATEGORY
                                 </NavLink>
                                 <ul className="dropdown-menu" id="category_dropdown">
                                     {categories?.map((element, index) => {
+
                                         return (
-                                            <li><NavLink className="dropdown-item" to={`/category-based-product/${element.name}/${element._id}`} key={element._id}>{element.name}</NavLink></li>
+                                            <li key={index}><NavLink className="dropdown-item" to={`/category-based-product/${element.name}/${element._id}`} key={element._id}>{element.name}</NavLink></li>
                                         )
                                     })}
 

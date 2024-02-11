@@ -10,8 +10,9 @@ import toast from "react-hot-toast";
 
 export const AdminProduct = () => {
 
+    
     const [products, setProducts] = useState([]);
-    console.log('products:', products)
+    // console.log('products:', products)
 
     // LifeCycle Method :
 

@@ -3,7 +3,7 @@ import { memom } from "react";
 
 export const CategoryForm = ({ handleSubmit, value, setValue }) => {
 
-    console.log("categoryForm")
+    // console.log("categoryForm")
     return (
         <>
             <form onSubmit={handleSubmit}>

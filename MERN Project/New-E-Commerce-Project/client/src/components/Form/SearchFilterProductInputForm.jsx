@@ -18,7 +18,7 @@ export const SearchFilterProductInputForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            console.log('searchFilterProductResult.searchFilterProductTerm:', searchFilterProductResult.searchFilterProductTerm)
+            // console.log('searchFilterProductResult.searchFilterProductTerm:', searchFilterProductResult.searchFilterProductTerm)
             if(!searchFilterProductResult.searchFilterProductTerm) {
 
                 toast.error("Please enter valid input search");
@@ -26,7 +26,7 @@ export const SearchFilterProductInputForm = () => {
             }
 
             const { data } = await axios.get(`/api/v1/product/search-base-product/${searchFilterProductResult.searchFilterProductTerm}`)
-            console.log('data:', data)
+            // console.log('data:', data)
 
 
             if(data.status) {

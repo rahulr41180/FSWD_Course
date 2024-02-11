@@ -4,24 +4,28 @@ import "../css/ProductDetailsPage.css"
 import { Layout } from "../components/Layout/Layout";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useCartContext } from "../context/CartContext";
+import toast, { Toaster } from 'react-hot-toast';
 import useCategories from "../Hooks/useCategory";
 import axios from "axios";
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css";
+
 import "slick-carousel/slick/slick-theme.css";
 
 
 export const ProductDetailsPage = () => {
 
+    const [cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem] = useCartContext();
     const [selectProduct, setSelectProduct] = useState({});
-    // console.log('selectProduct:', selectProduct)
+    console.log('selectProduct:', selectProduct)
 
     const [similarProducts, setSimilarProduct] = useState([]);
     // console.log('similarProducts:', similarProducts)
 
     const { pId } = useParams();
 
-    console.log('pId:', pId)
+    // console.log('pId:', pId)
 
     // const categories = useCategories();
     // console.log('categories:', categories)
@@ -60,7 +64,8 @@ export const ProductDetailsPage = () => {
 
         try {
             const { data } = await axios.get(`/api/v1/product/get-similar-product/${pId}/${cId}`)
-            console.log('data:', data)
+
+            // console.log('data:', data)
             if (data) {
                 setSimilarProduct(data.products);
             }
@@ -92,9 +97,10 @@ export const ProductDetailsPage = () => {
                         <p className="fw-normal fs-6 p-0 m-0">₹ {selectProduct?.product?.price}</p>
                         <p className="fw-normal fs-6 p-0 m-0">{selectProduct?.product?.category?.name}</p>
 
-                        <Link to={""} class="btn btn-secondary">To CART</Link>
+                        <button onClick={() => { handleCart(selectProduct?.product); toast.success("This product has been added successfully in your cart"); }} class="btn btn-secondary">To CART</button>
                     </div>
                 </div>
+
             </div>
             <div className={`${similarProducts?.length < 1 ? "container-fluid p-4 mt-4 similar_product10" : "container-fluid p-4 mt-4 similar_product"}`}>
                 <p className="text-center fs-4 ms-0">Similar Products</p>
@@ -112,7 +118,7 @@ export const ProductDetailsPage = () => {
                                         <p className="card-text">{element?.description.substring(0, 40)}...</p>
                                         <p className="card-text mt-1">₹ {element?.price}</p>
                                         <div className="card-detail-link d-flex flex-row">
-                                            <Link to={""} class="btn btn-secondary">To CART</Link>
+                                            <button onClick={() => { handleCart(element); toast.success("This product has been added successfully in your cart"); }} class="btn btn-secondary">To CART</button>
                                             <Link className="btn btn-primary" to={`/product-details/${element?._id}`}>Details</Link>
                                         </div>
                                     </div>

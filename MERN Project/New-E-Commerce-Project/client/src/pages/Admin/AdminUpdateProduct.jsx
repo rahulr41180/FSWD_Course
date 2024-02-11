@@ -17,7 +17,7 @@ export const AdminUpdateProduct = () => {
 
     // console.log('categories:', categories)
     const [photo, setPhoto] = useState("");
-    console.log('photo:', photo)
+    // console.log('photo:', photo)
     const [getAllCategories1, setGetAllCategories1] = useState("");
     // console.log('photo:', photo)
     const [formData, setFormData] = useState({
@@ -30,14 +30,15 @@ export const AdminUpdateProduct = () => {
         shipping: "",
         id: "",
         updatePhoto: false
+
     })
-    console.log('formData:', formData)
+    // console.log('formData:', formData)
 
     const getSingleProduct = async () => {
 
         try {
             const { data } = await axios.get(`/api/v1/product/get-single-product/${params.pId}`);
-            console.log('data-2:', data);
+            // console.log('data-2:', data);
             if (data.status) {
                 setFormData({
 
@@ -67,10 +68,10 @@ export const AdminUpdateProduct = () => {
             const { data } = await axios.get(`${process.env.REACT_APP_API}/api/v1/category/get-all-categories`);
             // Optional Chaining
             if (data?.status) {
-
                 setCategories(data.allCategories);
             }
-            console.log("data :", data);
+
+            // console.log("data :", data);
 
         } catch (error) {
             console.log(error);
@@ -139,9 +140,9 @@ export const AdminUpdateProduct = () => {
         try {
             // let answer = window.prompt("Are you sure want to delete this product ? ");
             // if (!answer) return;
-            const { data } = await axios.delete(`/api/v1/product/delete-product/${formData.id}`);
 
-            console.log('data:', data);
+            const { data } = await axios.delete(`/api/v1/product/delete-product/${formData.id}`);
+            // console.log('data:', data);
             if (data.status) {
                 toast.success(data.message);
                 navigate("/dashboard/admin/products");

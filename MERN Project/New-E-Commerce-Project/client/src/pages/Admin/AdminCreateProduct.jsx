@@ -39,7 +39,7 @@ export const AdminCreateProduct = () => {
 
                 setCategories(data.allCategories);
             }
-            console.log("data :", data);
+            // console.log("data :", data);
 
         } catch (error) {
             console.log(error);
