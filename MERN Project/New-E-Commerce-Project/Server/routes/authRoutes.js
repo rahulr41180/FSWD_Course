@@ -12,7 +12,8 @@ userAuthProtectedController,
 forgotPasswordController, 
 
 forgotSecretKeyController,
-adminAuthProtectedController 
+adminAuthProtectedController,
+updateProfileController
 } from "../controllers/authController.js";
 
 import { requireSignIn, isAdmin, isUser } from "../middlewares/authMiddleware.js";
@@ -38,5 +39,9 @@ router.get("/user-auth", requireSignIn, isUser, userAuthProtectedController)
 
 // Protected Route For Admin Authentication || Method : GET
 router.get("/admin-auth", requireSignIn, isAdmin, adminAuthProtectedController)
+
+// Update User || METHOD : PUT
+
+router.put("/update-profile", requireSignIn, updateProfileController);
 
 export default router;

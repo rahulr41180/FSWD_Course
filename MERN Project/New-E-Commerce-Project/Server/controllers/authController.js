@@ -344,6 +344,38 @@ const forgotSecretKeyController = async (req, res) => {
     }
 }
 
+// Update Profile | METHOD : PUT
+const updateProfileController = async (req, res) => { 
+    try {
+        const { name, email, address, phone, password } = req.body;
+        // console.log('email:', email)
+        // console.log('name:', name)
+        
+        const hashedPassword = await hashPassword(password);
+        const updateProfile = await userModel.updateOne({_id : req.user._id, email : email}, {name : name, email : email, address : address, password : hashedPassword, phone : phone}, { new : true });
+
+        if(!updateProfile) {
+            return res.status(200).send({
+                status : false,
+                message : "Something went wrong please try again"
+            })
+        }
+
+        res.status(200).send({
+            status : true,
+            updateProfile : updateProfile
+        })
+    } catch(error) {
+        console.log("error :", error.message);
+        res.status(500).send({
+            status : false,
+            message : error.message
+
+        })
+
+    }
+}
+
 export { 
 
 registerController, 
@@ -352,6 +384,7 @@ testController,
 userAuthProtectedController, 
 adminAuthProtectedController,
 forgotPasswordController,  
-forgotSecretKeyController
+forgotSecretKeyController,
+updateProfileController
 
 };

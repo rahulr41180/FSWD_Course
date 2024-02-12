@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 export const RegisterPage = () => {
 
     const [formData, setFormData] = useState({
+
         name : "",
         email : "",
         password : "",
@@ -29,6 +30,7 @@ export const RegisterPage = () => {
 
         setFormData({
             ...formData,
+            
             [name] : value
         })
     }
@@ -38,6 +40,7 @@ export const RegisterPage = () => {
     const handleSubmit = async (event) => {
         // console.log("event : ", event)
         event.preventDefault();
+        
         // console.log("formData : ", formData);
         // toast.success("Register Successfully..");
         try {
@@ -79,6 +82,7 @@ export const RegisterPage = () => {
 
     return (
         <Layout title={"Register | rR e-Com"}>
+
             <div className="form-container" style={{minHeight : "90vh"}}>
                 <form onSubmit={handleSubmit}>
                     <h4 className="title">REGISTER FORM</h4>

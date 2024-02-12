@@ -126,12 +126,11 @@ export const CartPage = () => {
                         {auth?.user ? <p className="fs-5 m-0 mb-2">Hi {auth?.token && auth?.user?.name}</p> : ""}
                         <p className="fs-5 m-0 mb-2">Total item quanties in your cart : {totalCartPriceQuantity?.totalQuantity}</p>
                         <p className="fs-5 m-0 mb-2">Total Price : ₹ {totalCartPriceQuantity?.totalPrice}</p>
-
                         <button className="btn btn-success fs-5 width100" onClick={() => { handleCheckout(totalCartPriceQuantity.totalPrice) }}>CHECKOUT</button>
                     </div>
-
                 </div>
             }
+            
         </Layout>
     )
 
