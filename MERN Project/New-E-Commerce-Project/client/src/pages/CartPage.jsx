@@ -51,7 +51,7 @@ export const CartPage = () => {
 
     const handleCheckout = (totalPrice) => {
 
-        if(auth?.user === null && auth?.token === "") {
+        if (auth?.user === null && auth?.token === "") {
             toast.error("Please login your account");
             navigate("/login");
         } else {
@@ -126,11 +126,22 @@ export const CartPage = () => {
                         {auth?.user ? <p className="fs-5 m-0 mb-2">Hi {auth?.token && auth?.user?.name}</p> : ""}
                         <p className="fs-5 m-0 mb-2">Total item quanties in your cart : {totalCartPriceQuantity?.totalQuantity}</p>
                         <p className="fs-5 m-0 mb-2">Total Price : ₹ {totalCartPriceQuantity?.totalPrice}</p>
-                        <button className="btn btn-success fs-5 width100" onClick={() => { handleCheckout(totalCartPriceQuantity.totalPrice) }}>CHECKOUT</button>
+                        {auth?.token ?
+                            <>
+                                <Link to={""} className="btn btn-success fs-5 width100">CHECKOUT</Link>
+                                <p className="fs-4 m-0 mb-2">Your shipping address is :</p>
+
+                                <p className="fs-5 m-0 mb-2">{auth?.user?.address}</p>
+                                <Link to={"/dashboard/user/profile"} className="btn btn-success fs-5 width100">Update Address</Link>
+                            </>
+                            :
+                            <button onClick={() => { navigate("/login", { state : "/cart" })}} className="btn btn-success fs-5 width100">Please do login to checkout</button>
+                        }
+
                     </div>
                 </div>
             }
-            
+
         </Layout>
     )
 

@@ -16,6 +16,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import categoryRoutes from "./routes/categoryRoute.js";
 import productRoutes from "./routes/productRoutes.js";
+import braintreePaymentGatewayRoutes from "./routes/braintreePaymentGatewayRoutes.js";
 // Configure .env file
 
 // If .env file is in root directory than we have to configured by
@@ -42,9 +43,9 @@ app.use(morgan("dev")); // For checking which APIs hits.
 
 
 app.use("/api/v1/auth", authRoutes);
-
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("/api/v1/payment", braintreePaymentGatewayRoutes);
 
 app.get("/", (req, res) => {
     res.send("<h1>Hello World</h1>")

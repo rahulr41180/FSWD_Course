@@ -30,6 +30,7 @@ export const Header = memo(({ text }) => {
 
     const handleLogOut = () => {
         setAuth({
+            
             ...auth,
             user: null,
             token: ""

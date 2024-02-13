@@ -5,9 +5,12 @@ import { useState, useEffect } from "react";
 import { Layout } from "../../components/Layout/Layout";
 import { UserMainu } from "../../components/Layout/UserMainu";
 import { useAuth } from "../../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import toast, { Toaster } from 'react-hot-toast';
 import axios from "axios";
 
 export const UserProfile = () => {
+
 
     const [updateForm, setUpdateForm] = useState(false);
     // console.log('updateForm:', updateForm);
@@ -15,12 +18,13 @@ export const UserProfile = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        password: "",
         address: "",
         phone: "",
     });
+
     // console.log('formData:', formData);
-    const [auth] = useAuth();
+    const [auth, setAuth] = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFormData({
@@ -40,65 +44,77 @@ export const UserProfile = () => {
         })
     }
 
+    const handleLogOut = () => {
+
+        setAuth({
+            ...auth,
+            user: null,
+            token: ""
+        })
+        localStorage.removeItem("auth");
+    }
+    
     const handleSubmit = async (event) => {
 
         event.preventDefault();
-        console.log("formData :", formData);
+        // console.log("formData :", formData);
         try {
             const { data } = await axios.put("/api/v1/auth/update-profile", {
+
                 name : formData.name,
+                address : formData.address,                
                 email : formData.email,
-                address : formData.address,
-                password : formData.password,
-
-                phone : formData.phone,
             })
-            setUpdateForm(false);
-        } catch (error) {
 
+            // console.log('data:', data)
+            if(data?.status) {
+                toast.success("Your profile has been updated. Please login again.....");
+                handleLogOut();
+
+                setUpdateForm(false);
+                navigate("/login");
+            } else {
+                toast.error(data?.message);
+            }
+        } catch (error) {
+            console.log("error :", error.message);
         }
     }
 
-
     return (
+
         <Layout title={"Your Profile | rR e-Com"}>
             <div className="container-fluid m-3 p-3">
                 <div className="row">
                     <div className="col-md-3">
-
                         <UserMainu />
                     </div>
                     {updateForm ?
                         <div className="col-md-9 up_form_container p-3">
-
                             <form onSubmit={handleSubmit} className="height100">
+
                                 <h4 className="title">UPDATE FORM</h4>
                                 <div className="mb-3">
                                     <input required onChange={handleChange} value={formData.name} type="text" className="form-control" name="name" placeholder="Update Full Name" />
                                 </div>
                                 <div className="mb-3">
-                                    <input required onChange={handleChange} value={formData.email} type="email" className="form-control" name="email" placeholder="Update Email" />
+                                    <input required onChange={handleChange} value={formData.email} type="email" className="form-control" name="email" placeholder="Update Email" disabled/>
                                 </div>
                                 <div className="mb-3">
+                                    <input required onChange={handleChange} value={formData.phone} type="number" className="form-control" name="phone" placeholder="Update Number" disabled/>
 
-                                    <input required onChange={handleChange} value={formData.password} type="password" className="form-control" name="password" placeholder="Update Password" />
-                                </div>
-                                <div className="mb-3">
-                                    <input required onChange={handleChange} value={formData.phone} type="number" className="form-control" name="phone" placeholder="Update Number" />
                                 </div>
                                 <div className="mb-3">
                                     <input required onChange={handleChange} value={formData.address} type="text" className="form-control" name="address" placeholder="Update Address" />
-
                                 </div>
                                 <button type="submit" className="btn btn-primary">Update Profile</button>
-
                             </form>
                         </div> 
                         :
                         <div className="col-md-9 border_blue up_details_container">
+
                             <p className="fs-5 m-0 mb-1">Name : {auth.user?.name}</p>
                             <p className="fs-5 m-0 mb-1">Email : {auth.user?.email}</p>
-
                             <p className="fs-5 m-0 mb-1">Address : {auth.user?.address}</p>
                             <p className="fs-5 m-0 mb-1">Phone : {auth.user?.phone}</p>
                             <button className="btn btn-primary" onClick={() => setUpdateForm(true)}>Update Profile</button>
@@ -106,7 +122,7 @@ export const UserProfile = () => {
                     }
                 </div>
             </div>
+
         </Layout>
     )
-
 }
