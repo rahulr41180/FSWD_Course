@@ -1,6 +1,7 @@
 
-import { Layout } from "../components/Layout/Layout";
+import "../css/Checkout.css";
 
+import { Layout } from "../components/Layout/Layout";
 import "../css/CartPage.css";
 import { useCartContext } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -11,13 +12,9 @@ import toast, { Toaster } from 'react-hot-toast';
 export const CartPage = () => {
 
 
-    const [cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem] = useCartContext();
+    const [cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem, totalCartPriceQuantity, setTotalCartPriceQuantity] = useCartContext();
 
     const [auth] = useAuth();
-    const [totalCartPriceQuantity, setTotalCartPriceQuantity] = useState({
-        totalPrice: 0,
-        totalQuantity: 0
-    });
     // console.log('auth:', auth)
 
     const navigate = useNavigate();
@@ -49,8 +46,8 @@ export const CartPage = () => {
         })
     }, [cartItems])
 
-    const handleCheckout = (totalPrice) => {
 
+    const handleCheckout = (totalPrice) => {
         if (auth?.user === null && auth?.token === "") {
             toast.error("Please login your account");
             navigate("/login");
@@ -123,14 +120,14 @@ export const CartPage = () => {
                     </div>
 
                     <div className="width30 border_blue p-4">
+
                         {auth?.user ? <p className="fs-5 m-0 mb-2">Hi {auth?.token && auth?.user?.name}</p> : ""}
                         <p className="fs-5 m-0 mb-2">Total item quanties in your cart : {totalCartPriceQuantity?.totalQuantity}</p>
                         <p className="fs-5 m-0 mb-2">Total Price : ₹ {totalCartPriceQuantity?.totalPrice}</p>
                         {auth?.token ?
                             <>
-                                <Link to={""} className="btn btn-success fs-5 width100">CHECKOUT</Link>
+                                <Link to={`/checkout/${totalCartPriceQuantity?.totalQuantity+"-"+totalCartPriceQuantity?.totalPrice}`} className="btn btn-success fs-5 width100">CHECKOUT</Link>
                                 <p className="fs-4 m-0 mb-2">Your shipping address is :</p>
-
                                 <p className="fs-5 m-0 mb-2">{auth?.user?.address}</p>
                                 <Link to={"/dashboard/user/profile"} className="btn btn-success fs-5 width100">Update Address</Link>
                             </>

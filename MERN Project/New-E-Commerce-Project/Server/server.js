@@ -20,7 +20,9 @@ import braintreePaymentGatewayRoutes from "./routes/braintreePaymentGatewayRoute
 // Configure .env file
 
 // If .env file is in root directory than we have to configured by
+
 dotenv.config();
+// console.log(process.env.BRAINTREE_MERCHANTID)
 // If .env file is inside the folder than we have to configured by
 // dotenv.config({path : "./folder directory"})
 

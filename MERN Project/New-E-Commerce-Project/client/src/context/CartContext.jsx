@@ -6,6 +6,10 @@ export const CartContext = createContext();
 export const CartContextProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState({});
     // console.log('cartItems:', cartItems);
+    const [totalCartPriceQuantity, setTotalCartPriceQuantity] = useState({
+        totalPrice: 0,
+        totalQuantity: 0
+    });
 
     useEffect(() => {
         // console.log("cart context initial render");
@@ -101,7 +105,7 @@ export const CartContextProvider = ({ children }) => {
 
     return (
 
-        <CartContext.Provider value={[cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem]}>{children}</CartContext.Provider>
+        <CartContext.Provider value={[cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem, totalCartPriceQuantity, setTotalCartPriceQuantity]}>{children}</CartContext.Provider>
     )
 }
 

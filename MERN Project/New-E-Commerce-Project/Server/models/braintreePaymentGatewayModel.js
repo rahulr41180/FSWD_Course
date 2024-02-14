@@ -17,7 +17,7 @@ const braintreePaymentGatewayOrderSchema = new mongoose.Schema({
     orderStatus : {
         type : String,
         default : "Not Process",
-        enum : ["Not Process", "Processing", "Shipped", "Delivered", "Cancer"]
+        enum : ["Not Process", "Processing", "Shipped", "Delivered", "Canceled"]
     }
 }, {
 
@@ -25,4 +25,4 @@ const braintreePaymentGatewayOrderSchema = new mongoose.Schema({
 });
 
 
-export default mongoose.model("braintree-payment", braintreePaymentGatewayOrderSchema);
+export default mongoose.model("braintree-payment-order", braintreePaymentGatewayOrderSchema);

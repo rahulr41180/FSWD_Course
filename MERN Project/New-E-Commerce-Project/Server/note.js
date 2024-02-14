@@ -1029,3 +1029,9 @@ var w = 5;
 console.log(w);
 var x = 5;
 console.log(x);
+
+
+var y = 5;
+console.log(y);
+var z = 5;
+console.log(z);
