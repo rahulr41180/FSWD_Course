@@ -6,7 +6,8 @@ function App() {
 
 	return (
 		<div className="app">
-			App Component		
+			App Component
+			<input type="text" />		
 		</div>
 	);
 }
