@@ -14,13 +14,47 @@ export const Checkout = () => {
     const [clientToken, setClientToken] = useState("");
     // console.log('clientToken:', clientToken)
     const [cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem, totalCartPriceQuantity, setTotalCartPriceQuantity] = useCartContext();
+    // console.log('cartItems:', cartItems)
     const [auth] = useAuth();
     const { tqtp } = useParams();
     // console.log('tqtp:', tqtp);
     const [instance, setInstance] = useState("");
     // console.log('instance:', instance)
-    const [loading, setLoading] = useState(false);
 
+    const [loading, setLoading] = useState(true);
+    const [cartProducts, setCartProducts] = useState([]);
+    // console.log('cartProducts:', cartProducts)
+
+    useEffect(() => {
+        const objectArray = Object.entries(cartItems);
+        // console.log('objectArray:', objectArray)
+        const productArray = [];
+        let i = 0;
+        let j = objectArray.length - 1;
+        
+        while(i <= j) {
+            if(i === j) {
+                productArray.push({
+                    product : objectArray[i][0],
+                    quantity : Number(objectArray[i][1][1])
+                })
+            } else if(i !== j) {
+                productArray.push({
+                    product : objectArray[i][0],
+
+                    quantity : Number(objectArray[i][1][1])
+                }, {
+                    product : objectArray[j][0],
+                    quantity : Number(objectArray[j][1][1])
+                })
+            }
+            i++;
+            j--;
+
+        }
+        setCartProducts(productArray)
+        // console.log('productArray:', productArray);
+    },[auth])
 
     useEffect(() => {
         const gettingClientToken = async () => {
@@ -28,21 +62,46 @@ export const Checkout = () => {
                 const { data } = await axios.get("/api/v1/payment/braintree-payment/client-token-generate");
                 // console.log('data:', data)
                 if (data.status) {
-                    setClientToken(data?.clientToken?.clientToken);
-                    setLoading(true);
 
+                    setClientToken(data?.clientToken?.clientToken);
+                    setLoading(false);
                 }
             } catch (error) {
                 console.log('error:', error.message);
                 toast.error(error.response.data.message);
-
             }
         }
         gettingClientToken();
+
     }, [auth])
 
-    const handlePayment = () => {
+    const handlePayment = async () => {
         console.log("payment");
+        try {
+            const { nonce } = await instance.requestPaymentMethod();
+
+            if(nonce) {
+
+                setLoading(true);
+                const { data } = await axios.post(`/api/v1/payment/braintree-payment/receive-payment`, {
+                    cartItems : cartProducts,
+                    braintreeNonce : nonce,
+                    totalPrice : Number(tqtp?.split("-")[1])
+                })
+                console.log('data:', data)
+                setLoading(false);
+
+                if(data?.status) {
+                    toast.success(data?.message);
+                }
+            }
+            console.log('nonce:', nonce);
+
+        } catch(error) {
+            console.log("error :", error.message);
+            setLoading(false);
+
+        }
 
     }
 
@@ -52,7 +111,7 @@ export const Checkout = () => {
                 <div className="width60 height100 border_blue p-2">
 
                     <h4 className="text-center m-0 mb-2">Please complete your payment for selected products</h4>
-                    <div className="width80 height70 border_Silver p-3 m-auto">
+                    <div className={`width80 ${loading ? "height60" : ""} border_Silver p-3 m-auto`}>
                         {clientToken ?
                             <DropIn
                                 options={{
@@ -64,7 +123,15 @@ export const Checkout = () => {
 
                             />
                             :
-                            ""
+                            <div className="width100 height85 border_black mb-2 d-flex justify-content-center align-items-center gap-4">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                                <div className="spinner-border text-secondary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+
+                                </div>
+                            </div>
                         }
                         <button className="btn btn-primary" onClick={handlePayment} disabled={""}>Make Payment</button>
 
@@ -74,6 +141,7 @@ export const Checkout = () => {
                 <div className="width40 height100 border_blue p-3">
                     {auth?.user ? <p className="fs-5 m-0 mb-2">Hi {auth?.token && auth?.user?.name}</p> : ""}
                     <p className="fs-5 m-0 mb-2">Total item quanties in your cart : {tqtp?.split("-")[0]}</p>
+
                     <p className="fs-5 m-0 mb-2">Total Price : ₹ {tqtp?.split("-")[1]}</p>
                 </div>
             </div>

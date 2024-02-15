@@ -46,15 +46,17 @@ const braintreePaymentClientTokenGenerateController = async (req, res) => {
 const braintreePaymentReceiveFromClientController = async (req, res) => {
 
     try {
-        const { cart, braintreeNonce, totalPrice } = req.body;
+        const { cartItems, braintreeNonce, totalPrice } = req.body;
+        console.log('cartItems:', cartItems)
         const newTransaction = gateway.transaction.sale({
+            
             amount: totalPrice,
             paymentMethodNonce: braintreeNonce,
             options: {
                 submitForSettlement: true
             }
         }, (error, result) => {
-
+            
             console.log("result :", result);
             if (error) {
                 return res.status(500).send({
@@ -64,20 +66,22 @@ const braintreePaymentReceiveFromClientController = async (req, res) => {
                 })
             } else {
                 const newOrder = new orderModel({
-
-                    products: cart,
+                    products: cartItems,
                     payment: result,
                     buyer: req.user._id,
                 }).save();
+
                 res.status(201).send({
                     status: true,
-                    order: newOrder
+                    message : "Your payment has been done"
                 })
             }
-
+            
         })
+        console.log('newTransaction:', newTransaction)
     } catch (error) {
 
+        console.log('error:', error.message);
         res.status(500).send({
             status: false,
             message: "Something went wrong please try again letter",

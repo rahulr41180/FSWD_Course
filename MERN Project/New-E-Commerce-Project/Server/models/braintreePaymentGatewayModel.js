@@ -4,16 +4,23 @@ import mongoose from "mongoose";
 const braintreePaymentGatewayOrderSchema = new mongoose.Schema({
     products : [
         {
-            type : mongoose.ObjectId,
-            ref : "product"
+            product : {
+                type : mongoose.ObjectId,
+                ref : "product"
+            },
+            quantity : {
+                type : Number,
+
+                required : true
+            }
         }
     ],
     payment : {},
     buyer : {
-
         type : mongoose.ObjectId,
-        ref : "user"
+        ref : "users"
     },
+    
     orderStatus : {
         type : String,
         default : "Not Process",
