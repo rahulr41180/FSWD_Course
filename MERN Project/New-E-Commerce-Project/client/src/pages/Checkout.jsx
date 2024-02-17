@@ -21,6 +21,8 @@ export const Checkout = () => {
     const [instance, setInstance] = useState("");
     // console.log('instance:', instance)
 
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
     const [cartProducts, setCartProducts] = useState([]);
     // console.log('cartProducts:', cartProducts)
@@ -59,7 +61,7 @@ export const Checkout = () => {
     useEffect(() => {
         const gettingClientToken = async () => {
             try {
-                const { data } = await axios.get("/api/v1/payment/braintree-payment/client-token-generate");
+                const { data } = await axios.get("/api/v1/braintree-payment/client-token-generate");
                 // console.log('data:', data)
                 if (data.status) {
 
@@ -68,6 +70,7 @@ export const Checkout = () => {
                 }
             } catch (error) {
                 console.log('error:', error.message);
+
                 toast.error(error.response.data.message);
             }
         }
@@ -83,16 +86,18 @@ export const Checkout = () => {
             if(nonce) {
 
                 setLoading(true);
-                const { data } = await axios.post(`/api/v1/payment/braintree-payment/receive-payment`, {
+                const { data } = await axios.post(`/api/v1/braintree-payment/receive-payment`, {
                     cartItems : cartProducts,
                     braintreeNonce : nonce,
                     totalPrice : Number(tqtp?.split("-")[1])
                 })
                 console.log('data:', data)
+                
                 setLoading(false);
-
                 if(data?.status) {
                     toast.success(data?.message);
+                    localStorage.removeItem("rReCom_CartItems");
+                    navigate("/dashboard/user/orders");
                 }
             }
             console.log('nonce:', nonce);
@@ -100,7 +105,7 @@ export const Checkout = () => {
         } catch(error) {
             console.log("error :", error.message);
             setLoading(false);
-
+            toast.error(error.response.data.message);
         }
 
     }

@@ -12,10 +12,10 @@ import { requireSignIn, isAdmin, isUser } from "../middlewares/authMiddleware.js
 
 
 // Generate a client token and send a client token to out client.
-router.get("/braintree-payment/client-token-generate", requireSignIn, braintreePaymentClientTokenGenerateController);
+router.get("/client-token-generate", requireSignIn, braintreePaymentClientTokenGenerateController);
 
 
 // Receive a payment from our client
-router.post("/braintree-payment/receive-payment", requireSignIn, braintreePaymentReceiveFromClientController);
+router.post("/receive-payment", requireSignIn, braintreePaymentReceiveFromClientController);
 
 export default router

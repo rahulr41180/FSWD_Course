@@ -30,6 +30,7 @@ export const CartContextProvider = ({ children }) => {
         // console.log("cartItems[element?._id] :", cartItems[element?._id])
 
         setCartItems((prev) => {
+
             const itemId = element?._id
             // console.log('prev:', prev)
             // console.log('prev[element?._id]:', prev[element?._id])
@@ -98,7 +99,8 @@ export const CartContextProvider = ({ children }) => {
     useEffect(() => {
         // console.log('cartItems2:', cartItems);
         if (Object.entries(cartItems).length > 0) {
-            console.log('Object.entries(cartItems).length:', Object.entries(cartItems).length)
+            console.log('Object.entries(cartItems).length:', Object.entries(cartItems).length);
+            
             localStorage.setItem("rReCom_CartItems", JSON.stringify(cartItems));
         }
     }, [cartItems]);

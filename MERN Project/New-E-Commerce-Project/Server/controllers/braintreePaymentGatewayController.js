@@ -69,6 +69,8 @@ const braintreePaymentReceiveFromClientController = async (req, res) => {
                     products: cartItems,
                     payment: result,
                     buyer: req.user._id,
+                    totalPrice : Number(totalPrice)
+
                 }).save();
 
                 res.status(201).send({
