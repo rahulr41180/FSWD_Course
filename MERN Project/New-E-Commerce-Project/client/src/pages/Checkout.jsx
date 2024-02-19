@@ -40,6 +40,7 @@ export const Checkout = () => {
                     product : objectArray[i][0],
                     quantity : Number(objectArray[i][1][1])
                 })
+                
             } else if(i !== j) {
                 productArray.push({
                     product : objectArray[i][0],

@@ -49,8 +49,8 @@ const braintreePaymentReceiveFromClientController = async (req, res) => {
         const { cartItems, braintreeNonce, totalPrice } = req.body;
         console.log('cartItems:', cartItems)
         const newTransaction = gateway.transaction.sale({
-            
             amount: totalPrice,
+            
             paymentMethodNonce: braintreeNonce,
             options: {
                 submitForSettlement: true

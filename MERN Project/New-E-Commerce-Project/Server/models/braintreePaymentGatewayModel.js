@@ -1,6 +1,8 @@
 
 import mongoose from "mongoose";
 
+import moment from "moment-timezone";
+
 const braintreePaymentGatewayOrderSchema = new mongoose.Schema({
     products : [
         {
@@ -12,6 +14,16 @@ const braintreePaymentGatewayOrderSchema = new mongoose.Schema({
                 type : Number,
 
                 required : true
+            },
+            orderStatus : {
+                type : String,
+                default : "Not Process",
+                enum : ["Not Process", "Prcessing", "Shipped", "Delivered", "Canceled"]
+            },
+            modifiedDate : {
+                type : Date,
+
+                default : () => moment().tz("Asia/Kolkata").toDate()
             }
         }
     ],
@@ -20,18 +32,15 @@ const braintreePaymentGatewayOrderSchema = new mongoose.Schema({
         type : mongoose.ObjectId,
         ref : "users"
     },
-    
-    orderStatus : {
-        type : String,
-        default : "Not Process",
-        enum : ["Not Process", "Processing", "Shipped", "Delivered", "Canceled"]
-    },
+
     totalPrice : {
         type : Number
     }
 }, {
+    timestamps : {
+        currentTime : () => moment().tz("Asia/Kolkata").toDate()
+    }
 
-    timestamps : true
 });
 
 

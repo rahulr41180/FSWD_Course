@@ -4,7 +4,7 @@ import braintreePaymentGatewayOrdersModel from "../models/braintreePaymentGatewa
 const gettingAllOrderController = async (req, res) => {
 
     try {
-        const orders = await braintreePaymentGatewayOrdersModel.find({buyer : req.user?._id}).populate({path : "products.product", select : "-photo"});
+        const orders = await braintreePaymentGatewayOrdersModel.find({buyer : req.user?._id}).populate({path : "products.product", select : "name price"});
 
         if(orders) {
             res.status(200).send({
