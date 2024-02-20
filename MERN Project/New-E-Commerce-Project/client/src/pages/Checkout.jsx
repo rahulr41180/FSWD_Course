@@ -13,7 +13,7 @@ export const Checkout = () => {
 
     const [clientToken, setClientToken] = useState("");
     // console.log('clientToken:', clientToken)
-    const [cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem, totalCartPriceQuantity, setTotalCartPriceQuantity] = useCartContext();
+    const [cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem, totalCartPriceQuantity, setTotalCartPriceQuantity, setRemoveCartItemsStatus] = useCartContext();
     // console.log('cartItems:', cartItems)
     const [auth] = useAuth();
     const { tqtp } = useParams();
@@ -98,7 +98,9 @@ export const Checkout = () => {
                 if(data?.status) {
                     toast.success(data?.message);
                     localStorage.removeItem("rReCom_CartItems");
+                    setRemoveCartItemsStatus(true);
                     navigate("/dashboard/user/orders");
+
                 }
             }
             console.log('nonce:', nonce);

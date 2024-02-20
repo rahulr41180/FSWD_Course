@@ -90,6 +90,6 @@ export const ProductBasedOnCategoryPage = () => {
                 </div>
             </div>
         </Layout>
-    )
 
+    )
 }

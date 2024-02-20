@@ -69,8 +69,8 @@ export const CartPage = () => {
                 <div className="container-fluid border_blue cp_container d-flex p-0 m-0">
                     <div className="width70 border_blue p-4">
                         <div className="table-responsive border_blue">
-
                             <table className="table border_Silver table-hover table-bordered">
+                                
                                 <thead className="table-dark">
                                     <tr className="align-middle text-center">
                                         <th scope="col" className="width4">#</th>
@@ -89,8 +89,8 @@ export const CartPage = () => {
                                         return (
                                             <tr key={element[0]} className="align-middle text-center">
                                                 <th scope="row">{index + 1}</th>
-
                                                 <th className="cp_table_row_image_box d-flex p-0"><img className="cp_table_row_image width100 height100" src={`/api/v1/product/get-product-photo/${element[1][0]?._id}`} alt="" /></th>
+                                                
                                                 <th className="fs-6">{element[1][0]?.name}</th>
                                                 <th className="fs-6">₹ {element[1][0]?.price}</th>
                                                 <th className="fs-6">{element[1][1]}</th>
