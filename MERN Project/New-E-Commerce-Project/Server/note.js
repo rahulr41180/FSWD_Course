@@ -1055,3 +1055,7 @@ var g = 5;
 conosle.log(g);
 var h = 5;
 console.log(h);
+var i = 5;
+conosle.log(i);
+var j = 5;
+console.log(j);

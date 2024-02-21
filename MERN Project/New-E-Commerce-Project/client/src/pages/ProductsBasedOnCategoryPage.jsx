@@ -85,11 +85,11 @@ export const ProductBasedOnCategoryPage = () => {
                         </div>
                         :
                         <p className="text-center fs-5">No Products Found Please Choose Another Category Based Products</p>
-
                     }
                 </div>
             </div>
         </Layout>
-
     )
+ 
+    
 }
