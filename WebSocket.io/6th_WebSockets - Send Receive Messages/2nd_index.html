@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo For Send And Receiving Message</title>
+</head>
+<body>
+    <h2>Demo For Send And Receiving Message</h2>
+    <div id="output"></div>
+
+</body>
+</html>
+
+<script>
+    // This uri is using for testing purpose.
+    const wsUri = "wss://echo.websocket.org/";
+    let outputDiv;
+    // let webSocket;
+    
+
+    const init = () => {
+        outputDiv = document.getElementById("output");        
+        // console.log('outputDiv:', outputDiv);
+        testWebSocket();
+    }
+
+    const testWebSocket = () => {
+        // console.log("testWebSocket");
+
+
+        // initialization of webSocket connection
+        webSocket = new WebSocket(wsUri);
+        // console.log('webSocket:', webSocket);
+
+        // Establishes of webSocket connection with server and client. 
+        webSocket.onopen = function(event) {
+            console.log('event.onopen:', event);
+            onOpenForSendingData(event);
+        }
+
+        webSocket.onmessage = (event) => {
+            console.log("Event.onmessage :", event);
+            onMessageForReceivingData(event);
+        }
+
+        // webSocket.onclose = function(event) {
+        //     conosle.log("Event.onclose :", event);
+        //     onCloseForClosingWebSocketConnection(event);
+        // }
+
+        webSocket.onerror = (event) => {
+            console.log("Event.onerror :", event);
+            onErrorForShowingError(event);
+        }
+
+        // console.log("Here");
+    }
+
+    const onOpenForSendingData = (event) => {
+
+        writeToScreen("Connection has been estalized");
+        doSend("WebSocket Rocks");
+        setTimeout(() => {
+            doSend("WebSocket Rocks Again Message");
+        },2000)
+        // now writeToScreen is not defined. I will do this in next step;
+    }
+
+    const onMessageForReceivingData = (event) => {
+
+        writeToScreen(`<span style="color : blue">RESPONSE : ${event.data}</span>`);
+        // webSocket.close();
+    }
+
+
+    // const onCloseForClosingWebSocketConnection = (event) => {
+    //     writeToScreen("Connection has been disconnected");
+    // }
+
+
+    const onErrorForShowingError = (event) => {
+        writeToScreen(`<span style="color : red">Error : ${event.data}</span>`)
+    }
+
+    const doSend = (message) => {
+        writeToScreen("Sent : " + message);
+        webSocket.send(message);
+    }
+
+
+    const writeToScreen = (message) => {
+        console.log('message:', message)
+        let pera1 = document.createElement("p");
+        pera1.style.wordBreak = "break-word";
+        pera1.textContent = message;
+        outputDiv.appendChild(pera1);
+    }
+
+    window.addEventListener("load", init, false);
+
+    // onLoad which helps in creation of JavaScript object and initialization of connection.
+    // onOpen establishes connection with the server and also sends the status.
+</script>
