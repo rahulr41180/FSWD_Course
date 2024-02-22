@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Socket Connection Stablization</title>
+</head>
+<body>
+    <h2>Web Socket Connection</h2>
+    <div id="output"></div>
+
+</body>
+</html>
+
+<script>
+    // This uri is using for testing purpose.
+    const wsUri = "wss://echo.websocket.org/";
+    let outputDiv;
+    // let webSocket;
+    
+
+    const init = () => {
+        outputDiv = document.getElementById("output");        
+        // console.log('outputDiv:', outputDiv);
+        testWebSocket();
+    }
+
+    const testWebSocket = () => {
+        // console.log("testWebSocket");
+        
+
+        // initialization of webSocket connection
+        webSocket = new WebSocket(wsUri);
+        // console.log('webSocket:', webSocket);
+
+        // Establishes of webSocket connection with server and client. 
+        webSocket.onopen = function(event) {
+            console.log('event:', event);
+            onOpenForSendingData(event);
+        }
+
+        // console.log("Here");
+    }
+
+    const onOpenForSendingData = (event) => {
+        // writeToScreen("Connection has benn estalized");
+        // now writeToScreen is not defined. I will do this in next step;
+    }
+
+    window.addEventListener("load", init, false);
+
+    // onLoad which helps in creation of JavaScript object and initialization of connection.
+    // onOpen establishes connection with the server and also sends the status.
+</script>
