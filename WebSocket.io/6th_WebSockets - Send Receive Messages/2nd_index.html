@@ -18,7 +18,7 @@
     // This uri is using for testing purpose.
     const wsUri = "wss://echo.websocket.org/";
     let outputDiv;
-    // let webSocket;
+    let webSocket;
     
 
     const init = () => {
@@ -46,10 +46,10 @@
             onMessageForReceivingData(event);
         }
 
-        // webSocket.onclose = function(event) {
-        //     conosle.log("Event.onclose :", event);
-        //     onCloseForClosingWebSocketConnection(event);
-        // }
+        webSocket.onclose = function(event) {
+            conosle.log("Event.onclose :", event);
+            onCloseForClosingWebSocketConnection(event);
+        }
 
         webSocket.onerror = (event) => {
             console.log("Event.onerror :", event);
@@ -62,27 +62,37 @@
     const onOpenForSendingData = (event) => {
 
         writeToScreen("Connection has been estalized");
-        doSend("WebSocket Rocks");
-        setTimeout(() => {
-            doSend("WebSocket Rocks Again Message");
+        // doSend("WebSocket Rocks");
+        // setTimeout(() => {
+        //     doSend("WebSocket Rocks Again Message");
+        // },2000)
+        let i = 0;
+        setInterval(() => {
+            console.log('i:', i);
+            doSend(`WebSocket Rocks Again Message : ${i}`);
+
+            i++;
         },2000)
         // now writeToScreen is not defined. I will do this in next step;
     }
 
     const onMessageForReceivingData = (event) => {
-
-        writeToScreen(`<span style="color : blue">RESPONSE : ${event.data}</span>`);
+        // writeToScreen(`<span style="color : blue">RESPONSE : ${event.data}</span>`);
+        writeToScreen(`RESPONSE : ${event.data}`);
         // webSocket.close();
+        
     }
 
 
-    // const onCloseForClosingWebSocketConnection = (event) => {
-    //     writeToScreen("Connection has been disconnected");
-    // }
-
+    const onCloseForClosingWebSocketConnection = (event) => {
+        writeToScreen("Connection has been disconnected");
+        webSocket.close();
+    }
 
     const onErrorForShowingError = (event) => {
-        writeToScreen(`<span style="color : red">Error : ${event.data}</span>`)
+
+        writeToScreen(`<span style="color : red">Error : ${event.data}</span>`);
+        writeToScreen(`Error : ${event.data}`);
     }
 
     const doSend = (message) => {
