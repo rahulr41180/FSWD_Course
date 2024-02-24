@@ -40,6 +40,7 @@ console.log(b);
 
 app.use(cors());
 app.use(express.json()); // we enable to send also json data.
+
 app.use(morgan("dev")); // For checking which APIs hits.
 
 // routes
