@@ -20,6 +20,8 @@
 .height20 { height: 20%; }
 
 .width100 { width: 100%; }
+
+.width90 { width: 90%; }
 .width80 { width: 80%; }
 .width75 { width: 75%; }
 
@@ -36,8 +38,11 @@
 .width14 { width: 14%; }
 .width12 { width: 12%; }
 .width10 { width: 10%; }
+.width9 { width: 9%; }
 .width8 { width: 8%; }
+.width7 { width: 7%; }
 .width6 { width: 6%; }
+.width5 { width: 5%; }
 .width4 { width: 4%; }
 .width2 { width: 2%; }
 

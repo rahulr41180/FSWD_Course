@@ -29,6 +29,8 @@ import { AdminCreateProduct } from './pages/Admin/AdminCreateProduct';
 import { AdminUser } from './pages/Admin/AdminUser';
 import { AdminProduct } from './pages/Admin/AdminProducts';
 import { AdminUpdateProduct } from './pages/Admin/AdminUpdateProduct';
+import { AdminOrders } from './pages/Admin/AdminOrders';
+
 import { PrivateRoute } from './components/Routes/PrivateRoute';
 import { AdminPrivateRoute } from './components/Routes/AdminPrivateRoute';
 import { ForgotPassword } from './pages/Auth/ForgotPassword';
@@ -68,12 +70,13 @@ function App() {
       </Route>
       <Route path="/dashboard" element={<><AdminPrivateRoute /></>}>
         <Route path="admin" element={<><AdminDashboard /></>} />
+
         <Route path="admin/create-category" element={<><AdminCreateCategory /></>} />
         <Route path="admin/create-product" element={<><AdminCreateProduct /></>} />
         <Route path="admin/users" element={<><AdminUser /></>} />
         <Route path="admin/products" element={<><AdminProduct /></>} />
-
         <Route path="admin/product-details/:pId" element={<><AdminUpdateProduct /></>} />
+        <Route path="admin/all-orders" element={<><AdminOrders /></>} />
       </Route>
       {/* path="*" : * means is if there is any route which will not match with any route than 
       route show "*"(Default) route content means Page Not Found Page */}

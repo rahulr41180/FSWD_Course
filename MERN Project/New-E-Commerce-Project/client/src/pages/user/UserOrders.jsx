@@ -21,7 +21,7 @@ export const UserOrders = () => {
 
     const gettingAllOrders = async () => {
         try {
-            const { data } = await axios.get("/api/v1/braintree-payment-orders/getting-all-orders");
+            const { data } = await axios.get("/api/v1/braintree-payment-orders/getting-user-orders");
             // console.log('data:', data);
             if (data.status) {
 
@@ -30,14 +30,15 @@ export const UserOrders = () => {
         } catch (error) {
             console.log('error:', error.message);
             toast.error(error?.response.data.message);
+            
         }
     }
 
     return (
 
         <Layout title={"Your Orders | rR e-Com"}>
-            <div className="container-fluid m-3 p-3">
-                <div className="row">
+            <div className="container-fluid p-0">
+                <div className="row m-3">
                     <div className="col-md-2">
                         <UserMainu />
                     </div>
@@ -71,20 +72,20 @@ export const UserOrders = () => {
                                                 {element?.products?.map((item, itemIndex) => {
                                                     return (
                                                         <tr key={item?._id+itemIndex+1} className="align-middle text-center">
-                                                            <th scope="row">{itemIndex + 1}</th>
-                                                            <th className="uo_table_row_image_box d-flex p-0"><img className="uo_table_row_image width100 height100" src={`/api/v1/product/get-product-photo/${item?.product?._id}`} alt="" /></th>
-                                                            <th className="fs-6">{item?.product?.name}</th>
+                                                            <td scope="row">{itemIndex + 1}</td>
+                                                            <td className="uo_table_row_image_box d-flex p-0"><img className="uo_table_row_image width100 height100" src={`/api/v1/product/get-product-photo/${item?.product?._id}`} alt="" /></td>
+                                                            <td className="fs-6">{item?.product?.name}</td>
+                                                            <td className="fs-6">₹ {item?.product?.price}</td>
+                                                            <td className="fs-6">{item?.quantity}</td>
+                                                            <td className="fs-6">{item?.orderStatus}</td>
+                                                            <td className="fs-6">{element?.payment.success ? "Success" : "Failed"}</td>
+                                                            <td className="fs-6">{(element?.createdAt).split("T")[0].split("-").reverse().join("-")}</td>
+                                                            <td className="uo_table_row_delete_item">
 
-                                                            <th className="fs-6">₹ {item?.product?.price}</th>
-                                                            <th className="fs-6">{item?.quantity}</th>
-                                                            <th className="fs-6">{item?.orderStatus}</th>
-                                                            <th className="fs-6">{element?.payment.success ? "Success" : "Failed"}</th>
-                                                            <th className="fs-6">{(element?.createdAt).split("T")[0].split("-").reverse().join("-")}</th>
-                                                            <th className="uo_table_row_delete_item">
                                                                 <div className="width100 heigth100 d-flex justify-content-center align-items-center">
                                                                     <button className="btn btn-primary btn3" onClick={() => { navigate(`/product-details/${item?.product?._id}`) }}>Buy Again</button>
                                                                 </div>
-                                                            </th>
+                                                            </td>
 
                                                         </tr>
                                                     )
@@ -98,9 +99,9 @@ export const UserOrders = () => {
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
+
         </Layout>
     )
 }

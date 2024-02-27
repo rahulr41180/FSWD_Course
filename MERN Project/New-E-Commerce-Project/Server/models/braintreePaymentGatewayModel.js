@@ -18,7 +18,7 @@ const braintreePaymentGatewayOrderSchema = new mongoose.Schema({
             orderStatus : {
                 type : String,
                 default : "Not Process",
-                enum : ["Not Process", "Prcessing", "Shipped", "Delivered", "Canceled"]
+                enum : ["Not Process", "Processing", "Shipped", "Delivered", "Canceled"]
             },
             modifiedDate : {
                 type : Date,

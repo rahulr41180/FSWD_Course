@@ -1,6 +1,10 @@
 
-.col-md-2 .text-center {
+.uo_container1 {
 
+    width: 10rem;
+}
+
+.col-md-2 .text-center {
     margin-left: 0;
 }
 
