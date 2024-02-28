@@ -18,7 +18,7 @@ export const ProductDetailsPage = () => {
 
     const [cartItems, setCartItems, handleCart, handleCartQuantity, handleRemoveItem] = useCartContext();
     const [selectProduct, setSelectProduct] = useState({});
-    console.log('selectProduct:', selectProduct)
+    // console.log('selectProduct:', selectProduct)
 
     const [similarProducts, setSimilarProduct] = useState([]);
     // console.log('similarProducts:', similarProducts)
@@ -50,9 +50,9 @@ export const ProductDetailsPage = () => {
                 setSelectProduct(data);
                 gettingSimilarProductFn(data?.product._id, data?.product.category._id);
             }
-        } catch (error) {
 
-            console.log(error.message);
+        } catch (error) {
+            // console.log(error.message);
         }
     }
 

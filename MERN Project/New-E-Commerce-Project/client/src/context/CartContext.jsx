@@ -102,7 +102,7 @@ export const CartContextProvider = ({ children }) => {
         // console.log('cartItems2:', cartItems);
         
         if (Object.entries(cartItems).length > 0) {
-            console.log('Object.entries(cartItems).length:', Object.entries(cartItems).length);
+            // console.log('Object.entries(cartItems).length:', Object.entries(cartItems).length);
             localStorage.setItem("rReCom_CartItems", JSON.stringify(cartItems));
         }
     }, [cartItems]);

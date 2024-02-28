@@ -47,7 +47,7 @@ export const ForgotSecretKey = () => {
                 navigate(res.data.navigate);
             } else {
                 toast.error(res.data.message);
-                console.log(res.data.devMessage);
+                // console.log(res.data.devMessage);
                 setFormData({
                     email : "",
                     
@@ -57,9 +57,10 @@ export const ForgotSecretKey = () => {
             }
 
         } catch(error) {
-            console.log("Error in register page :", error.message);
+            // console.log("Error in register page :", error.message);
             toast.error("Something went wrong ! Please try again..");
             setFormData({
+
                 email : "",
                 newSecretKey : "",
             })

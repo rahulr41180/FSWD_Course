@@ -28,7 +28,7 @@ export const UserOrders = () => {
                 setOrders(data?.orders)
             }
         } catch (error) {
-            console.log('error:', error.message);
+            // console.log('error:', error.message);
             toast.error(error?.response.data.message);
             
         }

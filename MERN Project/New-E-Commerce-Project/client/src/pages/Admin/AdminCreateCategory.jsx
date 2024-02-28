@@ -38,7 +38,7 @@ export const AdminCreateCategory = () => {
                 toast.error(data.message);
             }
         } catch(error) {
-            console.log(error);
+            // console.log(error);
             toast.error("Something went wrong in input form");
 
         }
@@ -58,14 +58,14 @@ export const AdminCreateCategory = () => {
             // console.log("data :", data);
 
         } catch(error) {
-            console.log(error);
+            // console.log(error);
             toast.error("Something went wrong in getting categories");
 
         }
     }
 
     useEffect(() => {
-        console.log("admin panel")
+        // console.log("admin panel")
         getAllCategories();
     }, [])
 

@@ -60,8 +60,9 @@ export const RegisterPage = () => {
                 toast.success(res.data.message);
                 navigate(res.data.navigate);
             } else {
+                
                 toast.error(res.data.message);
-                console.log(res.data.devMessage);
+                // console.log(res.data.devMessage);
                 setFormData({
 
                     name : "",
@@ -75,7 +76,7 @@ export const RegisterPage = () => {
             }
 
         } catch(error) {
-            console.log("Error in register page :", error.message);
+            // console.log("Error in register page :", error.message);
             toast.error("Something went wrong ! Please try again..");
         }
     }

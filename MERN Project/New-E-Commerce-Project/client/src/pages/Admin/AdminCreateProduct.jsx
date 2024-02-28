@@ -42,7 +42,7 @@ export const AdminCreateProduct = () => {
             // console.log("data :", data);
 
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error("Something went wrong in getting categories");
         }
     }
@@ -96,7 +96,7 @@ export const AdminCreateProduct = () => {
                 toast.error(data.message);
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error("Something went wrong in creation of product");
         }
     }
@@ -148,7 +148,7 @@ export const AdminCreateProduct = () => {
                                     */}
                                         <input type="file" name="photo" id="" accept="image/*" onChange={(event) => {
                                             // In event files is array type
-                                            console.log('event.target:', event.target.files[0])
+                                            // console.log('event.target:', event.target.files[0])
                                             // console.log(event.target);
                                             return setPhoto(event.target.files[0])
 

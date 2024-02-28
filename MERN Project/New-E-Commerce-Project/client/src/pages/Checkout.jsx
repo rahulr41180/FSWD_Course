@@ -70,8 +70,8 @@ export const Checkout = () => {
                     setLoading(false);
                 }
             } catch (error) {
-                console.log('error:', error.message);
 
+                // console.log('error:', error.message);
                 toast.error(error.response.data.message);
             }
         }
@@ -80,7 +80,8 @@ export const Checkout = () => {
     }, [auth])
 
     const handlePayment = async () => {
-        console.log("payment");
+
+        // console.log("payment");
         try {
             const { nonce } = await instance.requestPaymentMethod();
 
@@ -89,10 +90,11 @@ export const Checkout = () => {
                 setLoading(true);
                 const { data } = await axios.post(`/api/v1/braintree-payment/receive-payment`, {
                     cartItems : cartProducts,
+                    
                     braintreeNonce : nonce,
                     totalPrice : Number(tqtp?.split("-")[1])
                 })
-                console.log('data:', data)
+                // console.log('data:', data)
                 
                 setLoading(false);
                 if(data?.status) {
@@ -103,10 +105,10 @@ export const Checkout = () => {
 
                 }
             }
-            console.log('nonce:', nonce);
+            // console.log('nonce:', nonce);
 
         } catch(error) {
-            console.log("error :", error.message);
+            // console.log("error :", error.message);
             setLoading(false);
             toast.error(error.response.data.message);
         }

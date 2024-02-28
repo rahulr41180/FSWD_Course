@@ -14,7 +14,7 @@ const useCategories = () => {
             const { data } = await axios.get(`/api/v1/category/get-all-categories`);
             setCategories(data?.allCategories);
         } catch(error) {
-            console.log("error : ", error.message);
+            // console.log("error : ", error.message);
         }
     },[])
 

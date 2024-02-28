@@ -39,7 +39,8 @@ export const SearchFilterProductInputForm = () => {
 
         } catch(error) {
 
-            console.log(error.message);
+            // console.log(error.message);
+
         }
 
     }

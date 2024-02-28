@@ -80,7 +80,8 @@ export const HomePage = () => {
             // console.log("data :", data);
 
         } catch (error) {
-            console.log(error);
+            
+            // console.log(error);
             toast.error("Something went wrong in getting categories");
         }
     }
@@ -209,9 +210,10 @@ export const HomePage = () => {
                         })}
                     </div>
 
+
                     <div className="d-flex justify-content-center mt-4">
                         <Pagination showSizeChanger={false} defaultCurrent={1} total={totalProduct} pageSize={itemPerPage} onChange={(page, pageSize) => {
-                            console.log('page:', page, "pageSize :", pageSize)
+                            // console.log('page:', page, "pageSize :", pageSize)
                             setCurrentPage(page);
                             setItemPerPage(pageSize);
 

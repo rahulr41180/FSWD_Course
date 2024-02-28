@@ -24,12 +24,12 @@ export const AdminOrders = () => {
     const gettingAllOrders = async () => {
         try {
             const { data } = await axios.get("/api/v1/braintree-payment-orders/getting-all-users-orders");
-            console.log('data:', data)
+            // console.log('data:', data)
             if (data.status) {
                 setAllOrders(data?.orders);
             }
         } catch (error) {
-            console.log("error :", error.message);
+            // console.log("error :", error.message);
 
             toast.error(error?.response.data.message);
         }
@@ -49,7 +49,7 @@ export const AdminOrders = () => {
             }
         } catch(error) {
             toast.error(error?.response.data.message);
-            console.log("error.message :", error.message);
+            // console.log("error.message :", error.message);
 
         }
     }

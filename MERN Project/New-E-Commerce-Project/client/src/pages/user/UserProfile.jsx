@@ -77,7 +77,7 @@ export const UserProfile = () => {
                 toast.error(data?.message);
             }
         } catch (error) {
-            console.log("error :", error.message);
+            // console.log("error :", error.message);
         }
     }
 

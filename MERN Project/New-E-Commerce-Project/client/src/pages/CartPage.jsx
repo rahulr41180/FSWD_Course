@@ -50,9 +50,10 @@ export const CartPage = () => {
     const handleCheckout = (totalPrice) => {
         if (auth?.user === null && auth?.token === "") {
             toast.error("Please login your account");
+
             navigate("/login");
         } else {
-            console.log('totalPrice:', totalPrice);
+            // console.log('totalPrice:', totalPrice);
         }
 
     }

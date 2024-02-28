@@ -13,15 +13,15 @@ export const AdminPrivateRoute = () => {
 
     const [path, setPath] = useState("/login");
     
-    console.log('ok:', ok)
+    // console.log('ok:', ok)
     const [auth, setAuth] = useAuth();
-    console.log('auth:', auth)
-    console.log('auth?.token:', auth?.token)
+    // console.log('auth:', auth)
+    // console.log('auth?.token:', auth?.token)
     useEffect(() => {
-        console.log("useEffect running..")
+        // console.log("useEffect running..")
         const authCheck = async () => {
             
-            console.log("Function Calling..")
+            // console.log("Function Calling..")
             try {
                 
                 const res = await axios.get(`${process.env.REACT_APP_API}/api/v1/auth/admin-auth`, {
@@ -30,7 +30,8 @@ export const AdminPrivateRoute = () => {
                     //     "Authorization" : auth?.token
                     // }
                 })
-                console.log('res.data.protected:', res.data.protected)
+
+                // console.log('res.data.protected:', res.data.protected)
 
                 if(res.data.protected) {
                     setOk(true);
@@ -48,11 +49,11 @@ export const AdminPrivateRoute = () => {
         if(auth?.token) {
             authCheck();
         } else {
-            console.log("useEffect not running..")
+            // console.log("useEffect not running..")
         }
     },[auth?.token])
         
-    console.log('ok2:', ok)
+    // console.log('ok2:', ok)
 
     return ok ? <Outlet /> : <Spinner path={path} />
 }
