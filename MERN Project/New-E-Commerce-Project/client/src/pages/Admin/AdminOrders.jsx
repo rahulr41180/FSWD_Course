@@ -60,6 +60,7 @@ export const AdminOrders = () => {
                 <div className="row m-2">
                     <div className="col-md-2">
                         <AdminMainu />
+
                     </div>
                     <div className="col-md-10 d-flex flex-column">
                         <p className="text-center fs-4 m-0 mb-3">Your Previous Orders Here</p>
@@ -68,7 +69,6 @@ export const AdminOrders = () => {
                                 <thead className="table-dark">
                                     <tr className="align-middle text-center">
                                         <th scope="col" className="width2">#</th>
-
                                         <th scope="col" className="width2">User</th>
 
                                         <th scope="col" className="width9">Product</th>
@@ -85,12 +85,12 @@ export const AdminOrders = () => {
                                 <tbody>
                                     {orders?.map((element, index) => {
                                         return (
-
                                             <>
                                                 <tr key={element?._id + index + 2} className="table-striped">
                                                     <th className="fs-6 text-center" colSpan={10}>Order No. {index + 1}</th>
                                                 </tr>
                                                 {element?.products?.map((item, itemIndex) => {
+
                                                     return (
                                                         <tr key={item?._id + itemIndex + 1} className="align-middle text-center">
                                                             <td scope="row">{itemIndex + 1}</td>
@@ -109,9 +109,8 @@ export const AdminOrders = () => {
                                                                         // console.log(item?._id + "," + event.target.value);
                                                                         setOrderStatus(event.target.value !== "" ? item?._id + "," + event.target.value : "");
                                                                     }
-
-
                                                                     }>
+
                                                                         <option className="ao_select_order_status_op1" value={""}>Update Status</option>
                                                                         <option className="ao_select_order_status_op1" value={"Not Process"}>Not Process</option>
                                                                         <option className="ao_select_order_status_op1" value={"Processing"}>Processing</option>
@@ -120,8 +119,8 @@ export const AdminOrders = () => {
                                                                         <option className="ao_select_order_status_op1" value={"Canceled"}>Canceled</option>
                                                                     </select>
                                                                     <button className="btn btn-primary ao_select1_btn1" disabled={item?._id === orderStatus.split(",")[0] ? false : true} onClick={() => handleChangedOrderStatus(element?._id, item?._id)}>Update Status</button>
-
                                                                 </div>
+
                                                             </td>
                                                             {/* <td className="uo_table_row_delete_item">
                                                                 <div className="width100 heigth100 d-flex justify-content-center align-items-center">
@@ -129,14 +128,13 @@ export const AdminOrders = () => {
                                                                 </div>
                                                             </td> */}
                                                         </tr>
-                                                        
                                                     )
                                                 })}
+
                                             </>
                                         )
                                     })}
                                 </tbody>
-
                             </table>
                         </div>
                     </div>
