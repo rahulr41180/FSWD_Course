@@ -10,30 +10,49 @@ import axios from "axios";
 
 export const AdminOrders = () => {
 
-    const [orders, setAllOrders] = useState([]);
 
+    const [orders, setAllOrders] = useState([]);
     const [orderStatus, setOrderStatus] = useState("");
-    console.log('orderStatus:', orderStatus)
+    // console.log('orderStatus:', orderStatus);
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        const gettingAllOrders = async () => {
-            try {
-                const { data } = await axios.get("/api/v1/braintree-payment-orders/getting-all-users-orders");
-                console.log('data:', data)
-
-                if (data.status) {
-                    setAllOrders(data?.orders);
-                }
-            } catch (error) {
-                console.log("error :", error.message);
-                toast.error(error?.response.data.message);
-            }
-        }
-
         gettingAllOrders();
     }, [])
+
+
+    const gettingAllOrders = async () => {
+        try {
+            const { data } = await axios.get("/api/v1/braintree-payment-orders/getting-all-users-orders");
+            console.log('data:', data)
+            if (data.status) {
+                setAllOrders(data?.orders);
+            }
+        } catch (error) {
+            console.log("error :", error.message);
+
+            toast.error(error?.response.data.message);
+        }
+    }
+
+    const handleChangedOrderStatus = async (oId, pId) => {
+        try {
+            const { data } = await axios.put(`/api/v1/braintree-payment-orders/updating-ordered-product-status/${oId}/${pId}`,{
+                updatedOrderedStatus : orderStatus?.split(",")[1]
+            })
+
+            // console.log("data1 :", data);
+            if(data.status) {
+                setOrderStatus("");
+                toast.success("The product order status has been updated successfully");
+                gettingAllOrders();
+            }
+        } catch(error) {
+            toast.error(error?.response.data.message);
+            console.log("error.message :", error.message);
+
+        }
+    }
 
     return (
         <Layout title={"All Orders | rR e-Com"}>
@@ -93,15 +112,15 @@ export const AdminOrders = () => {
 
 
                                                                     }>
-                                                                        <option selected className="ao_select_order_status_op1" value={""}>Update Status</option>
+                                                                        <option className="ao_select_order_status_op1" value={""}>Update Status</option>
                                                                         <option className="ao_select_order_status_op1" value={"Not Process"}>Not Process</option>
                                                                         <option className="ao_select_order_status_op1" value={"Processing"}>Processing</option>
                                                                         <option className="ao_select_order_status_op1" value={"Shipped"}>Shipped</option>
                                                                         <option className="ao_select_order_status_op1" value={"Delivered"}>Delivered</option>
                                                                         <option className="ao_select_order_status_op1" value={"Canceled"}>Canceled</option>
                                                                     </select>
+                                                                    <button className="btn btn-primary ao_select1_btn1" disabled={item?._id === orderStatus.split(",")[0] ? false : true} onClick={() => handleChangedOrderStatus(element?._id, item?._id)}>Update Status</button>
 
-                                                                    <button className="btn btn-primary ao_select1_btn1" disabled={item?._id === orderStatus.split(",")[0] ? false : true}>Update Status</button>
                                                                 </div>
                                                             </td>
                                                             {/* <td className="uo_table_row_delete_item">
