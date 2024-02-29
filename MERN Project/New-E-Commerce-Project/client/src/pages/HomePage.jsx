@@ -40,8 +40,8 @@ export const HomePage = () => {
             const { data } = await axios.get("/api/v1/product/product-count");
             // console.log('data-product:', data)
             if (data.status) {
-                // setTotalPages(Math.ceil(data.totalProduct) / 2);
 
+                // setTotalPages(Math.ceil(data.totalProduct) / 2);
                 setTotalProduct(data.totalProduct);
             }
         } catch (error) {
