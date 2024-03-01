@@ -102,7 +102,7 @@ export const AdminCreateProduct = () => {
     }
 
     return (
-        <Layout title={"Create Product | rR e-Com"}>
+        <Layout title={"Create Product | rR FASTeSTORE"}>
             <div className="container-fluid m-3 p-3">
                 <div className="row">
                     <div className="col-md-3">

@@ -7,7 +7,7 @@ import AboutUsImage from "../images/aboutUs.jfif"
 
 export const AboutPage = () => {
     return (
-        <Layout title={"About Us | rR e-Com"} description={"rR e-Com store for all items"}>
+        <Layout title={"About Us | rR FASTeSTORE"} description={"rR FASTeSTORE store for all items"}>
             <div className="row contactus">
                 <div className="col-md-6 ">
                     <img

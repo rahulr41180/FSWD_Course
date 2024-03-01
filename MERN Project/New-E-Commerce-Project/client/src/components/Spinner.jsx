@@ -33,7 +33,7 @@ export const Spinner = ({path = "/login"}) => {
 
     return (
         <>
-            <Layout title={"Protected | rR e-Com"}>
+            <Layout title={"Protected | rR FASTeSTORE"}>
                 <div className="d-flex flex-column justify-content-center align-items-center" style={{height : "70vh"}}>
                     <h1 className="text-center">Redirecting to you in {count} seconds</h1>
                     <div className="spinner-border" role="status">

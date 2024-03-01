@@ -77,7 +77,7 @@ export const ProductDetailsPage = () => {
 
 
     return (
-        <Layout title={"Product Details || rR e-Com"}>
+        <Layout title={"Product Details || rR FASTeSTORE"}>
             <div className="container-fluid p-4 single_product_details border_blue">
                 <div className="row single_product_details_row height100 border_blue">
                     <div className="d-flex flex-column justify-content-between gap-1 col-md-5 border_blue height100">
@@ -97,7 +97,7 @@ export const ProductDetailsPage = () => {
                         <p className="fw-normal fs-6 p-0 m-0">₹ {selectProduct?.product?.price}</p>
                         <p className="fw-normal fs-6 p-0 m-0">{selectProduct?.product?.category?.name}</p>
 
-                        <button onClick={() => { handleCart(selectProduct?.product); toast.success("This product has been added successfully in your cart"); }} class="btn btn-secondary">To CART</button>
+                        <button onClick={() => { handleCart(selectProduct?.product); toast.success("This product has been added successfully in your cart"); }} className="btn btn-secondary">To CART</button>
                     </div>
                 </div>
 
@@ -112,13 +112,13 @@ export const ProductDetailsPage = () => {
                         {similarProducts?.map((element, index) => {
                             return (
                                 <div className="card border_Silver width20 height98 p-0 mt-1 me-4">
-                                    <img src={`/api/v1/product/get-product-photo/${element?._id}`} class="card-img-top width100 height60 border_Silver" alt="..." />
-                                    <div className="card-body height39 mt-1 p-2 d-flex flex-column">
+                                    <img src={`/api/v1/product/get-product-photo/${element?._id}`} className="card-img-top width100 height52 border_Silver" alt="..." />
+                                    <div className="card-body height47 mt-1 p-2 d-flex flex-column">
                                         <h5 className="card-title">{element?.name.substring(0, 20)}...</h5>
                                         <p className="card-text">{element?.description.substring(0, 40)}...</p>
                                         <p className="card-text mt-1">₹ {element?.price}</p>
                                         <div className="card-detail-link d-flex flex-row">
-                                            <button onClick={() => { handleCart(element); toast.success("This product has been added successfully in your cart"); }} class="btn btn-secondary">To CART</button>
+                                            <button onClick={() => { handleCart(element); toast.success("This product has been added successfully in your cart"); }} className="btn btn-secondary">To CART</button>
                                             <Link className="btn btn-primary" to={`/product-details/${element?._id}`}>Details</Link>
                                         </div>
                                     </div>

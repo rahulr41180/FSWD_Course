@@ -74,7 +74,7 @@ export const ForgotPassword = () => {
     }
 
     return (
-        <Layout title={"Forgot - Password | rR e-Com"}>
+        <Layout title={"Forgot - Password | rR FASTeSTORE"}>
             <div className="form-container" style={{minHeight : "90vh"}}>
                 <form onSubmit={handleSubmit}>
                     <h4 className="title">RESET PASSWORD</h4>

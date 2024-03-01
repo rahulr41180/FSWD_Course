@@ -12,7 +12,7 @@ export const SearchPage = () => {
 
     return (
 
-        <Layout title={"Search Products || rR e-Com"}>
+        <Layout title={"Search Products || rR FASTeSTORE"}>
             <div className="container">
                 <div className="text-center">
                     <h1>Searched Products</h1>

@@ -156,7 +156,7 @@ export const AdminUpdateProduct = () => {
     }
 
     return (
-        <Layout title={"Update Product | rR e-Com"}>
+        <Layout title={"Update Product | rR FASTeSTORE"}>
             <div className="container-fluid m-3 p-3">
                 <div className="row">
                     <div className="col-md-3">

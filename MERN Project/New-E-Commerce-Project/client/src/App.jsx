@@ -18,9 +18,10 @@ import { SearchPage } from './pages/SearchPage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { ProductBasedOnCategoryPage } from './pages/ProductsBasedOnCategoryPage';
 import { CartPage } from './pages/CartPage';
+import { ProductPage } from './pages/ProductPage';
 import { Checkout } from './pages/Checkout';
-import { UserDashboard } from './pages/user/UserDashboard';
 
+import { UserDashboard } from './pages/user/UserDashboard';
 import { UserOrders } from './pages/user/UserOrders';
 import { UserProfile } from './pages/user/UserProfile';
 import { AdminDashboard } from './pages/Admin/AdminDashboard';
@@ -49,15 +50,17 @@ function App() {
 
       <Route path="/" element={<><HomePage /></>} />
       <Route path="/about" element={<><AboutPage /></>} />
+
       <Route path="/contact" element={<><ContactPage /></>} />
       <Route path="/policy" element={<><PolicyPage /></>} />
       <Route path="/register" element={<><RegisterPage /></>} />
-
       <Route path="/login" element={<><LoginPage /></>} />
       <Route path="/search" element={<><SearchPage /></>} />
       <Route path="/product-details/:pId" element={<><ProductDetailsPage /></>} />
       <Route path="/category-based-product/:categoryName/:cId" element={<><ProductBasedOnCategoryPage /></>} />
       <Route path="/cart" element={<><CartPage /></>} />
+      <Route path="/product" element={<><ProductPage /></>} />
+
       <Route path="/checkout/:tqtp" element={<><Checkout /></>} />
       <Route path="/forgot-password" element={<><ForgotPassword /></>} />
       <Route path="/forgot-secret-key" element={<><ForgotSecretKey /></>} />

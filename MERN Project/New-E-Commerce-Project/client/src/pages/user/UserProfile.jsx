@@ -83,7 +83,7 @@ export const UserProfile = () => {
 
     return (
 
-        <Layout title={"Your Profile | rR e-Com"}>
+        <Layout title={"Your Profile | rR FASTeSTORE"}>
             <div className="container-fluid p-0">
                 <div className="row m-3">
                     <div className="col-md-3">

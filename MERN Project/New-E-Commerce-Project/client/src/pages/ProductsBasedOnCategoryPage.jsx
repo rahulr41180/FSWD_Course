@@ -56,7 +56,7 @@ export const ProductBasedOnCategoryPage = () => {
 
     return (
 
-        <Layout title={"Product Based On Category | rR e-Com"}>
+        <Layout title={"Product Based On Category | rR FASTeSTORE"}>
             <div className="pbocp_container row mt-3 ps-4 pe-2">
                 <div className="width100 p-0">
                     <h4 className="text-center">{categoryName} Based Products</h4>

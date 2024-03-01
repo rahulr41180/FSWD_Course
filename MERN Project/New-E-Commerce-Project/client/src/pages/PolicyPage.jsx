@@ -7,7 +7,7 @@ import "../css/ContactPage.css";
 export const PolicyPage = () => {
 
     return (
-        <Layout title={ "Privacy and Policy | rR e-Com" }>
+        <Layout title={ "Privacy and Policy | rR FASTeSTORE" }>
             <div className="row contactus ">
                 <div className="col-md-6 ">
                     <img

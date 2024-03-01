@@ -9,7 +9,7 @@ export const UserDashboard = () => {
     const [auth] = useAuth();
 
     return (
-        <Layout title={"Dashboard | rR e-Come"}>
+        <Layout title={"Dashboard | rR FASTeSTOREe"}>
 
             <div className="container-fluid p-0">
                 <div className="row m-3">

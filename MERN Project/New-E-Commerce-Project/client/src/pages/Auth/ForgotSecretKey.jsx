@@ -69,7 +69,7 @@ export const ForgotSecretKey = () => {
     }
 
     return (
-        <Layout title={"Forgot - Secret key | rR e-Com"}>
+        <Layout title={"Forgot - Secret key | rR FASTeSTORE"}>
             <div className="form-container" style={{minHeight : "90vh"}}>
                 <form onSubmit={handleSubmit}>
                     <h4 className="title">RESET SECRET KEY</h4>

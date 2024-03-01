@@ -83,7 +83,7 @@ export const LoginPage = () => {
     }
 
     return (
-        <Layout title={"Login | rR e-Com"}>
+        <Layout title={"Login | rR FASTeSTORE"}>
             <div className="form-container" style={{minHeight : "90vh"}}>
                 <form onSubmit={handleSubmit}>
                     <h4 className="title">LOGIN FORM</h4>

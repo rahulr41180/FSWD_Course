@@ -55,7 +55,7 @@ export const AdminOrders = () => {
     }
 
     return (
-        <Layout title={"All Orders | rR e-Com"}>
+        <Layout title={"All Orders | rR FASTeSTORE"}>
             <div className="container-fluid p-0">
                 <div className="row m-2">
                     <div className="col-md-2">
@@ -74,8 +74,8 @@ export const AdminOrders = () => {
                                         <th scope="col" className="width9">Product</th>
                                         <th scope="col" className="width8">Product Details</th>
                                         {/* <th scope="col" className="width5">Item Price</th> */}
-                                        <th scope="col" className="width0">Bought Quantity</th>
-                                        <th scope="col" className="width0">Payment Status</th>
+                                        <th scope="col" className="width1">Bought Quantity</th>
+                                        <th scope="col" className="width1">Payment Status</th>
                                         <th scope="col" className="width6">Buy Date</th>
                                         {/* <th scope="col" className="width5">Delivery Status</th> */}
                                         <th scope="col" className="width16">Update Delivery Status</th>

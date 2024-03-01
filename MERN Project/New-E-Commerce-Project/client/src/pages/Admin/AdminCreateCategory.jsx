@@ -113,7 +113,7 @@ export const AdminCreateCategory = () => {
     }
 
     return (
-        <Layout title={"Create Category | rR e-Com"}>
+        <Layout title={"Create Category | rR FASTeSTORE"}>
             <div className="container-fluid m-3 p-3">
                 <div className="row">
                     <div className="col-md-3">

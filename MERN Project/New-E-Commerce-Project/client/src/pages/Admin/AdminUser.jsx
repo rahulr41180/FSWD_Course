@@ -6,7 +6,7 @@ import { AdminMainu } from "../../components/Layout/AdminMainu";
 export const AdminUser = () => {
 
     return (
-        <Layout title={"All Users | rR e-Com"}>
+        <Layout title={"All Users | rR FASTeSTORE"}>
             <div className="container-fluid m-3 p-3">
                 <div className="row">
                     <div className="col-md-3">

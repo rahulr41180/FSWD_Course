@@ -100,6 +100,7 @@ export const Checkout = () => {
                 if(data?.status) {
                     toast.success(data?.message);
                     localStorage.removeItem("rReCom_CartItems");
+                    
                     setRemoveCartItemsStatus(true);
                     navigate("/dashboard/user/orders");
 
@@ -116,7 +117,7 @@ export const Checkout = () => {
     }
 
     return (
-        <Layout title={"Checkout | rR e-Com"}>
+        <Layout title={"Checkout | rR FASTeSTORE"}>
             <div className="container-fluid c_container p-2 d-flex">
                 <div className="width60 height100 border_blue p-2">
 

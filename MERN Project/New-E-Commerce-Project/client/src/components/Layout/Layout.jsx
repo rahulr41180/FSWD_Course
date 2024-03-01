@@ -42,7 +42,7 @@ export const Layout = memo(({ children, title, description, keywords, author }) 
 // }
 
 Layout.defaultProps = {
-  title : "rR e-Com",
+  title : "rR FASTeSTORE",
   description : "e-Commerce store for all items",
   keywords : "Clothes, Shirt, T-Shirt, Paints, Jeans",
   author : "rRathor"

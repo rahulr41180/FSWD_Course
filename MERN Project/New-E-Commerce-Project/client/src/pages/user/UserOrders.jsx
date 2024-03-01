@@ -36,7 +36,7 @@ export const UserOrders = () => {
 
     return (
 
-        <Layout title={"Your Orders | rR e-Com"}>
+        <Layout title={"Your Orders | rR FASTeSTORE"}>
             <div className="container-fluid p-0">
                 <div className="row m-3">
                     <div className="col-md-2">

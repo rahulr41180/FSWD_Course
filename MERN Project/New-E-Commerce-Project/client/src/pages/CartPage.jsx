@@ -59,11 +59,11 @@ export const CartPage = () => {
     }
 
     return (
-        <Layout title={"Cart | rR e-Com"}>
+        <Layout title={"Cart | rR FASTeSTORE"}>
             {Object.entries(cartItems)?.length < 1 ?
                 <div className="container-fluid border_blue cp_container2 d-flex justify-content-center align-items-center flex-column">
                     <p className="text-center p-0 m-0 mb-1 fs-2">Your cart is empty.</p>
-                    <Link to={"/"} className="text-center Link-0 m-0 fs-5">Continue Shooping</Link>
+                    <Link to={"/product"} className="text-center Link-0 m-0 fs-5">Continue Shooping</Link>
                 </div>
 
                 :

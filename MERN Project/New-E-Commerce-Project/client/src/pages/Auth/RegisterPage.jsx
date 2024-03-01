@@ -82,7 +82,7 @@ export const RegisterPage = () => {
     }
 
     return (
-        <Layout title={"Register | rR e-Com"}>
+        <Layout title={"Register | rR FASTeSTORE"}>
 
             <div className="form-container" style={{minHeight : "90vh"}}>
                 <form onSubmit={handleSubmit}>

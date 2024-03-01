@@ -48,11 +48,12 @@ export const Header = memo(({ text }) => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
 
-                        <Link to={"/"} className="navbar-brand" style={{ textTransform: "none" }}><FaShopware /> rR e-Com</Link>
+                        <Link to={"/"} className="navbar-brand" style={{ textTransform: "none" }}><FaShopware /> rR FASTeSTORE</Link>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                            
                             <SearchFilterProductInputForm />
                             <li className="nav-item">
-                                <NavLink to={"/"} className="nav-link">Home</NavLink>
+                                <NavLink to={"/product"} className="nav-link">Products</NavLink>
                             </li>
                             <li className="nav-item dropdown">
 
