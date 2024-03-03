@@ -150,8 +150,8 @@ export const AdminCreateProduct = () => {
                                             // In event files is array type
                                             // console.log('event.target:', event.target.files[0])
                                             // console.log(event.target);
-                                            return setPhoto(event.target.files[0])
 
+                                            return setPhoto(event.target.files[0])
                                         }} hidden />
                                     </label>
                                 </div>
