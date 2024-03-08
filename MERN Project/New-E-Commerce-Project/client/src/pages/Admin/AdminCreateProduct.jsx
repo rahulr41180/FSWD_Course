@@ -148,11 +148,11 @@ export const AdminCreateProduct = () => {
                                     */}
                                         <input type="file" name="photo" id="" accept="image/*" onChange={(event) => {
                                             // In event files is array type
+                                            // console.log(event.target.files);
                                             // console.log('event.target:', event.target.files[0])
-                                            // console.log(event.target);
 
                                             return setPhoto(event.target.files[0])
-                                        }} hidden />
+                                        }} hidden multiple />
                                     </label>
                                 </div>
                                 <div className="mb-3">

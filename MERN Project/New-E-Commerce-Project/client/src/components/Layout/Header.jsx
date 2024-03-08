@@ -90,8 +90,14 @@ export const Header = memo(({ text }) => {
                                             <ul className="dropdown-menu">
 
                                                 <li>
+
                                                     <NavLink className="dropdown-item" to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}>Dashboard</NavLink>
                                                 </li>
+                                                {auth?.user?.role === 1 ?
+                                                <li>
+                                                    <NavLink className="dropdown-item" to={`/dashboard/admin/functionality`}>Functionality</NavLink>
+                                                </li>
+                                                : ""}
                                                 <li>
                                                     <NavLink onClick={handleLogOut} to={"/login"} className="dropdown-item">LogOut</NavLink>
                                                 </li>

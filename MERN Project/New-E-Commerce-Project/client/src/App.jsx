@@ -30,8 +30,9 @@ import { AdminCreateProduct } from './pages/Admin/AdminCreateProduct';
 import { AdminUser } from './pages/Admin/AdminUser';
 import { AdminProduct } from './pages/Admin/AdminProducts';
 import { AdminUpdateProduct } from './pages/Admin/AdminUpdateProduct';
-import { AdminOrders } from './pages/Admin/AdminOrders';
 
+import { AdminOrders } from './pages/Admin/AdminOrders';
+import { AdminChangeFunctionality } from './pages/Admin/AdminChangeFunctionality';
 import { PrivateRoute } from './components/Routes/PrivateRoute';
 import { AdminPrivateRoute } from './components/Routes/AdminPrivateRoute';
 import { ForgotPassword } from './pages/Auth/ForgotPassword';
@@ -49,8 +50,8 @@ function App() {
       */}
 
       <Route path="/" element={<><HomePage /></>} />
-      <Route path="/about" element={<><AboutPage /></>} />
 
+      <Route path="/about" element={<><AboutPage /></>} />
       <Route path="/contact" element={<><ContactPage /></>} />
       <Route path="/policy" element={<><PolicyPage /></>} />
       <Route path="/register" element={<><RegisterPage /></>} />
@@ -59,27 +60,27 @@ function App() {
       <Route path="/product-details/:pId" element={<><ProductDetailsPage /></>} />
       <Route path="/category-based-product/:categoryName/:cId" element={<><ProductBasedOnCategoryPage /></>} />
       <Route path="/cart" element={<><CartPage /></>} />
-      <Route path="/product" element={<><ProductPage /></>} />
 
+      <Route path="/product" element={<><ProductPage /></>} />
       <Route path="/checkout/:tqtp" element={<><Checkout /></>} />
       <Route path="/forgot-password" element={<><ForgotPassword /></>} />
       <Route path="/forgot-secret-key" element={<><ForgotSecretKey /></>} />
       <Route path="/dashboard" element={<><PrivateRoute /></>}>
-
         <Route path="user" element={<><UserDashboard /></>} />
         <Route path="user/orders" element={<><UserOrders /></>} />
-        
         <Route path="user/profile" element={<><UserProfile /></>} />
       </Route>
+
       <Route path="/dashboard" element={<><AdminPrivateRoute /></>}>
         <Route path="admin" element={<><AdminDashboard /></>} />
-
         <Route path="admin/create-category" element={<><AdminCreateCategory /></>} />
         <Route path="admin/create-product" element={<><AdminCreateProduct /></>} />
         <Route path="admin/users" element={<><AdminUser /></>} />
         <Route path="admin/products" element={<><AdminProduct /></>} />
         <Route path="admin/product-details/:pId" element={<><AdminUpdateProduct /></>} />
         <Route path="admin/all-orders" element={<><AdminOrders /></>} />
+        <Route path="admin/functionality" element={<><AdminChangeFunctionality /></>} />
+
       </Route>
       {/* path="*" : * means is if there is any route which will not match with any route than 
       route show "*"(Default) route content means Page Not Found Page */}
