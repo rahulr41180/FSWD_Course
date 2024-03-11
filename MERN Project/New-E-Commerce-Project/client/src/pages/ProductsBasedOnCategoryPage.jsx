@@ -20,18 +20,17 @@ export const ProductBasedOnCategoryPage = () => {
         // const gettingProductsBasedOnCategory = async () => {
         //     try {
         //         const { data } = await axios.get(`/api/v1/product/get-products-based-on-category/${cId}`);
-        //         console.log('data:', data)
 
+        //         console.log('data:', data)
         //         if(!data.status) {
         //             toast.error(data.message);
         //         }
         //         setProducts(data?.products);
         //     } catch(error) {
-
         //     }
         // }
-
         gettingProductsBasedOnCategory();
+        
     }, [cId])
 
     const gettingProductsBasedOnCategory = async () => {
@@ -40,8 +39,8 @@ export const ProductBasedOnCategoryPage = () => {
             // console.log('data:', data)
 
             if (!data.status) {
-
                 toast.error(data.message);
+                
                 setLoading(false);
                 return;
             }

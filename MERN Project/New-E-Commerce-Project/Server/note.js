@@ -1089,3 +1089,9 @@ var u = 5;
 console.log(u);
 var v = 5;
 console.log(v);
+
+
+var w = 5;
+console.log(w);
+var x = 5;
+console.log(x);
