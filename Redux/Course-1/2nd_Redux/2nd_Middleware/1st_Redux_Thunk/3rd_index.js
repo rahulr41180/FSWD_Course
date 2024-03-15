@@ -10,8 +10,8 @@ const dec = "dec";
 const incByAmnt = "incByAmnt";
 const initUser = "initUser";
 
-// Store Creation
 
+// Store Creation
 const store = createStore(reducer, applyMiddleware(logger.default));
 
 // Store the previous value in history array.
@@ -39,26 +39,26 @@ function reducer(state={amount : 1}, action) {
 // Giving Action With Action Creator Function
 // Increment Action
 function incrementAction() {
+    return {type : inc};
 
-    return {type : inc}
 }
 
 // Decrement Action
 function decrementAction() {
-    return {type : dec}
-
+    return {type : dec};
 }
 
 // Increment By Amount
-
 function incrementByAmountAction(value) {
+
     return {type : incByAmnt, payload : value}
 }
 
 // Getting Initial User
-
-function initialUserAction(value) {
-    return {type : initUser, payload : value}
+async function initialUserAction() {
+    const { data } = await axios.get("http://localhost:3000/account/1")
+    console.log('data:', data)
+    return {type : initUser, payload : data.amount}
 }
 
 // API Call For Getting User and store their amount in store when we will call the initialUserAction.
@@ -71,8 +71,14 @@ const getUser = async () => {
 // getUser();
 // Dispatching Action To Reducer Everytime After 2 Seconds
 
-setInterval(() => {
-    store.dispatch(initialUserAction(10));
+setInterval(() => {    
+    // Here we have passed the async function() and async function() will always return a promise
+    // That's we will get error like : Actions must be plain objects.
+    // Means Action Creator Function should be a syncronous function() and Action creator function() should return the value(plain object) immediate.
+    // dispatch() will not wait for send the action to reducer.
+    // But we want to first fetch the data then we want to send the action to reducer.
+    // To do this we have to use middleware that's why we will use Redux_Thunk middleware.
+    store.dispatch(initialUserAction());
 },2000)
 
 // .subsribe() method is used to get the global state value everytime whenever the global state value will be changed.
