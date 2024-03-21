@@ -77,8 +77,10 @@ setInterval(() => {
     // Means Action Creator Function should be a syncronous function() and Action creator function() should return the value(plain object) immediate.
     // dispatch() will not wait for send the action to reducer.
     // But we want to first fetch the data then we want to send the action to reducer.
+    // Means dispatch() will send the async function then it will wait for run the async function() and then data fetching and after getting the data from api then we want to run dispatch() method again to send the got data to reducer and that dispatch() will get from the async function perameter and to do this we will use Redux_Thunk
     // To do this we have to use middleware that's why we will use Redux_Thunk middleware.
     store.dispatch(initialUserAction());
+
 },2000)
 
 // .subsribe() method is used to get the global state value everytime whenever the global state value will be changed.
