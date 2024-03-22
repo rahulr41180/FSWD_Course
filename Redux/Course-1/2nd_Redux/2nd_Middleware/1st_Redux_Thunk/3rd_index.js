@@ -88,6 +88,5 @@ setInterval(() => {
 //     const value = store.getState();
 //     history.push(value);
     // console.log("value :", value);
-
 //     console.log('history:', history)
 // });

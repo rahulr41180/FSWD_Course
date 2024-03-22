@@ -1,0 +1,12 @@
+{
+  "name": "1st_redux_thunk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1st_index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
