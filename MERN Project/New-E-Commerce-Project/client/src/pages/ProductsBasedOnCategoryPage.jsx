@@ -49,8 +49,8 @@ export const ProductBasedOnCategoryPage = () => {
             setLoading(true);
         } catch (error) {
             // console.log(error.message);
-
         }
+        
     }
 
     return (
