@@ -13,7 +13,7 @@ const initUser = "initUser";
 
 
 // Store Creation
-const store = createStore(reducer, applyMiddleware(logger.default, thunk.default));
+const store = createStore(reducer, applyMiddleware(logger, thunk));
 
 // Store the previous value in history array.
 const history = [];
