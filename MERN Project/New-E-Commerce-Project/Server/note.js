@@ -1115,3 +1115,7 @@ var e = 5;
 console.log(e);
 var f = 5;
 console.log(f);
+var g = 5;
+console.log(g);
+var h = 5;
+console.log(h);
