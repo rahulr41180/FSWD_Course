@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from "redux";
 
 import logger from "redux-logger";
 import axios from "axios";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 // Action Name Contstant
 const inc = "inc";
@@ -13,7 +13,7 @@ const initUser = "initUser";
 
 
 // Store Creation
-const store = createStore(reducer, applyMiddleware(logger, thunk));
+const store = createStore(reducer, applyMiddleware(logger.default, thunk));
 
 // Store the previous value in history array.
 const history = [];
@@ -63,7 +63,7 @@ function incrementByAmountAction(value) {
 
 // But sequence should same like function(dispatch, getState) {};
 async function initialUserAction(dispatch, getState) {
-    const { data } = await axios.get("http://localhost:3000/account/1")
+    const { data } = await axios.get("http://localhost:3000/accounts/1")
     console.log('data:', data)
     // return {type : initUser, payload : data.amount}
     dispatch({type : initUser, payload : data.amount});
