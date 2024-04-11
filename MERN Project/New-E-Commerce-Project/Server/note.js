@@ -1135,3 +1135,7 @@ var m = 5;
 console.log(m);
 var n = 5;
 console.log(n);
+var o = 5;
+console.log(o);
+var p = 5;
+console.log(p);
