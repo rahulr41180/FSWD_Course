@@ -1,47 +1,31 @@
 
 import './App.css';
-
+import { useSelector } from "react-redux";
+import { useState } from "react";
 import { Account } from './Components/Account';
 import { Bonus } from './Components/Bonus';
-import { useState } from "react";
 
 function App() {
 
-  const [account, setAccount] = useState({amount : 0});
-    const [value, setValue] = useState(0);
-    const [bonus, setBonus] = useState({ points : 0 });
+  console.log("App Component");
 
-    const incrementBonus = () => {
-        setBonus({points : bonus.points + 1})
-    }
-
-    const increment = () => {
-        setAccount({amount : account.amount + 1});
-    }
-
-    const decrement = () => {
-
-        setAccount({amount : account.amount - 1});
-    }
-
-    const incrementByAmount = (value) => {
-        setAccount({amount : account.amount + value});
-    }
-
+  const { amount } = useSelector((state) => state.account);
+  const { points } = useSelector((state) => state.bonus);
+  
   return (
     <div className="App">
-
       <h4>App</h4>
-      <h3>Current Amount : {account.amount}</h3>
-      <h3>Total Bonus : {bonus.points}</h3>
-
-      <Account increment={increment} decrement={decrement} incrementByAmount={incrementByAmount} account={account} setValue={setValue} value={value} />
-      <Bonus bonus={bonus} incrementBonus={incrementBonus} />
+      <h3>Current Amount : {amount}</h3>
+      <h3>Total Bonus : {points}</h3>
+      <Account />
+      <Bonus />
     </div>
   );
 }
 
 export default App;
 
-// Now I want to show Amount and Bonus from Account and Bonus component.
-// So, To do this we need to do prop lifting.
+/* 
+
+
+*/

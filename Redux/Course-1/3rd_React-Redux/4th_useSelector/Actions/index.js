@@ -48,8 +48,8 @@ export function getAccountUserPending(value) {
     return {type : getAccUserPending, pending : value};
 }
 
-export function incBonusPointAction() {
-    return {type : incBonus};
+export function bonusPointAction(value) {
+    return {type : incPoint, payload : value};
 }
 
 // Getting Initial User
