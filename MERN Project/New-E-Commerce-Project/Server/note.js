@@ -1143,5 +1143,5 @@ console.log(p);
 
 var q = 5;
 console.log(q);
-var p = 5;
-console.log(p);
+var r = 5;
+console.log(r);
