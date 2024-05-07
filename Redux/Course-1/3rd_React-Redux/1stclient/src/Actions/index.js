@@ -58,14 +58,14 @@ export function getUserAction(id) {
         try {
 
             dispatch(getAccountUserPending(true));
-            const { data } = await axios.get(`http://localhost:3000/accounts/${id}`)
+            const { data } = await axios.get(`http://localhost:8080/accounts/${id}`)
             console.log('data:', data)
             // return {type : initUser, payload : data.amount}
             dispatch(getAccountUserFulfilled(data.amount));
 
         } catch(error) {
 
-            dispatch(getAccountUserRejected(error.message))
+            dispatch(getAccountUserRejected(error.message));
 
         }
     }
