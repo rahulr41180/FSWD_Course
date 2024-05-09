@@ -75,21 +75,21 @@ let head = {
     Node : {data : 1, next : {data : 2, next : {data : 3, next : {data : 4, next : null}}}}
 }
 
-function reverseFn(head) {
-    console.log('head:', head)
-    // let current = this.head.Node;
-    // function reverse(head) {
-        if(head === null || head.next === null) {
-            return head;
-        }
-        let rest = reverseFn(head.next);
-        head.next.next = head;
-        head.next = null;
-        return rest;
-    // }
-    // this.head = reverse(head)
-    // console.log("this.head :", this.head);
+function reverseFn(head, prev) {
+    let current = head;
+    if(current === null) return head;
+    if(current.next === null) {
+        current.next = prev;
+
+        head = current;
+        return head;
+    }
+
+    let next1 = current.next;
+    current.next = prev;
+    let rest = reverseFn(next1, current);
+    return rest;
 }
 
-head = reverseFn(head.Node);
+head = reverseFn(head.Node, null);
 console.log('head:', head);
