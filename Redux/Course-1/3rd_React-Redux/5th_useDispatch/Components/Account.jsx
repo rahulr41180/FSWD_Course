@@ -18,7 +18,7 @@ export const Account = () => {
             <button onClick={() => dispatch(incrementAction())}>Increment +</button>
             <button onClick={() => dispatch(decrementAction())}>Decrement -</button>
             <input type="number" name="" id="" onChange={(event) => setValue(+event.target.value)} />
-            <button onClick={() => dispatch(incrementByAmountAction(value))}>Increment By {""} +</button>
+            <button onClick={() => dispatch(incrementByAmountAction(value))}>Increment By {value} +</button>
         </div>
     )
 }
