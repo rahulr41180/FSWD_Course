@@ -8,31 +8,21 @@ export function fetchData(url) {
     if (!cache.has(url)) {
         cache.set(url, getData(url.slice('/search?q='.length)));
     }
-    console.log('cache:', cache)
-    console.log('cache:', cache.get(url))
+    // console.log('cache:', cache)
     return cache.get(url);
 }
 
-function getData(url) {
-    // if (url.startsWith('/search?q=')) {
-    //     let res = getSearchResults(url.slice('/search?q='.length));
-    //     console.log(1)
-    //     console.log('getSearchResults(url.slice(/search?q=.length)):', getSearchResults(url.slice('/search?q='.length)))
-    //     return getSearchResults(url.slice('/search?q='.length))
-    //     // return res
-    // } else {
-        //     throw Error('Not implemented');
-        // }
-        let res = getSearchResults(url)
-        console.log('res:', res)
-        return res
+async function getData(url) {
+    // console.log("getData");
+    let res = await getSearchResults(url)
+    // console.log('res:', res)
+    return res
 }
 
 async function getSearchResults(query) {
-    // Add a fake delay to make waiting noticeable.
     await new Promise(resolve => {
-        setTimeout(resolve, 500);
-    });
+        setTimeout(resolve, 1000);
+    })
 
     const allAlbums = [{
         id: 13,
@@ -92,8 +82,7 @@ async function getSearchResults(query) {
     return allAlbums.filter(album => {
         const lowerTitle = album.title.toLowerCase();
         return (
-            lowerTitle.startsWith(lowerQuery) ||
-            lowerTitle.indexOf(' ' + lowerQuery) !== -1
+            lowerTitle.startsWith(lowerQuery) || lowerTitle.indexOf(" " + lowerQuery) !== -1
         )
-    });
+    })
 }

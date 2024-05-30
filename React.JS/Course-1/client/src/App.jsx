@@ -1,33 +1,32 @@
 
-import { useState, Suspense } from "react";
-import { SearchResults } from "./Components/SearchResults";
+import { useState, Suspense, useDeferredValue } from "react";
+import { SlowList } from "./Components/SlowList";
 
 function App() {
-	const [query, setQuery] = useState("");
-
+	const [text, setText] = useState('');
+	const defferedValue = useDeferredValue(text);
 	return (
-		<div className="app">
-			<label>
-				Search albums:
-				<input value={query} onChange={e => setQuery(e.target.value)} />
-			</label>
-			<Suspense fallback={<h2>Loading...</h2>}>
-				<SearchResults query={query} />
-			</Suspense>
-		</div>
+		<>
+			<input value={text} onChange={e => setText(e.target.value)} />
+			<SlowList text={defferedValue} />
+		</>
 	);
 }
-
 
 export default App;
 
 /*
-A common alternative UI pattern is to defer updating the list of results and to keep showing the previous results until the new results are ready. 
-Call useDeferredValue to pass a deferred version of the query down:
+Deferred re-rendering of the list
 
-The query will update immediately, so the input will display the new value. However, 
-the deferredQuery will keep its previous value until the data has loaded, 
-so SearchResults will show the stale results for a bit.
+So it's means that if I am typing fast so in between of typing some time 
+my deferredValue might be change and because of that SlowList props would be get new Value and because of 
+that my SlowList component would be re-render
 
+Exactly. Even though useDeferredValue delays updates to deferredValue, it doesn't prevent them entirely. 
+If you're typing quickly, there's a chance that deferredValue will update while you're typing, 
+causing SlowList to receive a new prop value and triggering a re-render of the SlowList component.
 
+The delay introduced by useDeferredValue simply means that the updates to deferredValue might not occur immediately with each keystroke, 
+but they will eventually catch up. So, if you're typing quickly, 
+you may still observe SlowList re-rendering occasionally as deferredValue updates.
 */
