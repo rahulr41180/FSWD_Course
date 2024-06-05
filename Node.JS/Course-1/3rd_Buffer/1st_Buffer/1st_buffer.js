@@ -37,4 +37,18 @@ This behavior is consistent with how binary data is represented.
 // This is faster than calling Buffer.alloc() but the returned
 
 const buf4 = Buffer.allocUnsafe(10);
-console.log('buf4:', buf4)
+console.log('buf4:', buf4);
+
+// Creates a Buffer containing the bytes [1, 2, 3].
+const buf5 = Buffer.from([1, 2, 3]);
+console.log('buf5:', buf5);
+
+// Creates a Buffer containing the UTF-8-encoded bytes for the string 'tést':
+// [0x74, 0xc3, 0xa9, 0x73, 0x74] (in hexadecimal notation)
+// [116, 195, 169, 115, 116] (in decimal notation)
+const buf6 = Buffer.from('tést');
+console.log('buf6:', buf6);
+
+// Creates a Buffer containing the Latin-1 bytes [0x74, 0xe9, 0x73, 0x74].
+const buf7 = Buffer.from('tést', 'latin1');
+console.log('buf7:', buf7);
