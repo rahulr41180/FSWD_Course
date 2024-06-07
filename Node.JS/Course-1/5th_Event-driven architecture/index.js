@@ -41,3 +41,17 @@ We create an instance of EventEmitter.
 We subscribe to an event named 'myEvent' using the on method. When this event occurs, the provided callback function is executed.
 We emit an event named 'myEvent' using the emit method, passing data to be processed by the callback function.
 */
+
+/* 
+emit: This method is used to trigger an event. When you call emit on an EventEmitter instance, you're essentially saying,
+"Hey, this event has occurred!". You provide the name of the event as the first argument, and optionally, 
+you can provide data that you want to pass along with the event. 
+Other parts of your codebase that are listening for this event will then be notified.
+*/
+
+/* 
+on: This method is used to register a listener for a specific event. When you call on, you're saying, 
+"I'm interested in this event, and here's what I want to happen when it occurs." You provide the name of the event you're interested in, 
+and a callback function that will be executed when that event is emitted. 
+The callback function typically takes any data passed with the event as its argument.
+*/
