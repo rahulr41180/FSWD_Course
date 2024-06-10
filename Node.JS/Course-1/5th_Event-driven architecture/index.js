@@ -34,6 +34,7 @@ emitter.on('myEvent', (data) => {
 
 // Emit an event
 emitter.emit('myEvent', { message: 'Hello, world!1' });
+
 emitter.emit('myEvent', { message: 'Hello, world!2' });
 
 /* 
@@ -54,4 +55,10 @@ on: This method is used to register a listener for a specific event. When you ca
 "I'm interested in this event, and here's what I want to happen when it occurs." You provide the name of the event you're interested in, 
 and a callback function that will be executed when that event is emitted. 
 The callback function typically takes any data passed with the event as its argument.
+*/
+
+/*
+----- Observer pattern -------
+|                             |
+Event Emitter -> Event Listener -> Handler
 */
