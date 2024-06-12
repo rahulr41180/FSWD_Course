@@ -22,20 +22,20 @@ This allows for asynchronous handling of events and enables non-blocking behavio
 */
 
 // Import EventEmitter
-const EventEmitter = require('events');
+// const EventEmitter = require('events');
 
 // Create an instance of EventEmitter
-const emitter = new EventEmitter();
+// const emitter = new EventEmitter();
 
 // Subscribe to an event
-emitter.on('myEvent', (data) => {
-    console.log('Event occurred:', data);
-});
+// emitter.on('myEvent', (data) => {
+    // console.log('Event occurred:', data);
+// });
 
 // Emit an event
-emitter.emit('myEvent', { message: 'Hello, world!1' });
+// emitter.emit('myEvent', { message: 'Hello, world!1' });
 
-emitter.emit('myEvent', { message: 'Hello, world!2' });
+// emitter.emit('myEvent', { message: 'Hello, world!2' });
 
 /* 
 We create an instance of EventEmitter.
@@ -61,4 +61,48 @@ The callback function typically takes any data passed with the event as its argu
 ----- Observer pattern -------
 |                             |
 Event Emitter -> Event Listener -> Handler
+*/
+
+/* 
+In Node.js, events are a fundamental concept used to handle asynchronous operations. 
+The event-driven architecture in Node.js is built around the idea of emitting and listening for events. 
+This model is particularly useful for handling I/O operations, user interactions, and other asynchronous tasks.
+
+1. EventEmitter Class
+The core of the event system in Node.js is the EventEmitter class, which is part of the events module. 
+Objects of this class can emit named events and listen for those events. 
+Many built-in modules in Node.js, such as HTTP, streams, and file systems, are based on EventEmitter.
+
+2. Emitting Events
+When an event is emitted, all the listeners subscribed to that event are invoked. 
+You can emit events using the emit method of the EventEmitter instance.
+
+3. Listening to Events
+To listen for events, you use the on method of the EventEmitter instance. 
+You can also use once to listen for an event only once.
+*/
+
+const http = require('http');
+
+// Create an HTTP server
+const server = http.createServer((req, res) => {
+    if (req.method === 'GET' && req.url === '/') {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('Hello, world!\n');
+    }
+});
+
+// Listen for the 'request' event
+server.on('request', (req, res) => {
+    console.log(`Received request for ${req.url}`);
+});
+
+// Start the server
+server.listen(3000, () => {
+    console.log('Server is listening on port 3000');
+});
+
+/* 
+In this example, the server emits the request event every time an HTTP request is received. 
+The event listener logs the requested URL to the console.
 */
