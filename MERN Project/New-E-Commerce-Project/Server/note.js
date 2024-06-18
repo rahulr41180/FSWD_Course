@@ -1189,3 +1189,9 @@ var i = 5;
 console.log(i);
 var j = 5;
 console.log(j);
+
+
+var k = 5;
+console.log(k);
+var l = 5;
+console.log(l);
