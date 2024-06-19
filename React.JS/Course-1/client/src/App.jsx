@@ -1,14 +1,10 @@
 
-import { useId } from "react";
+import { useId, useTransition } from "react";
 import { InputComponent } from "./Components/InputComponent";
 
 function App() {
 	return (
 		<div className="app">
-			<InputComponent />
-			<InputComponent />
-			<InputComponent />
-			<InputComponent />
 		</div>
 	);
 }
@@ -17,19 +13,35 @@ export default App;
 
 
 /*
-useId is a React Hook for generating unique IDs that can be passed to accessibility attributes.
-const id = useId()
-Call useId at the top level of your component to generate a unique ID:
-useId should not be used to generate keys in a list. Keys should be generated from your data.
+useTransition :
+useTransition is a React Hook that lets you update the state without blocking the UI.
 
-If we click on any checkbox label text then it target only first checkbox input element at everytime because id and htmlFor value is same for all the element.
+const [isPending, startTransition] = useTransition()
 
-To resolve this we can use useId hook given by React.
-*/
+useTransition does not take any parameters.
+useTransition returns an array with exactly two items:
 
-/*
-Now everything is fine if we click on any checkbox label text then it target only their respective checkbox.
+The isPending flag that tells you whether there is a pending Transition.
+The startTransition function that lets you mark a state update as a Transition.
 
-But there also has one problem like if we have multiple label with their respective checkbox then what will happened will it work same or there has same issue like before if we click on any checkbox label text
-then it target only first checkbox
+----------------------------------------------
+
+scope: A function that updates some state by calling one or more set functions. 
+React immediately calls scope with no parameters and marks all state updates 
+scheduled synchronously during the scope function call as Transitions. 
+They will be non-blocking and will not display unwanted loading indicators.
+
+You can wrap an update into a Transition only if you have access to the set function of that state. 
+If you want to start a Transition in response to some prop or a custom Hook value, try useDeferredValue instead.
+
+The function you pass to startTransition must be synchronous. React immediately executes this function, 
+marking all state updates that happen while it executes as Transitions. 
+If you try to perform more state updates later (for example, in a timeout), they won’t be marked as Transitions.
+
+A state update marked as a Transition will be interrupted by other state updates. 
+For example, if you update a chart component inside a Transition, 
+but then start typing into an input while the chart is in the middle of a re-render, 
+React will restart the rendering work on the chart component after handling the input update.
+
+Transition updates can’t be used to control text inputs.
 */
