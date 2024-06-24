@@ -1229,3 +1229,9 @@ var y = 5;
 console.log(y);
 var z = 5;
 console.log(z);
+
+
+var a = 5;
+console.log(a);
+var b = 5;
+console.log(b);
