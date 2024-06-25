@@ -1236,6 +1236,6 @@ console.log(a);
 var b = 5;
 console.log(b);
 var c = 5;
-console.log(c);
+console.log(c)
 var d = 5;
 console.log(d);
