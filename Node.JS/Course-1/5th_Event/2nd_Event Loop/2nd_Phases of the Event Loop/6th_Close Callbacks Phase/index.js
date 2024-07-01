@@ -21,3 +21,8 @@ server.on('connection', (socket) => {
   console.log('New connection');
   socket.end();
 });
+
+/* 
+In this example, when a new connection is received, the socket.end() method closes the socket, 
+which triggers the close event and its callback is executed in the close callbacks phase.
+*/

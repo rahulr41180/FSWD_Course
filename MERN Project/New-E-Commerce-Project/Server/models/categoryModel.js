@@ -9,7 +9,9 @@ const createCategorySchema = new mongoose.Schema({
     },
     slug : {
         type : String,
-        lowercase : true
+        lowercase : true,
+
+        required : true
     }
 })
 
