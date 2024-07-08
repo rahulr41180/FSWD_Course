@@ -65,11 +65,11 @@ db.getCollection('user').aggregate([
         // $sort: {
         //   field1: sortOrder
         // }
-        // Now here we are using field1 is count but count field is not present in out original data so How 
+        // Now here we are using field1 is count but count field is not present in our original data so How 
         // MongoDB sort the grouped data based on count.
         // That's by we are using aggregation because each stage use it's previous stage data so stage 2 will use
-        // Only stage 1 data and in stage 1 we were using count as out fieldN
-        // -1 for arange the data in higher to lower order .
+        // Only stage 1 data and in stage 1 we were using count as our fieldN
+        // -1 for arange the data in higher to lower order.
 
         $sort: {
           count: -1

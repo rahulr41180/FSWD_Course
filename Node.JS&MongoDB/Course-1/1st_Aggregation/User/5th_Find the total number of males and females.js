@@ -6,8 +6,8 @@ use("Aggregation");
 // db.getCollection("user").aggregate([
 //     // Find the total number of males and females.
 //     /* 
-//         1. Here we would not use $match method because we here we need to two types of 
-//         bundled document first for males and second for females and we can't achieved 
+//         1. Here we would not use $match method because here we need two types of 
+//         bundled document first for males and second for females and we won't achieved 
 //         this by using $match because we can only use this method whenever we need to 
 //         filter a document based on a single value. So in this case we will use $group 
 //         method so that we will grouped data based on different type of genders.
@@ -43,7 +43,7 @@ use("Aggregation");
 
 // db.getCollection("user").aggregate([
 //     /* 
-//         Instead of this we will use $sum accumulator this will sum like this will add 1 to respective group whenever 
+//         Instead of $count we will use $sum accumulator this will sum this like It will add 1 to respective group whenever 
 //         it will respective group document.
 //     */
 //     {
