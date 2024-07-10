@@ -1,8 +1,13 @@
 
-import { useId, useTransition } from "react";
-import { InputComponent } from "./Components/InputComponent";
+import { useId, useTransition, useState } from "react";
 
 function App() {
+	const [tab, setTab] = useState("about");
+
+	function selectTab(nextTab) {
+		setTab(nextTab);
+	}
+
 	return (
 		<div className="app">
 		</div>
@@ -44,4 +49,21 @@ but then start typing into an input while the chart is in the middle of a re-ren
 React will restart the rendering work on the chart component after handling the input update.
 
 Transition updates can’t be used to control text inputs.
+
+If there are multiple ongoing Transitions, React currently batches them together. 
+This is a limitation that will likely be removed in a future release.
+
+With a Transition, your UI stays responsive in the middle of a re-render. 
+For example, if the user clicks a tab but then change their mind and click another tab, 
+they can do that without waiting for the first re-render to finish.
+
+Example : Updating the current tab without a Transition
+
+In this example, the “Posts” tab is also artificially slowed down so that it takes at least a second to render. 
+Unlike in the previous example, this state update is not a Transition.
+
+Click “Posts” and then immediately click “Contact”. 
+Notice that the app freezes while rendering the slowed down tab, and the UI becomes unresponsive. 
+This state update is not a Transition, so a slow re-render freezed the user interface.
+
 */

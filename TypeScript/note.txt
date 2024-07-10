@@ -1,0 +1,8 @@
+
+Eventually first we need to convert typeScript code into javaScript code with the help of tsc which is a compiler for typescript to convert
+typeScript code into javaScript code because browser can only understand javaScript not typeScript that's why first we have to convert typeScript
+code into javaScript code other wise typeScript won't run.
+
+tsc .\fileName.ts -w :
+If we are doing change in code in .ts file then we need to again and again compile the .ts file into .js file.
+So to automate this thing we have to use watcher like : tsc .\fileName.ts -w
