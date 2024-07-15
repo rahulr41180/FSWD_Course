@@ -9,7 +9,6 @@ function App() {
 		console.log('name:', name);
 	},[name])
 	
-
 	return (
 
 		<div className="app">
