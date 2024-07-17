@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        abbr {
+            font-style: italic;
+            color: chocolate;
+
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        You can use <abbr>CSS</abbr> (Cascading Style Sheets) to style your <abbr>HTML</abbr> (HyperText Markup
+        Language).
+        Using style sheets, you can keep your <abbr>CSS</abbr> presentation layer and <abbr>HTML</abbr> content layer
+        separate. This is called "separation of concerns."
+    </p>
+
+</html>
+
+<!-- When including an abbreviation or acronym, provide a full expansion of the term in plain text on first use, 
+along with the <abbr> to mark up the abbreviation. This informs the user what the abbreviation or acronym means. 
+-->
+
+<!-- 
+Attributes :
+
+This element only supports the global attributes. The title attribute has a specific semantic meaning when used with the <abbr> element; 
+it must contain a full human-readable description or expansion of the abbreviation. 
+This text is often presented by browsers as a tooltip when the mouse cursor is hovered over the element.
+
+Each <abbr> element you use is independent of all others; 
+providing a title for one does not automatically attach the same expansion text to others with the same content text.    
+-->
+
+<!-- 
+Default styling :
+
+The purpose of this element is purely for the convenience of the author and all browsers display it inline (display: inline) by default, 
+though its default styling varies from one browser to another:
+
+Some browsers add a dotted underline to the content of the element. 
+Others add a dotted underline while converting the contents to small caps. 
+Others may not style it differently than a <span> element. To control this styling, use text-decoration and font-variant.
+-->
