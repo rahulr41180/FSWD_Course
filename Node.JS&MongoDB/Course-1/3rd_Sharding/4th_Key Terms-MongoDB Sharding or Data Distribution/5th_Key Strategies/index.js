@@ -9,3 +9,12 @@ considered as high cardinality key.
 
 Like : user email, phone, user_id
 */
+
+
+// Low Cardinality :
+/* 
+A shard key should low cardinality key
+Means a key which is commonaly using in multiple document and this type of key we won't use as shard key
+
+Like : user's state, country, city
+*/
