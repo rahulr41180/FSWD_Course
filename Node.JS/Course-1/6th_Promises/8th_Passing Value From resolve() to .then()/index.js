@@ -12,3 +12,7 @@ promise1.then(function(res) {
     console.log("res :", res);
 
 })
+
+/* 
+We can pass the value from res(value) method to .then((value) => {}) method
+*/
