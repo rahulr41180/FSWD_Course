@@ -27,4 +27,6 @@ rej is used for through the rejected value when request will be got rejected.
 for getting the error we have .catch((error) => {})
 for stablished the connection with .catch() and Promise() we have reject method in Promise callback
 if request is rejected then we have to call the reject method to build connection between .catch() and Promise() method through reject method.
+
+We can take the error from the argument of callback of .catch((error) => {}) method by throughing the reject() method.
 */
