@@ -73,3 +73,6 @@ sayHi()
 
 7. Now it will search in it's parent LexicalEnviroment and it's parent LexicalEnviroment is LexicalEnviroment1 so it will search name2 value in LexicalEnviroment1 and it can be able to find the value of name2 in LexicalEnviroment1.
 */
+
+// Note : Lexical environment did not create at once for variable and function() of whole function() scope.
+        // Sometimes It is created at once and sometimes it is being create, change or update in step by step.
