@@ -1,6 +1,6 @@
 
 function initCounter() {
-    let count = 0;// function scope and block scope
+    let count = 1;// function scope and block scope
     return () => {
         return count++;
     }
