@@ -39,7 +39,7 @@ setTimeout1() callback go in timer phase queue
 setTimeout2() callback go in the same timer phase queue
 setInterval1() callback go in the same timer phase queue
 setInterval2() callback go in the same timer phase queue
-fetch() response and reject go in the fetch phase queue
+fetch() response and reject go in the fetch phase queue or we can say "Micro task Queue"
 
 Event Loop : 
 Event loop run always to check all the Callback queue in step by step.
@@ -64,7 +64,7 @@ Suppose, JS Engine Found setInterval() then it does not go directly in call stac
 Suppose, JS Engine Found setTimeout2() then it does not go directly in call stack first it will go in web api.
 Suppose, JS Engine Found fetch() then it does not go directly in call stack first it will go in web api.
 
-JS Engine
+JS Engine :
     Memory Heap
     Call Stack
         So on..
@@ -75,11 +75,43 @@ JS Engine
         Global Executional Context
 
 
-Browser API / Web API
-    DOM API
-    Timer Phase
-    IO Callback Phase
-    I/O Phase
-    Check Phase
+Browser API / Web API :
+    thread 1 : setTimeout1();
+    thread 2 : setInterval1();
+    thread 3 : setTimeout2();
+    thread 4 : setInterval2();
+    thread 5 : setImmediate();
+    thread 6 : IO();
+    thread 7 : fetch();
+
+
+Event Loop will be checking on every loop each phase one by one and whatever callback is ready to execute that will put on the top side of callstack of JS Engine
+Callback Phase :
     Fetch() Phase
+        thread 7 : fetch(); request will be handle here.
+    I/O Phase
+        thread 6 : IO Phase
+    Check Phase
+        thread 5 : setImmediate() callback;
+    Timer Phase
+        thread 1 : setTimeout1(); cb
+        thread 2 : setInterval1(); cb
+        thread 3 : setTimeout2(); cb
+        thread 4 : setInterval2(); cb
+    IO Callback Phase
+        thread 6 : IO callback execute here
+
+JS Engine :
+    Call Stack : Each callback is come here at top side of this callstack. Means :
+        9. setInterval2();
+        8. setTimeout2();
+        7. setInterval1();
+        6. IO Callback Phase because in each loop it check each phase and it return only one callback from each phase.
+        6. setTimeout1();
+        5. setImmediate();
+        4. IO Callback;
+        3. fetch();
+        2. Fn();
+        1. Fn();
+        Global Execution Context
 */
