@@ -5,23 +5,19 @@ import data from "./data.js";
 
 // Schema
 /* 
-    Write a query for getRespectiveUserComments for that we have to pass the iD of user
-    getRespectiveUserComments(userId : ID!) : [Comment] will return array of comment.
+To make a field maindatory we have to add (!) mark
 */
 const typeDefs = gql`
     type Query {
+        users :[User]
 
-        users : [User]
-        getSingleUser(userId : ID!) : User
         comments : [Comment]
-        getRespectiveUserComments(userId : ID!) : [Comment]
     }
     type User {
         id : ID!
         firstName : String
         lastName : String
-        email : String
-        comments : [Comment]
+        email : String 
     }
     type Comment {
         commentId : ID
@@ -30,28 +26,20 @@ const typeDefs = gql`
     }
 `
 // To Resolve the Query We have to create resolver
-/* 
-
-*/
 const resolvers = {
-    Query: {
-        users: () => data.userData,
-        getSingleUser : (doesNotHaveParent, {userId}) => data?.userData?.find((user) => user.id === userId),
-        comments: () => data.commentData,
-        getRespectiveUserComments : (doesNotHaveParent, {userId}) => data?.commentData?.filter((comment) => comment?.userId === userId)
-    },
-    User: {
-        comments: (user) => data?.commentData?.filter((element) => element.userId === user.id)
-    }
+    Query : {
+        users : () => data.userData,
+        comments : () => data.commentData    
+    }   
 }
 
 // Apollo Server Creation :
 // Define the typeDefs, resolvers inside ApolloServer 
 const server = new ApolloServer({
-    typeDefs: typeDefs,
-    resolvers: resolvers,
+    typeDefs : typeDefs,
+    resolvers : resolvers,
     // Dashboard will run on our localhost server
-    plugins: [
+    plugins : [
         ApolloServerPluginLandingPageGraphQLPlayground()
     ]
 })

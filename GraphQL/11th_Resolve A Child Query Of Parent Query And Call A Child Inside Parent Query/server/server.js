@@ -5,16 +5,17 @@ import data from "./data.js";
 
 // Schema
 /* 
-    Write a query for getRespectiveUserComments for that we have to pass the iD of user
-    getRespectiveUserComments(userId : ID!) : [Comment] will return array of comment.
+Now we have to Defined which comment is created by which user
+
+One user can have multiple comment because of that we will get array of comments
+
+But we have to resolve the 'type User { comments : [Comment] }' in resolver explicity because GraphQL does not resolve it automatically.
+
 */
 const typeDefs = gql`
     type Query {
-
-        users : [User]
-        getSingleUser(userId : ID!) : User
+        users :[User]
         comments : [Comment]
-        getRespectiveUserComments(userId : ID!) : [Comment]
     }
     type User {
         id : ID!
@@ -31,14 +32,20 @@ const typeDefs = gql`
 `
 // To Resolve the Query We have to create resolver
 /* 
+User : {
+    comments : () => data.commentData
+}
+inside callback function we will get parent object and 
+for 'comment : () => data.commentData' callback function the parent is User object which we will get when we will do users : query in Query type
+like :
+'comment : (user) => data.commentData' 
 
+We have to do filter because we want that comments query will only return respective user comment
 */
 const resolvers = {
     Query: {
         users: () => data.userData,
-        getSingleUser : (doesNotHaveParent, {userId}) => data?.userData?.find((user) => user.id === userId),
-        comments: () => data.commentData,
-        getRespectiveUserComments : (doesNotHaveParent, {userId}) => data?.commentData?.filter((comment) => comment?.userId === userId)
+        comments: () => data.commentData
     },
     User: {
         comments: (user) => data?.commentData?.filter((element) => element.userId === user.id)

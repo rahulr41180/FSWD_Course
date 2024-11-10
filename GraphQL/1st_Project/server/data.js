@@ -151,7 +151,7 @@ const commentData = [
     },
     {
         "commentId": "2",
-        "userId": "2",
+        "userId": "1",
         "commentText": "I agree with the points you made here, very insightful.",
         "timestamp": "2024-11-08T09:15:00Z"
     },
