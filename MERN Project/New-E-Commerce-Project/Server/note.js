@@ -1259,3 +1259,9 @@ var k = 5;
 console.log(k);
 var l = 5;
 console.log(l);
+
+
+var m = 5;
+console.log(m);
+var n = 5;
+console.log(n);
