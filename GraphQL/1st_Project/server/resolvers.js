@@ -1,42 +1,72 @@
 
 import data from "./data.js";
-import { randomBytes } from "crypto"
+import { randomBytes } from "crypto";
+import schemaModels from "./models/export.js";
+import bcrypt from "bcryptjs";
 
 /* 
-I want to do create new user for that we have to do Mutation query and we have already been defined
-it's schema in gqlSchema.js and now we have to resolve that Mutation query in resolver.
 
-As we have written 'createNewUser:' Mutation query at root level of Mutation in that case we will get first argument of 'createNewUser:() => {};' callback function undefined and we will get form data in second argument.
 */
 
 const resolvers = {
-    
     Query: {
+
         users: () => data.userData,
-        getSingleUserById : (doesNotHaveParent, {userId}) => data?.userData?.find((user) => user.id === userId),
+        getSingleUserById : (doesNotHaveParent, {userId}) => data?.userData?.find((user) => user._id === userId),
         comments: () => data.commentData,
         getRespectiveUserComments : (doesNotHaveParent, {userId}) => data?.commentData?.filter((comment) => comment?.userId === userId)
     },
     User: {
-
-        comments: (user) => data?.commentData?.filter((element) => element.userId === user.id)
+        comments: (user) => data?.commentData?.filter((element) => element.userId === user._id)
     },
     Mutation: {
-        createNewUser: (doesNotHaveParent, {
-            firstName, 
-            lastName,
-            email,
-            password
+        createNewUser: async (doesNotHaveParent, {
+            newUserInputData
         }) => {
-            const id = randomBytes(5).toString("hex") 
-            data?.userData.push({
-                firstName,
-                lastName,
-                email,
-                password,
-                id
-            })
-            return data?.userData.find((user) => user.id === id)
+            try {
+                const existedUser = await schemaModels.userModels.findOne({ email : newUserInputData?.email });
+                if(existedUser) {
+                    throw new Error("Error-This email is already exists! Please use different email!") 
+                }
+                const hashedPassword = await bcrypt.hash(newUserInputData.password, 10);
+
+                const newUser = await new schemaModels.userModels({
+                    ...newUserInputData,
+                    password : hashedPassword
+                }).save();
+
+                return newUser;
+            } catch(error) {
+                // console.log('error:', error.message);
+                if(error.message.startsWith("Error-")) {
+                    throw new Error(error.message.split("-")[1])
+                }
+                throw new Error("Something went wrong! Please try again leter!")
+            }
+        },
+        logInUser: async (doesNotHaveParent, {
+            logInUserInputData
+        }) => {
+            try {
+                const existsUser = await schemaModels.userModels.findOne({ email : logInUserInputData?.email });
+                if(!existsUser) {
+                    throw new Error("Error-This email and password are wrong! Please try again with correct email and password!") 
+                }
+                const hashedPassword = await bcrypt.hash(newUserInputData.password, 10);
+
+                const newUser = await new schemaModels.userModels({
+                    ...newUserInputData,
+                    password : hashedPassword
+                }).save();
+
+                return newUser;
+            } catch(error) {
+                // console.log('error:', error.message);
+                if(error.message.startsWith("Error-")) {
+                    throw new Error(error.message.split("-")[1])
+                }
+                throw new Error("Something went wrong! Please try again leter!")
+            }
         }
     }
 }

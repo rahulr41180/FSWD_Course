@@ -37,13 +37,20 @@ query getSingleUserById {
     }
 }
 
-
-
-
 query getRespectiveUserComments($userId : ID!) {
     getRespectiveUserComments(userId : $userId) {
       commentId
       userId
       commentText
+    }
+}
+
+
+mutation {
+    createNewUser(firstName: "user1", lastName: "example", email: "user1@example.com", password: "user1@12345") {
+        id
+        firstName
+        lastName
+        email
     }
 }

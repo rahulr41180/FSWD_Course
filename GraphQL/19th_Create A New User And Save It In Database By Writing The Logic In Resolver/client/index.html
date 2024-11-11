@@ -1,0 +1,46 @@
+// Client Side Query with meaning full name
+
+query getAllUserData{
+    users {
+        _id
+        firstName
+        lastName
+        email
+        comments {
+            commentId
+            userId
+            commentText
+
+        }
+    }
+}
+
+query getAllComments{
+    comments {
+        _id
+        userId
+        commentText
+    }
+}
+
+query getSingleUserById {
+    getSingleUser(id : "1") {
+      _id
+      firstName
+      lastName
+      email
+      comments {
+        _id
+        userId
+        commentText
+      }
+    }
+}
+
+query getRespectiveUserComments($userId : ID!) {
+    getRespectiveUserComments(userId : $userId) {
+      _id
+      userId
+      commentText
+    }
+}

@@ -2,12 +2,7 @@
 import { gql } from "apollo-server";
 
 /* 
-To do POST, PUT and DELETE request we have to do Mutation.
 
-I want to create new user then we have to do Mutation.
-We will get user information throw argument of Mutation query
-Here Mutation query for create user is : createNewUser(): User
-Which will return us User(User query type we have already been defined above)
 */
 
 const typeDefs = gql`
@@ -19,25 +14,36 @@ const typeDefs = gql`
         getRespectiveUserComments(userId : ID!) : [Comment]
     }
     type User {
-        id : ID!
+        _id : ID!
         firstName : String
         lastName : String
         email : String
         comments : [Comment]
     }
     type Comment {
-        commentId : ID
+        _id : ID
         userId : String
         commentText : String
     }
 
     type Mutation {
         createNewUser(
-            firstName: String!, 
-            lastName: String!, 
-            email: String!,
-            password: String!
+            newUserInputData: inputDefinitionForNewUserInputs!
         ): User
+        logInUser(
+            logInUserInputData: inputDefinitionForLogInUserInputData!
+        ): Token
+    }
+
+    input inputDefinitionForNewUserInputs {
+        firstName: String!, 
+        lastName: String!, 
+        email: String!,
+        password: String!
+    }
+    input inputDefinitionForLogInUserInputData {
+        email: String!,
+        password: String!
     }
 `
 
