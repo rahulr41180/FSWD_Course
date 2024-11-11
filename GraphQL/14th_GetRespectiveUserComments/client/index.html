@@ -1,0 +1,53 @@
+// Client Side Query with meaning full name
+
+query getAllUserData{
+    users {
+        id
+        firstName
+        lastName
+        email
+        comments {
+            commentId
+            userId
+            commentText
+
+        }
+    }
+}
+
+query getAllComments{
+    comments {
+        commentId
+        userId
+        commentText
+    }
+}
+
+<!-- Query Variables :
+    We can take the userId dynamicaly by passing the userId as perameter of query name -->
+query getSingleUserById($userId : ID!) {
+    getSingleUserById(userId : $userId) {
+        id
+        firstName
+        lastName
+        email
+        comments {
+            commentId
+            userId
+            commentText
+        }
+    }
+}
+<!-- We have to passed userId in Query Variables
+Query Variables
+{
+    "userId" : "1"
+} -->
+
+query getRespectiveUserComments {
+    getRespectiveUserComments(userId :"1") {
+      commentId
+      userId
+      commentText
+    }
+}
