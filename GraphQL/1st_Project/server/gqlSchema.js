@@ -14,7 +14,7 @@ const typeDefs = gql`
         getRespectiveUserComments(userId : ID!) : [Comment]
     }
     type User {
-        _id : ID!
+        _id : ID
         firstName : String
         lastName : String
         email : String
@@ -22,8 +22,13 @@ const typeDefs = gql`
     }
     type Comment {
         _id : ID
-        userId : String
+        userId : User
         commentText : String
+    }
+
+    type UserWithToken {
+        token: String
+        userData: User
     }
 
     type Mutation {
@@ -32,17 +37,24 @@ const typeDefs = gql`
         ): User
         logInUser(
             logInUserInputData: inputDefinitionForLogInUserInputData!
-        ): Token
+        ): UserWithToken
+        createNewComment(
+            newCommentInputData: inputDefinitionForNewCommentInputs!
+        ): Comment
+    }
+
+    input inputDefinitionForNewCommentInputs {
+        commentText: String!
     }
 
     input inputDefinitionForNewUserInputs {
-        firstName: String!, 
-        lastName: String!, 
-        email: String!,
+        firstName: String!
+        lastName: String! 
+        email: String!
         password: String!
     }
     input inputDefinitionForLogInUserInputData {
-        email: String!,
+        email: String!
         password: String!
     }
 `

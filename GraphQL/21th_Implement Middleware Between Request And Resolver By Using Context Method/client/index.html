@@ -1,3 +1,4 @@
+
 // Client Side Query with meaning full name
 
 query getAllUserData{
@@ -9,8 +10,8 @@ query getAllUserData{
         comments {
             commentId
             userId
-            commentText
 
+            commentText
         }
     }
 }
@@ -84,4 +85,30 @@ mutation logInUser($userInputData: inputDefinitionForLogInUserInputData!) {
       "email": "user1.text1@example.com",
       "password": "User1@12345"
     }
+}
+
+
+mutation createNewComment($userInputData: inputDefinitionForNewCommentInputs!) {
+    createNewComment(newCommentInputData: $userInputData) {
+      _id
+      userId
+      commentText
+    }
+}
+
+<!-- HTTP Headers -->
+
+
+{
+    "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzMzMTllMjdkNDUwMjYyOTM3YzA2MzMiLCJpYXQiOjE3MzE0MTIwMzF9.rkvZStIAGYx3UG_hgBagnZYLZmTg70kqL8RIpiNbhA0"
+}
+
+<!-- Query Variable -->
+
+
+{
+    "userInputData": {
+      "commentText": "comment4"
+    }
+
 }
