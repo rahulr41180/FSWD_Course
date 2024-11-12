@@ -1269,3 +1269,9 @@ var o = 5;
 console.log(o);
 var p = 5;
 console.log(p);
+
+
+var q = 5;
+console.log(q);
+var r = 5;
+console.log(r);
