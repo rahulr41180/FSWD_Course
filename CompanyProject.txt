@@ -1,0 +1,15 @@
+
+ReactElement:
+ReactElement is a type definition, which will help TypeScript understand the types of elements 
+we are dealing with (mainly JSX elements like <div>, <h5>, etc.).
+
+-----------------------------------------------------------------------
+
+import * as Pages from './pages/index';
+
+import: This is the ES6 JavaScript module syntax for importing functionality from another file or module into the current file.
+* as Pages: The * symbol here means "import everything" from the module. 
+The as Pages part is renaming the entire collection of imported exports as Pages. 
+
+In other words, all exports from the ./pages/index.js file (or ./pages/index.ts if you're using TypeScript) 
+will be available under the Pages namespace.

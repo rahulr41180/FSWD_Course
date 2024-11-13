@@ -89,4 +89,28 @@ This is significantly better than a linear search, which has a time complexity o
 
 */
 
-let array = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610]
+function jumpSearch(arr, target) {
+    const n = arr.length;
+    let prev = 0;
+    const jumpStep = Math.floor(Math.sqrt(n));
+    let step = jumpStep;
+
+    while(arr[Math.min(step, n) - 1] < target) {
+        prev = step;
+        step += jumpStep;
+        if(prev >= n) {
+            return -1;
+        }
+    }
+    for(let i = prev; i < Math.min(step, n); i++) {
+        if(arr[i] === target) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+let array = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610];
+const result = jumpSearch(array, 610);
+console.log('result:', result);
