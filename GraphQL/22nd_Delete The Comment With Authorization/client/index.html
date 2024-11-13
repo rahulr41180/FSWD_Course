@@ -1,0 +1,114 @@
+
+// Client Side Query with meaning full name
+
+query getAllUserData{
+    users {
+        _id
+        firstName
+        lastName
+        email
+        comments {
+            commentId
+            userId
+
+            commentText
+        }
+    }
+}
+
+query getAllComments{
+    comments {
+        _id
+        userId
+        commentText
+    }
+}
+
+query getSingleUserById {
+    getSingleUser(id : "1") {
+      _id
+      firstName
+      lastName
+      email
+      comments {
+        _id
+        userId
+        commentText
+      }
+    }
+}
+
+query getRespectiveUserComments($userId : ID!) {
+    getRespectiveUserComments(userId : $userId) {
+      _id
+      userId
+      commentText
+    }
+}
+
+mutation createNewUser($userInputData: inputDefinitionForNewUserInputs!){
+    user:createNewUser(newUserInputData : $userInputData) {
+   _id
+   firstName
+   lastName
+   email
+ }
+}
+
+<!-- Query Variable -->
+
+
+{
+    "userInputData": {
+       "firstName": "user1",
+       "lastName": "text1",
+       "email": "user1.text1@example.com",
+       "password": "User1@12345"
+    }
+}
+
+
+mutation logInUser($userInputData: inputDefinitionForLogInUserInputData!) {
+    user:logInUser(logInUserInputData: $userInputData) {
+      token
+      userData {
+        _id
+        firstName
+      }
+    }
+}
+
+<!-- Query Variable -->
+ 
+{
+    "userInputData": {
+      "email": "user1.text1@example.com",
+      "password": "User1@12345"
+    }
+}
+
+
+mutation createNewComment($userInputData: inputDefinitionForNewCommentInputs!) {
+    createNewComment(newCommentInputData: $userInputData) {
+      _id
+      userId
+      commentText
+    }
+}
+
+<!-- HTTP Headers -->
+
+
+{
+    "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzMzMTllMjdkNDUwMjYyOTM3YzA2MzMiLCJpYXQiOjE3MzE0MTIwMzF9.rkvZStIAGYx3UG_hgBagnZYLZmTg70kqL8RIpiNbhA0"
+}
+
+<!-- Query Variable -->
+
+
+{
+    "userInputData": {
+      "commentText": "comment4"
+    }
+
+}

@@ -1275,3 +1275,7 @@ var q = 5;
 console.log(q);
 var r = 5;
 console.log(r);
+var s = 5;
+console.log(s);
+var t = 5;
+console.log(t);

@@ -145,6 +145,34 @@ const resolvers = {
                 }
                 throw new Error("Something went wrong! Please try again leter!")
             }
+        },
+        deleteSingleComment: async(doesNotHaveParent, { 
+            commentId
+        }, context) => {
+            try {
+                const { authenticatedUserId } = context;
+                if(!authenticatedUserId) {
+                    throw new Error("Error-Please logIn before access this!")
+                }
+                const isCommentExist = await schemaModels.commentModels.findOne({_id : commentId});
+                if(!isCommentExist) {
+                    throw new Error("Error-Comment is not getting delete!")
+                }
+                const deleteStatus = await isCommentExist.deleteOne();
+                if(deleteStatus.deletedCount === 0) {
+                    throw new Error("Error-Failed to delete comment")
+                }
+
+                return {
+                    deletedMessage: "Comment has been deleted!"
+                }
+            } catch(error) {
+                console.log('error:', error.message);
+                if(error.message.startsWith("Error-")) {
+                    throw new Error(error.message.split("-")[1])
+                }
+                throw new Error("Something went wrong! Please try again leter!")
+            }
         }
     }
 }
