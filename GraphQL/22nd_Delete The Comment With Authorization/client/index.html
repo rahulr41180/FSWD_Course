@@ -19,7 +19,10 @@ query getAllUserData{
 query getAllComments{
     comments {
         _id
-        userId
+        userId {
+          firstName
+          lastName
+        }
         commentText
     }
 }
