@@ -1,29 +1,24 @@
 
 import { useEffect } from "react";
 import gqlqueries from "../GQLOperations/gqlqueries";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 export const HomePage = () => {
+    /* 
+        useQuery is used to mae query to server
+    */
     const { loading, error, data } = useQuery(gqlqueries.GET_ALL_COMMENTS);
-
     if (loading) return (
+
         <div>
             <h1>Loading....</h1>
         </div>
-        
     )
     if (error) return (
         <div>
             <h1>{error.message}</h1>
         </div>
     )
-    if(data?.comments.length === 0) {
-        return (
-            <div>
-                <h1>No Comments Available....</h1>
-            </div>
-        )
-    }
     return (
         <div className="container">
             {

@@ -84,6 +84,7 @@ const resolvers = {
             newUserInputData
         }) => {
             try {
+                console.log('newUserInputData:', newUserInputData)
                 const existedUser = await schemaModels.userModels.findOne({ email : newUserInputData?.email });
                 if(existedUser) {
                     throw new Error("Error-This email is already exists! Please use different email!") 

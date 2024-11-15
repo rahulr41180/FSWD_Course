@@ -6,7 +6,8 @@ Hoisting : The movement of variable declaration to top of scope - before executi
 
 1. function declarations are properly hoisted (value accessible).
 2. var is hoisted.
-3. let and const are also hoisted but not properly because of "Temporal Dead Zone(TDZ)";
+3. let is hoisted but not properly because of "Temporal Dead Zone(TDZ)".
+4. const is not hoisted hoisted;
 */
 
 // ----------------------------------------------------------
