@@ -23,10 +23,11 @@ type DeleteCommentResponse {
 
 const typeDefs = gql`
     type Query {
-        users : [User] 
-        getSingleUserById(userId : ID!) : User
-        comments : [Comment]
-        getRespectiveUserComments(userId : ID!) : [Comment]
+        getAllUsersQuery : [User] 
+        getSingleUserByIdQuery(userId : ID!) : User
+        getAllCommentsQuery : [Comment]
+        getRespectiveUserCommentsQuery(userId : ID!) : [Comment]
+        getUserProfileWithCommentQuery: User
     }
     type User {
         _id : ID
@@ -41,9 +42,8 @@ const typeDefs = gql`
         commentText : String
     }
 
-    type UserWithToken {
+    type UserToken {
         token: String
-        userData: User
     }
 
     type DeleteCommentResponse  {
@@ -51,16 +51,16 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        createNewUser(
+        createNewUserMutation(
             newUserInputData: inputDefinitionForNewUserInputs!
         ): User
-        logInUser(
+        logInUserMutation(
             logInUserInputData: inputDefinitionForLogInUserInputData!
-        ): UserWithToken
-        createNewComment(
+        ): UserToken
+        createNewCommentMutation(
             newCommentInputData: inputDefinitionForNewCommentInputs!
         ): Comment
-        deleteSingleComment(commentId: ID!): DeleteCommentResponse
+        deleteSingleCommentMutation(commentId: ID!): DeleteCommentResponse
     }
 
     input inputDefinitionForNewCommentInputs {

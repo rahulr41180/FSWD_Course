@@ -1,21 +1,50 @@
 
-import { useState } from "react"
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import gqlmutation from "../GQLOperations/gqlmutation";
+import gqlqueries from "../GQLOperations/gqlqueries";
 
 export const CreateCommentPage = () => {
     const [comment, setComment] = useState("");
+    
+    const [createNewCommentFn, { data, loading, error }] = useMutation(gqlmutation.CREATE_COMMENT, {
+        refetchQueries: [
+            "getAllCommentsQueryName",
+            "getUserProfileWithCommentQueryName"
+        ]        
+    })
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-        try {
-
-        } catch(error) {
-
-
-        }
+        createNewCommentFn({
+            variables: {
+                userInputData: {
+                    commentText: comment
+                }
+            },
+            
+        })
     }
 
+    if(loading) {
+        return (
+            <div>
+                <h1>Loading....</h1>
+            </div>
+        )
+    }
     return (
         <div className="container myContainer">
+            {error && (
+                <div className="red card-panel">
+                    {error.message}
+                </div>
+            )}
+            {data && (
+                <div className="green card-panel">
+                    {data?.comment.commentText} has been successfully created!
+                </div>
+            )}
             <form action="" onSubmit={handleSubmit}>
                 <input type="text" value={comment} onChange={(event) => setComment(event.target.value)} name="comment" id="" />
                 <button className="btn green">Create</button>

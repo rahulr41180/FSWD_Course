@@ -8,8 +8,9 @@ gql is a function it is for to create or make query.
 */
 
 const GET_ALL_COMMENTS = gql`
-    query getAllComments{
-        comments {
+    query getAllCommentsQueryName{
+        comments:getAllCommentsQuery {
+
             _id
             userId {
                 firstName
@@ -20,6 +21,22 @@ const GET_ALL_COMMENTS = gql`
     }
 `
 
+const GET_USER_PROFILE_WITH_COMMENT = gql`
+    query getUserProfileWithCommentQueryName {
+        userProfile: getUserProfileWithCommentQuery {
+            _id
+            firstName
+            lastName
+            email
+            comments {
+                _id
+                commentText
+            }
+        }
+    }
+`
+
 export default {
-    GET_ALL_COMMENTS
+    GET_ALL_COMMENTS,
+    GET_USER_PROFILE_WITH_COMMENT
 }

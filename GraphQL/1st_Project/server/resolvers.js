@@ -13,7 +13,7 @@ import jwt from "jsonwebtoken";
 
 const resolvers = {
     Query: {
-        users: async () => {
+        getAllUsersQuery: async () => {
             try {
                 const getAllUsers = await schemaModels.userModels.find({});
                 return getAllUsers;
@@ -25,7 +25,7 @@ const resolvers = {
                 throw new Error("Something went wrong! Please try again leter!")
             }
         },
-        getSingleUserById : async (doesNotHaveParent, {userId}) => {
+        getSingleUserByIdQuery : async (doesNotHaveParent, {userId}) => {
             // data?.userData?.find((user) => user._id === userId),
             try {
                 const getSingleUser = await schemaModels.userModels.findOne({ _id : userId});
@@ -38,7 +38,7 @@ const resolvers = {
                 throw new Error("Something went wrong! Please try again leter!")
             }
         },
-        comments: async () => {
+        getAllCommentsQuery: async () => {
             try {
                 const getAllComments = await schemaModels.commentModels.find({}).populate([{path: "userId", select: "firstName lastName email"}]);
                 return getAllComments;
@@ -50,7 +50,7 @@ const resolvers = {
                 throw new Error("Something went wrong! Please try again leter!")
             }
         },
-        getRespectiveUserComments : async (doesNotHaveParent, {userId}) => {
+        getRespectiveUserCommentsQuery : async (doesNotHaveParent, {userId}) => {
             try {
                 const getRespectiveUserComments = await schemaModels.commentModels.find({userId : userId});
                 return getRespectiveUserComments;
@@ -61,8 +61,24 @@ const resolvers = {
                 }
                 throw new Error("Something went wrong! Please try again leter!")
             }
+        },
+        getUserProfileWithCommentQuery: async (doesNotHaveParent, {}, context) => {
+            try {
+                const { authenticatedUserId } = context;
+                if(!authenticatedUserId) {
+                    throw new Error("Error-Please logIn before access this!")
+                }
+
+                const loggedUserProfile = await schemaModels.userModels.findOne({ _id: authenticatedUserId });
+                return loggedUserProfile
+            } catch(error) {
+                console.log('error:', error.message);
+                if(error.message.startsWith("Error-")) {
+                    throw new Error(error.message.split("-")[1])
+                }
+                throw new Error("Something went wrong! Please try again leter!")
+            }
         }
-            // data?.commentData?.filter((comment) => comment?.userId === userId)
     },
     User: {
         comments: async (user) => {
@@ -80,7 +96,7 @@ const resolvers = {
         // data?.commentData?.filter((element) => element.userId === user._id)
     },
     Mutation: {
-        createNewUser: async (doesNotHaveParent, {
+        createNewUserMutation: async (doesNotHaveParent, {
             newUserInputData
         }) => {
             try {
@@ -103,7 +119,7 @@ const resolvers = {
                 throw new Error("Something went wrong! Please try again leter!")
             }
         },
-        logInUser: async (doesNotHaveParent, {
+        logInUserMutation: async (doesNotHaveParent, {
             logInUserInputData
         }) => {
             try {
@@ -116,7 +132,7 @@ const resolvers = {
                     throw new Error("Error-Email and Password are wrong! Please try again leter!");
                 }
                 const token = jwt.sign({ _id : existsUser?._id }, process.env.SECRET_KEY);
-                return { token, userData: existsUser }
+                return { token }
             } catch(error) {
                 console.log('error:', error.message);
                 if(error.message.startsWith("Error-")) {
@@ -125,7 +141,7 @@ const resolvers = {
                 throw new Error("Something went wrong! Please try again leter!")
             }
         },
-        createNewComment: async (doesNotHaveParent, {
+        createNewCommentMutation: async (doesNotHaveParent, {
             newCommentInputData
         }, context) => {
             try { 
@@ -147,7 +163,7 @@ const resolvers = {
                 throw new Error("Something went wrong! Please try again leter!")
             }
         },
-        deleteSingleComment: async(doesNotHaveParent, { 
+        deleteSingleCommentMutation: async(doesNotHaveParent, { 
             commentId
         }, context) => {
             try {
