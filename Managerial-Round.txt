@@ -1,0 +1,217 @@
+
+1. Tell me about your self?
+2. Tell me about your current project?
+    uses for user:
+    domain: analytical
+    tech stack: React.js, RestFul APIs, GraphQL APIs, Apollo Server, Apollo Client, MongoDB, Node.JS, Express.JS
+    Architecture: Monolithic Architecture, Before RestFul APIs, GraphQL APIs
+3. What are your roles and responsibilities in your current project?
+    As a full stack developer my role is to handle the frontend and backend both
+    First My manager creating a ticket on JIRA
+    I am taking the request from the JIRA in the excel format
+    Before going to start task.
+
+    Usaually first I am creating the document 
+    what is the requirement
+    what will be my approach to implement and solve the requirement
+    After implement, I am doing my unit testing by visiting on routes and funtionality
+    After unit testing I am pusing my code into my repository branch and 
+    after pushing the code my code will be pulling by tester into their branch and 
+    testing team is checking all the APIs by using the Jest library.
+    after that successfully testing the code will merge into main branch and than 
+    my lead deploye that code into AWS we are using EC2 instance to deploye.
+    Whenever we need that project to showace in front of our new client at that time we resume the service of our AWS.
+    Usaually we have puted the service of AWS on stop mode otherwise it will charge of us.
+
+    Note: One additional feature. I have suggested to my team to automatically upload the JIRA excel file 
+    into database. They have noted my suggested but they are not going to implement right by they will definately.
+4.  Why I have mentioned the Microsoft Azure, I am learning the Microsoft Azure and I want apportunity on this.
+5. What is the technical design of your project.
+    We have designed the current project with Even-Driven architecture and by following the Monolithic Architecture and 
+    For APIs at start we were using the RestFul APIs architecture but currently we are using GraphQL APIs architecture
+    for authentication and authorization we have used stateLess architecture by using jsonwebtoken.
+6. Rate yourself in technical skill - 1 to 10?
+    always say 8.
+7.  Suppose it is the delivery time. and therefore you have to work on weekends.
+    If need I will be there in the project at any time to achieve our delivery promise and to make positive sign.
+    I would like to add something that In my current company I had supported them on weekends as well by working as a full day in the office.
+    Because I am always open to take an apportunity.
+8.  At last moment of project delivery, the requirement is changed.
+    There could be situtation that.
+    We have to implement the new requirement within the given time or within a new given time
+    Comman things is that we will not going to remove the current implement in both cases there could be the situtation that we have to
+    kept current implement as well.
+    If we have to implement that in the previous time in that case, We have to choose our approach agile and we have to devide our work
+    in a team if only one developer was working on that requirement now we can take support of another developer to acheive the goal
+    if another developer is not free in that I have to extra to acheive goal.
+    If we have to implement that in the new time in that, We have to choose our approach again agile and we can delivery our
+    new requirement within given time.
+9. Somebody resigned from the team and there is extra workload on you.
+    I have to make my self always prepare for myself means If my current work delivery is 2 days and some situation came in that case
+    I have to speedup and perallel I have to make a plane to manage extra work as well with current work.
+10. You are asked to learn a new technology for a new project.
+    Yes, I am always open to learn new technology.
+    I would also like to say that I have visit the profile of company and found that in the 
+    frontend company project are building with React.js and Next.js I have started learning from basics to make our application as SSR.
+    Backend company project are building with Python and I have planned to learn Python.
+11. You are introduced in a project with tight deadline.
+    I had a one situtation in my current organization that was 
+    Suddenly, Request came to change the layout of homepage for their festival
+    and deadline was very tight why suddenly as I told you that we were not getting work directly from client instead we are getting
+    work from our austerlia branch they gave us suddenly work and that we have to implement for that situtation
+    we have handled by delivered the work into team because most of the time I handled the homepage that's why we abled to 
+    acheive goal also ew have worked on weekends as well in my current company
+
+Absolutely! Here are suggested answers to the additional questions, tailored to your experience as a Full Stack
+Developer:
+
+---
+
+### 1. **How do you manage competing priorities in a project?**
+**Answer:**
+When managing competing priorities, I rely on effective communication, time management, and prioritization. I start by
+understanding the critical requirements and deadlines from the project stakeholders. Then, I break down tasks into
+smaller, manageable pieces and assess their impact on the overall project. I typically use tools like JIRA to keep track
+of tasks and deadlines. If multiple priorities overlap, I focus on high-impact tasks first, ensuring that I deliver
+value incrementally. I also communicate regularly with the team to ensure we are aligned and to adjust priorities if
+necessary, especially if any roadblocks arise.
+
+---
+
+### 2. **How do you approach troubleshooting and debugging in a project?**
+**Answer:**
+I approach troubleshooting and debugging systematically to ensure that I identify the root cause of issues efficiently.
+I begin by replicating the issue in a controlled environment to understand the symptoms. Then, I use browser developer
+tools, logging (e.g., `console.log` in the frontend, or `winston`/`debug` in the backend), and other debugging tools to
+track down errors. I also review the code flow, especially around the components or functions where the issue is
+occurring. If the issue is complex, I break it down into smaller parts and test each part independently. When working in
+teams, I collaborate with colleagues to leverage their insights and perspectives. Once the problem is resolved, I write
+tests (unit or integration) to ensure that it doesn't recur.
+
+---
+
+### 3. **How do you ensure the code quality and maintainability in your projects?**
+**Answer:**
+To ensure code quality and maintainability, I follow best practices like writing clean, modular, and well-documented
+code. I use naming conventions that make the codebase easier to understand and maintain. I also write unit tests and
+integration tests to ensure functionality is correct and remains stable over time. I regularly perform code reviews with
+the team, which helps catch issues early and ensures consistency across the codebase. For both frontend and backend, I
+adhere to SOLID principles and design patterns to keep the codebase scalable and extensible. Additionally, I utilize
+linters (e.g., ESLint for JavaScript) and formatters to enforce consistent coding styles.
+
+---
+
+### 4. **Tell me about a difficult technical challenge you faced and how you overcame it.**
+**Answer:**
+One of the more difficult challenges I faced was during the **Analytical Dashboard** project when we had to integrate
+data from multiple sources, including external APIs and internal databases. The challenge was that the data was in
+different formats and had varying levels of complexity, which made it difficult to efficiently aggregate and display on
+the dashboard.
+
+To solve this, I worked on designing a flexible GraphQL schema using **Apollo Server** to standardize the way data was
+fetched, regardless of the source. I also implemented caching and pagination to ensure that data retrieval was optimized
+
+for performance. Additionally, I collaborated closely with the backend team to ensure data consistency and to address
+any API limitations. The result was a more responsive and scalable system that could handle large datasets without
+compromising performance.
+
+---
+
+### 5. **How do you handle conflict or disagreements within the team?**
+**Answer:**
+I believe that open and respectful communication is key to resolving conflicts in a team. If a disagreement arises, I
+first listen carefully to the concerns of all parties involved to understand the root cause of the issue. I then work
+collaboratively to find a solution that aligns with the team's goals. I try to stay neutral and facilitate productive
+discussions, focusing on facts and data to support decisions rather than emotions or personal opinions. If necessary, I
+would involve the project manager or lead to mediate the discussion and help come to a consensus. The ultimate goal is
+to find a solution that moves the project forward and keeps the team functioning efficiently.
+
+---
+
+### 6. **Can you explain how you approach writing unit tests or end-to-end tests?**
+**Answer:**
+When writing **unit tests**, I focus on testing individual functions or components in isolation to ensure that each
+piece of the application behaves as expected. I use tools like **Jest** or **Mocha** for JavaScript testing, along with
+**React Testing Library** for testing React components. My approach is to write tests that cover edge cases and validate
+that the output matches the expected results given a variety of inputs.
+
+For **end-to-end (E2E) testing**, I use tools like **Cypress** or **Selenium** to simulate user interactions and ensure
+that the entire application flow works as intended. I typically write E2E tests for critical user journeys, such as
+logging in, adding items to a shopping cart, or submitting a form. In both cases, I ensure that tests are maintainable,
+easy to read, and cover the most important aspects of the application.
+
+---
+
+### 7. **How do you keep up-to-date with new technologies and trends in web development?**
+**Answer:**
+I believe in continuous learning, so I make it a priority to stay updated with new technologies and trends in web
+development. I regularly follow blogs, newsletters, and forums like **Dev.to**, **Medium**, and **Stack Overflow** to
+learn about the latest tools, frameworks, and best practices. I also watch tech talks and conferences (e.g.,
+**ReactConf**, **JSConf**) to keep myself informed about emerging trends. I engage with the developer community on
+GitHub, where I contribute to open-source projects, and on platforms like **Twitter** and **Reddit**, where developers
+often discuss new technologies and share insights. I also try to experiment with new technologies by building side
+projects or taking online courses to get hands-on experience.
+
+---
+
+### 8. **What is your experience with Agile methodologies and working in sprints?**
+**Answer:**
+I have experience working in an **Agile** environment, where we follow **Scrum** methodology with **2-week sprints**. In
+each sprint, we break down the tasks into smaller, manageable user stories, and prioritize them based on business value.
+We have daily stand-up meetings to discuss progress, blockers, and what we plan to work on for the day. At the end of
+each sprint, we conduct a sprint review to demonstrate the work completed and a sprint retrospective to discuss what
+went well and what could be improved.
+
+Working in Agile has taught me the value of iterative development, quick feedback loops, and collaboration across teams.
+It also helps in adapting to changes in project requirements quickly, ensuring we always deliver working software that
+meets user needs.
+
+---
+
+### 9. **How do you handle feedback or criticism on your work?**
+**Answer:**
+I view feedback and criticism as opportunities for growth. When I receive feedback, I first listen carefully to
+understand the points being raised. I then reflect on the feedback and assess how I can improve my work. If I disagree
+with some aspects of the feedback, I seek clarification in a constructive manner, asking for specific examples or
+suggestions for improvement. I believe that feedback is a crucial part of the development process and helps ensure that
+the end product is of the highest quality. I actively seek feedback from peers, code reviewers, and mentors to
+continuously improve my skills.
+
+---
+
+### 10. **Tell me about a time you had to work with a difficult client or stakeholder and how you managed the
+relationship.**
+**Answer:**
+In one of my previous projects, I worked with a client who had frequent changes in requirements and unclear
+expectations, which caused some tension within the team. To manage the relationship, I proactively scheduled regular
+meetings with the client to better understand their needs and expectations. I made sure to document the requirements and
+scope in detail, ensuring that both the client and the team were on the same page. When changes arose, I communicated
+the impact on timelines and resources, helping the client make informed decisions. By setting clear expectations and
+keeping open lines of communication, I was able to build trust and ensure that the project was delivered successfully,
+even with the changing requirements.
+
+---
+
+I hope these answers help you prepare for your managerial interview! Feel free to adapt them to your own experiences or
+let me know if you'd like to further refine any of the answers.
+
+**Answer:**
+In the next two years, I see myself having significantly grown both technically and professionally. I aim to deepen my
+expertise in full-stack development, especially in areas such as advanced backend architectures, cloud technologies, and
+microservices. I want to become even more proficient with modern frameworks like React, Next.js, and tools like GraphQL,
+as well as expand my knowledge in areas like DevOps and containerization (e.g., Docker, Kubernetes).
+
+Beyond the technical side, I also envision myself taking on more leadership responsibilities. Whether that’s mentoring
+junior developers, leading small teams, or taking on a more active role in project management, I aim to contribute more
+strategically to the success of the projects I’m working on. My goal is to balance my strong technical skills with
+leadership abilities, ensuring that I can not only build great products but also guide teams toward success in a
+collaborative and efficient way.
+
+Overall, I hope to continue evolving as a developer and as a team player, taking on larger and more complex challenges
+while growing into a role where I can make a broader impact in both technology and business outcomes.
+
+---
+
+This answer strikes a balance between professional growth, technical development, and potential leadership aspirations.
+You can adjust it based on the direction you want your career to take and the opportunities available in the company
+you're interviewing with!
