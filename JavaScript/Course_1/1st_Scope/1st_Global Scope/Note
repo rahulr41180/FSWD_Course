@@ -1,5 +1,0 @@
-
-Global scope are accross the file means
-
-We know that let variable are block scope but if there are two .js file like in this global scope folder
-and we decalre two same variable with let in sperate file but we will get error like

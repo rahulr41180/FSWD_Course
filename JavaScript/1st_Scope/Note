@@ -1,0 +1,18 @@
+
+Scope : The scope is the current context of execution in which values and expressions are "visible"
+
+// -----------------------------------------------------------
+
+var a = 5;
+let b = 5;
+const c = 5;
+
+// let a = 5; We cann't declared same variable with let in same scope because we already declared the same variable with var
+// const a = 5; We cann't declared same variable with const because we already declared the same variable with var
+var a = 10; // We can redeclared same variable with var if this variable was declared with var.
+
+// var b = 5; We cann't declared same variable with var because we already declared the same variable with let
+// const b = 5; We cann't declared same variable with const because we already declared the same variable with let
+
+// var c = 5; We cann't declared same variable with var because we already declared the same variable with const
+// let c = 5; We cann't declared same variable with let because we already declared the same variable with const
