@@ -48,3 +48,4 @@
     24. RESTFULL APIs
     25. GRAPHQL
     26. JEST
+    27. Session, Cookies, LocalStorage, Json Web Server

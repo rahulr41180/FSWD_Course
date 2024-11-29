@@ -1,12 +1,14 @@
+
 // Interpolation Search :
-/*
+
+/* 
 Sure! Let's dive into **Interpolation Search** and how to implement it in JavaScript.
 
 ### What is Interpolation Search?
 
-**Interpolation Search** is an efficient algorithm for searching a sorted array.
-Unlike binary search, which splits the search space in half regardless of the values in the array,
-**Interpolation Search** tries to improve the search efficiency by estimating where the target value might be,
+**Interpolation Search** is an efficient algorithm for searching a sorted array. 
+Unlike binary search, which splits the search space in half regardless of the values in the array, 
+**Interpolation Search** tries to improve the search efficiency by estimating where the target value might be, 
 based on the assumption that the values are uniformly distributed.
 
 ### How Does Interpolation Search Work?
@@ -22,21 +24,21 @@ based on the assumption that the values are uniformly distributed.
    - `arr[low]` and `arr[high]` are the values at the `low` and `high` positions, respectively.
    - `target` is the value you are searching for.
 
-   The idea is that if the array is sorted and the distribution of values is relatively uniform,
+   The idea is that if the array is sorted and the distribution of values is relatively uniform, 
    the target element should be closer to a position in the array that can be estimated by this formula.
 
 2. **Search Process**:
    - If the element at the calculated position is the target, the search ends successfully.
-   - If the target value is smaller than the element at the guessed position,
+   - If the target value is smaller than the element at the guessed position, 
      then the search is narrowed to the left part of the array (`high = position - 1`).
-   - If the target value is larger than the element at the guessed position,
+   - If the target value is larger than the element at the guessed position, 
      the search is narrowed to the right part (`low = position + 1`).
    - If the guessed position is out of bounds (e.g., negative or greater than the array size), the search stops.
 
 3. **Time Complexity**:
    - **Best case**: O(1) if the first guess is correct.
    - **Average case**: O(log log n) for uniform distributions.
-   - **Worst case**: O(n) if the data is not uniformly distributed or the estimation doesn’t help
+   - **Worst case**: O(n) if the data is not uniformly distributed or the estimation doesn’t help 
      (e.g., if the values are clustered together).
 
 ### When to Use Interpolation Search?
@@ -95,7 +97,7 @@ function interpolationSearch(arr, target) {
 
 4. **Target Found**: If the value at the calculated position matches the target, we return the position of the element.
 
-5. **Narrowing the Search**: Depending on whether the target is smaller or larger than the value at the calculated position,
+5. **Narrowing the Search**: Depending on whether the target is smaller or larger than the value at the calculated position, 
    we adjust the search space (either move `low` up or `high` down).
 
 6. **Return -1**: If the loop ends without finding the target, the function returns `-1`, indicating the target is not in the array.
@@ -124,44 +126,47 @@ Element found at index: 4
 
 ### Advantages of Interpolation Search
 
-- **Efficiency**: When the data is uniformly distributed, Interpolation Search can be more efficient
+- **Efficiency**: When the data is uniformly distributed, Interpolation Search can be more efficient 
   than binary search because it narrows the search based on actual values rather than just halving the search space.
-- **Better Performance in Certain Scenarios**: For large datasets where values are evenly distributed,
+- **Better Performance in Certain Scenarios**: For large datasets where values are evenly distributed, 
   Interpolation Search could outperform binary search, especially when data is sparse.
 
 ### Disadvantages
 
-- **Not Always Faster**: If the distribution of values is skewed (e.g., when most of the data is clustered around one value),
+- **Not Always Faster**: If the distribution of values is skewed (e.g., when most of the data is clustered around one value), 
   interpolation search could become inefficient and slow.
 - **Requires Sorted Data**: Like binary search, interpolation search only works on sorted arrays.
-- **Potential for Out of Bounds**: The calculation of the position can potentially lead to out-of-bounds errors
+- **Potential for Out of Bounds**: The calculation of the position can potentially lead to out-of-bounds errors 
   if the array is not uniformly distributed.
 
 ---
 
 ### Final Thoughts
 
-Interpolation Search is a great alternative to binary search for large, sorted arrays with relatively uniform data.
-It provides a more "intelligent" guessing mechanism that can sometimes dramatically improve search performance.
+Interpolation Search is a great alternative to binary search for large, sorted arrays with relatively uniform data. 
+It provides a more "intelligent" guessing mechanism that can sometimes dramatically improve search performance. 
 However, it’s important to consider the distribution of your data, as it might not always outperform traditional binary search.
 
 Let me know if you'd like to dive deeper into any specific part of the algorithm or its implementation!
 */
-function interpolationSearch(arr, target) {
-    var low = 0;
-    var high = arr.length - 1;
-    while (low <= high && target >= arr[low] && target <= arr[high]) {
-        var position = low + Math.floor(((target - arr[low]) / (arr[high] - arr[low])) * (high - low));
-        if (arr[position] === target)
-            return position;
-        if (arr[position] > target)
-            high = position - 1;
-        else
-            low = position + 1;
-    }
-    return -1;
+
+
+function interpolationSearch(arr: number[], target: number): number {
+  let low: number = 0;
+  let high: number = arr.length - 1;
+
+  while(low <= high && target >= arr[low] && target <= arr[high]) {
+    let position: number = low + Math.floor(((target - arr[low]) / (arr[high] - arr[low])) * (high - low));
+
+    if(arr[position] === target) return position;
+    if(arr[position] > target) high = position - 1;
+    else low = position + 1;
+  }
+  return -1;
 }
-var arr = [10, 22, 35, 40, 45, 50, 70, 90, 100];
-var target = 90;
-var result = interpolationSearch(arr, target);
-console.log('result:', result);
+
+let arr: number[] = [10, 22, 35, 40, 45, 50, 70, 90, 100];
+let target: number = 90;
+
+const result: number = interpolationSearch(arr, target);
+console.log('result:', result)
