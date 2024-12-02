@@ -75,4 +75,6 @@ roleMessage1("admin");
 
 /* 
 We can achieve this literal type by using union symbol.
+
+Means a literal type says that what type or what value we can accept for a variable or for a function perameter.
 */

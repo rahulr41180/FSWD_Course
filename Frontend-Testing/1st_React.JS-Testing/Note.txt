@@ -1,0 +1,5 @@
+
+@testing-library/react: This is the library for testing React components.
+@testing-library/jest-dom: Adds custom matchers for DOM testing, like toBeInTheDocument().
+vitest: This is the test runner and assertion library, designed for Vite.
+@vitejs/plugin-react: This is necessary for Vite to work with React.
