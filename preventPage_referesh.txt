@@ -1,0 +1,562 @@
+
+Yes, you can implement the `beforeunload` event listener as you've described to prevent the user from refreshing the page or closing the browser tab while there are pending API requests. This ensures that the user doesn't accidentally lose data or disrupt ongoing processes if the API call is still in progress. Let's break it down step by step:
+
+### **Explanation of the Code**
+
+The `beforeunload` event in the browser is triggered when the user attempts to leave the page (e.g., by refreshing the page, closing the browser tab, or navigating to another page). You can hook into this event to prevent the action or display a confirmation dialog asking the user if they're sure they want to leave the page.
+
+### 1. **Creating the `handleBeforeUnload` function**
+```javascript
+const handleBeforeUnload = (event) => {
+  if (isApiPending) {
+    event.preventDefault();
+    event.returnValue = ''; // Display confirmation dialog
+  }
+};
+```
+- **`event.preventDefault()`**: This prevents the default behavior (which would be leaving the page or refreshing it).
+- **`event.returnValue = ''`**: This is required for triggering the confirmation dialog. Setting `event.returnValue` to an empty string prompts the browser to show a confirmation dialog asking the user if they are sure they want to leave the page.
+- **`isApiPending`**: This is a flag that should be set to `true` when you have pending API calls. If `isApiPending` is `true`, the `beforeunload` event will trigger, and the user will be asked if they are sure they want to leave or refresh the page.
+
+### 2. **Adding and removing the `beforeunload` event listener**
+
+You add and remove the event listener using `useEffect`, which ensures that the event listener is only active when the component is mounted and cleaned up properly when the component is unmounted.
+
+```javascript
+useEffect(() => {
+  window.addEventListener('beforeunload', handleBeforeUnload);
+  return () => {
+    window.removeEventListener('beforeunload', handleBeforeUnload);
+  };
+}, [isApiPending]);
+```
+- **`useEffect(() => { ... }, [isApiPending])`**: The `useEffect` hook ensures that the `handleBeforeUnload` function is registered as an event listener for the `beforeunload` event when `isApiPending` changes. This means the event listener will be attached whenever there are pending API calls.
+  
+  The `isApiPending` value is crucial here. The event listener is triggered or deactivated based on whether API calls are still pending. This ensures that the confirmation dialog is shown only when necessary.
+  
+- **`window.addEventListener('beforeunload', handleBeforeUnload)`**: This registers the `beforeunload` event listener, so whenever the user tries to leave the page, the `handleBeforeUnload` function will be triggered.
+  
+- **`return () => { window.removeEventListener('beforeunload', handleBeforeUnload); }`**: This ensures the event listener is cleaned up when the component is unmounted or `isApiPending` changes. Removing the event listener is important to prevent potential memory leaks or unintended behavior after the component is removed from the DOM.
+
+### 3. **When should `isApiPending` be `true`?**
+- You should set `isApiPending` to `true` while you are making API requests. Once the API request completes (either success or failure), set it back to `false`.
+- For example, you might have code like this for triggering API calls:
+
+```javascript
+const [isApiPending, setIsApiPending] = useState(false);
+
+const fetchData = async () => {
+  setIsApiPending(true); // Start the API request
+  try {
+    const response = await someApiCall();
+    // Handle the response
+  } catch (error) {
+    console.error("API error:", error);
+  } finally {
+    setIsApiPending(false); // End the API request
+  }
+};
+```
+In this example, `isApiPending` will be set to `true` when an API call starts, and it will be set to `false` when the API call completes (successfully or with an error).
+
+### **Why Implement This?**
+
+Here’s why this approach is beneficial:
+
+1. **Prevent Accidental Data Loss**: If there are pending API requests (such as submitting a form or processing some critical data), refreshing or leaving the page may result in the loss of the data or disrupt the process. By showing the confirmation dialog, you give the user a chance to reconsider the action.
+
+2. **User Experience**: This improves the user experience by providing feedback when the app is performing long-running tasks. If the user tries to navigate away, they are reminded that there are tasks in progress, and they can choose to stay and let the task finish.
+
+3. **Preventing Multiple API Calls**: If a user refreshes the page while an API call is pending, and you don't prevent the refresh, new API calls may be triggered (for example, on mount in `useEffect`). By using this approach, you can stop unnecessary new requests from being made while there's already an active request.
+
+### **Considerations**
+
+- **Browser Support**: Most modern browsers support the `beforeunload` event, but it's worth noting that the behavior of the confirmation dialog can vary between browsers. Some browsers might display a generic message ("Are you sure you want to leave this page?"), while others may display a custom message.
+  
+- **Performance**: Continuously updating the `isApiPending` state and handling `beforeunload` might introduce some overhead, especially if you have many pending requests or complex logic. However, for most use cases, this should be minimal.
+
+- **User Decision**: After the confirmation dialog is shown, the user can choose to stay on the page or leave. If they choose to stay, the API calls will continue, and if they leave, the current requests may be aborted depending on your handling of the API call.
+
+### **Summary**
+
+- The `beforeunload` event listener is used to prevent the user from accidentally refreshing or closing the page when there are pending API calls.
+- The event listener is added when there are pending requests (i.e., `isApiPending` is `true`).
+- It will show a confirmation dialog asking the user if they are sure they want to leave the page.
+- This prevents potential data loss or disruption in the middle of critical tasks.
+
+// ----------------------------------------------
+
+import { useState, useEffect, useRef } from "react";
+import {
+  dashboardStats,
+  deliveryStats,
+} from "../../services/dashboard/DashboardService";
+import { Select, Table } from "antd";
+import { mappingList } from "../../services/areaMapping/MappingService";
+import {
+  sectorDataStats,
+  dashboardTable,
+} from "../../services/dashboard/DashboardService";
+import { useQuery } from "react-query";
+import { commonHeaders } from "../Common/TableHeadersGeneration";
+
+const DashboardDetail = () => {
+  const [stats, setStats] = useState(null);
+  const [allRiders, setAllRiders] = useState([]);
+  const [sectorData, setSectorData] = useState([]);
+  const [selectedRider, setSelectedRider] = useState(null); // Track selected rider
+  const [otherProducts, setOtherProducts] = useState([]); // State for other products data
+  const [isApiPending, setIsApiPending] = useState(false);
+  const [deliveryStatss, setDeliveryStats] = useState();
+  const [cityWise, setCityWise] = useState();
+
+  const [tableDataCitywise, setTableDataCitywise] = useState([]);
+
+  // Counter to track API calls
+  const apiCallCount = useRef({
+    dashboardStats: 0,
+    sectorDataStats: 0,
+    allRiders: 0,
+    deliveryStats: 0,
+  });
+
+  // Log the API calls to the console
+  const logApiCall = (apiName) => {
+    apiCallCount.current[apiName] = (apiCallCount.current[apiName] || 0) + 1;
+    console.log(`API ${apiName} called ${apiCallCount.current[apiName]} times`);
+  };
+  const { data, isLoading } = useQuery("dashboardTable", dashboardTable, {
+    refetchOnWindowFocus: false,
+    staleTime: 30 * 1000, // Data is fresh for 30 seconds, no refetch during this time
+    enabled: !isApiPending
+  });
+
+  useEffect(() => {
+    const isPending = sessionStorage.getItem('apiPending');
+    if (isPending === 'true') {
+      setIsApiPending(true);
+    }
+  }, []);
+
+  const setApiPendingStatus = (isPending) => {
+    sessionStorage.setItem('apiPending', isPending ? 'true' : 'false');
+    setIsApiPending(isPending);
+  };
+
+  const fetchApiData = async (apiCall, setDataFunction, apiName) => {
+    if (isApiPending) {
+      return;
+    }
+    try {
+      setApiPendingStatus(true);
+      logApiCall(apiName);
+      const response = await apiCall();
+      setDataFunction(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setApiPendingStatus(false);
+    }
+  };
+
+  // Fetch Dashboard Stats
+  useEffect(() => {
+    // Only make the API call once when the component mounts
+    if (apiCallCount.current.dashboardStats === 0) {
+      fetchApiData(dashboardStats, (data) => {
+        setStats(data);
+        setOtherProducts(data.other_products);
+      }, 'dashboardStats');
+    }
+  }, []);
+
+  // Fetch Sector Data
+  useEffect(() => {
+    // Only make the API call once when the component mounts
+    if (apiCallCount.current.sectorDataStats === 0) {
+      fetchApiData(sectorDataStats, (data) => {
+        const sectorsData = data.sectors_data.map((sector) => ({
+          id: sector.id,
+          name: sector.sector_name,
+          count: sector.count,
+        }));
+        setSectorData(sectorsData);
+      }, 'sectorDataStats');
+    }
+  }, []);
+
+  // Fetch All Riders
+  useEffect(() => {
+    // Only make the API call once when the component mounts
+    if (apiCallCount.current.allRiders === 0) {
+      fetchApiData(mappingList, (data) => {
+        setAllRiders(data.all_riders);
+      }, 'allRiders');
+    }
+  }, []);
+
+  // Fetch Delivery Stats
+  useEffect(() => {
+    // Only make the API call once when the component mounts
+    if (apiCallCount.current.deliveryStats === 0) {
+      fetchApiData(deliveryStats, (data) => {
+        setCityWise(data);
+        setDeliveryStats({
+          total_deliveries: data.total_delieveries,
+          delivery_before_7am: data.before_7,
+          delivery_after_7am: data.after_7,
+          percentage_after_7am: data.percent_after_7,
+          pendingDeliveryies: data.accepted_delievries_count,
+          notDeliveredCount: data.not_delivered_delievries_count,
+        });
+      }, 'deliveryStats');
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     if (isApiPending) {
+  //       console.log("API call is pending, skipping this request...")
+  //       return;
+  //     }
+  //     try {
+  //       setApiPending(true);
+  //       const response = await dashboardStats();
+  //       setStats(response.data);
+  //       setOtherProducts(response.data.other_products);
+  //     } catch (error) {
+  //       console.error("Error fetching dashboard stats:", error);
+  //     } finally {
+  //       setApiPending(false);
+  //     }
+  //   };
+
+  //   async function fetchSectorData() {
+  //     if (isApiPending) {
+  //       console.log("API call is pending, skipping this request...")
+  //       return;
+  //     }
+  //     try {
+  //       setApiPending(true);
+  //       const response = await sectorDataStats();
+  //       const sectorsData = response.data.sectors_data.map((sector) => ({
+  //         id: sector.id,
+  //         name: sector.sector_name,
+  //         count: sector.count,
+  //       }));
+  //       setSectorData(sectorsData);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     } finally {
+  //       setApiPending(false);
+  //     }
+  //   }
+
+  //   async function fetchAllRiders() {
+  //     if (isApiPending) {
+  //       console.log("API call is pending, skipping this request...")
+  //       return;
+  //     }
+  //     try {
+  //       setApiPending(true);
+  //       const response = await mappingList();
+  //       setAllRiders(response.data.all_riders);
+  //     } catch (error) {
+
+  //       console.error("Error fetching all riders:", error);
+  //     } finally {
+  //       setApiPending(false);
+  //     }
+  //   }
+
+  //   async function fetchDeliveryStats() {
+  //     if (isApiPending) {
+  //       console.log("API call is pending, skipping this request...")
+  //       return;
+  //     }
+  //     try {
+  //       setApiPending(true);
+  //       const response = await deliveryStats();
+  //       const dataStats = response.data;
+  //       setCityWise(dataStats);
+
+  //       setDeliveryStats({
+  //         total_deliveries: dataStats.total_delieveries,
+  //         delivery_before_7am: dataStats.before_7,
+  //         delivery_after_7am: dataStats.after_7,
+  //         percentage_after_7am: dataStats.percent_after_7,
+  //         pendingDeliveryies: dataStats.accepted_delievries_count,
+  //         notDeliveredCount: dataStats.not_delivered_delievries_count,
+  //       });
+  //     } catch (error) {
+  //       console.error("Error fetching delivery stats:", error);
+  //     } finally {
+  //       setApiPending(false);
+  //     }
+  //   }
+
+  //   fetchData();
+  //   fetchSectorData();
+  //   fetchAllRiders();
+  //   fetchDeliveryStats();
+  // }, [sessionStatus]);
+
+  useEffect(() => {
+    const after7 = cityWise?.city_wise_count_after_7 || {};
+    const before7 = cityWise?.city_wise_count_before_7 || {};
+    const acceptedCount = cityWise?.accepted_city_wise_before_count || {};
+    const notDelivered = cityWise?.not_delivered_city_wise_before_count || {};
+
+    const combinedKeys = new Set([
+      ...Object.keys(before7),
+      ...Object.keys(after7),
+      ...Object.keys(acceptedCount),
+      ...Object.keys(notDelivered),
+    ]);
+
+    const parsedData = Array.from(combinedKeys).map((key) => {
+      const [city, state] = key.split(", ");
+      return {
+        "City, State": `${city}, ${state}`,
+        before7: before7[key] || 0,
+        after7: after7[key] || 0,
+        acceptedCount: acceptedCount[key] || 0,
+        notDelivered: notDelivered[key] || 0,
+      };
+    });
+
+    setTableDataCitywise(parsedData);
+  }, [cityWise]);
+
+  const colors = ["#DF4584", "#F9A603", "#65CBF3"];
+
+  const selectStyle = {
+    width: "60%",
+    fontWeight: "bold",
+    color: "black",
+  };
+
+  const onChange = async (value) => {
+    setSelectedRider(value); // Update selected rider
+    const response = await sectorDataStats(value);
+    setSectorData(response.data.sectors_data);
+  };
+
+  const handleSearch = (value) => {
+    // Handle onSearch event of Select component
+    console.log("Searching for rider:", value);
+  };
+
+  const filterOption = (input, option) =>
+    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+
+  let historyData = [];
+  data?.data?.map((rider) => {
+    historyData.push({
+      rider: rider.rider_name,
+      assigned_orders: rider.total_orders,
+      completed_orders: rider.completed_order_count,
+      pending_orders: rider.pending_order_count,
+      escalated_orders: rider.escelated_order_count,
+    });
+  });
+
+  const historyHeaders = [
+    "rider",
+    "assigned_orders",
+    "completed_orders",
+    "pending_orders",
+    "escalated_orders",
+  ];
+
+  const deliveryColumns = [
+    "total_deliveries",
+    "delivery_before_7am",
+    "delivery_after_7am",
+    "percentage_after_7am",
+  ];
+
+  // const columns = [
+  //   {
+  //     title: "Total Deliveries",
+  //     dataIndex: "total",
+  //   },
+  //   {
+  //     title: "Delivery before 7am",
+  //     dataIndex: "before7",
+  //   },
+  //   {
+  //     title: "Delivery after 7am",
+  //     dataIndex: "after7",
+  //   },
+  //   {
+  //     title: "Percentage after 7am",
+  //     dataIndex: "percentage",
+  //   },
+  // ];
+
+  const cityWiseColumns = [
+    {
+      title: "City, State",
+      dataIndex: "City, State",
+      key: "City, State",
+      width: 200,
+    },
+    {
+      title: " Before 7",
+      dataIndex: "before7",
+      key: "before7",
+    },
+    {
+      title: " After 7",
+      dataIndex: "after7",
+      key: "after7",
+    },
+    {
+      title: "Pending ",
+      dataIndex: "acceptedCount",
+      key: "acceptedCount",
+    },
+    {
+      title: " Not Delivered ",
+      dataIndex: "notDelivered",
+      key: "notDelivered",
+    },
+  ];
+
+  const statItems = [
+    { value: stats?.total_orders, label: "Orders", color: "#DF4584" },
+    { value: stats?.total_packets, label: "Packets", color: "#F9A603" },
+    { value: stats?.total_agaents, label: "Riders", color: "#65CBF3" },
+    { value: stats?.total_pincodes, label: "Pincodes", color: "#FC8172" },
+    { value: stats?.total_sectors, label: "Sectors", color: "#AA00FF" },
+    {
+      value: stats?.unique_customer_count || 0,
+      label: "Unique Customers",
+      color: "#65CBF3",
+    },
+  ];
+
+  return (
+    <div className='flex justify-between mt-12'>
+      <div className='w-[45%] space-y-7'>
+        <div className='grid grid-cols-5 gap-4'>
+          {stats &&
+            statItems.map((item, index) => (
+              <div
+                key={index}
+                className='rounded-lg text-center text-white px-1 py-5'
+                style={{ backgroundColor: item.color }}
+              >
+                <div className='text-3xl font-medium'>{item.value}</div>
+                <div className='text-sm'>{item.label}</div>
+              </div>
+            ))}
+        </div>
+        <div className='grid grid-cols-3 gap-4'>
+          {otherProducts?.map((product, index) => (
+            <div
+              key={index}
+              className='rounded-lg text-center text-white px-1 py-5'
+              style={{ backgroundColor: colors[index % colors.length] }}
+            >
+              <div className='text-3xl font-medium'>{product.count}</div>
+              <div className='text-sm'>{product.name}</div>
+            </div>
+          ))}
+        </div>
+        <div>
+          <Table
+            columns={commonHeaders(historyData, historyHeaders)}
+            dataSource={historyData}
+            rowKey={(record) => record.rider_id}
+            pagination={false}
+            loading={isLoading}
+          />
+        </div>
+      </div>
+      <div className='w-[45%] space-y-5'>
+        <div>
+          <Select
+            style={selectStyle}
+            showSearch
+            placeholder='Orders by Rider'
+            optionFilterProp='children'
+            onChange={onChange}
+            onSearch={handleSearch}
+            filterOption={filterOption}
+            options={allRiders.map((rider) => ({
+              value: rider.id,
+              label: rider.full_name,
+            }))}
+          />
+        </div>
+
+        {selectedRider && sectorData.length > 0
+          ? sectorData.map((sector, index) => (
+            <div
+              className='rounded-xl bg-[#AA00FF] flex w-3/5 mt-3 justify-center p-2 text-white'
+              key={index}
+            >
+              <div className='flex flex-col'>
+                <p className='font-medium text-xl'>
+                  {sector.sector_name} - {sector.count} Orders
+                </p>
+              </div>
+            </div>
+          ))
+          : selectedRider &&
+          sectorData.length === 0 && (
+            <p className='rounded-xl bg-[#AA00FF] flex w-3/5 mt-3 justify-center p-2 text-white'>
+              No sectors assigned
+            </p>
+          )}
+
+        <div>
+          <Table
+            columns={commonHeaders([deliveryStats], deliveryColumns)}
+            dataSource={[deliveryStatss]}
+            size='small'
+            pagination={false}
+          />
+        </div>
+        <div className='grid grid-cols-3 gap-3'>
+          <div
+            className={`bg-[${colors[0]}] text-white p-2 rounded-lg text-center`}
+          >
+            <div> Pending Deliveries</div>
+            <div className='text-center'>
+              {deliveryStatss?.pendingDeliveryies}
+            </div>
+          </div>
+          <div
+            className={`bg-[${colors[0]}] text-white p-2 rounded-lg text-center`}
+          >
+            <div>Not Delivered</div>
+            <div className='text-center'>
+              {deliveryStatss?.notDeliveredCount}
+            </div>
+          </div>
+          <div
+            className={`bg-[${colors[0]}] text-white p-2 rounded-lg text-center`}
+          >
+            <div>Delivered </div>
+            <div className='text-center'>
+              {deliveryStatss?.total_deliveries}
+            </div>
+          </div>
+        </div>
+        <div>
+          <Table
+            columns={cityWiseColumns}
+            dataSource={tableDataCitywise}
+            size='small'
+            pagination={false}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardDetail;
