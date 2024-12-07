@@ -2,50 +2,60 @@
 1. DATA STRUCTURES AND ALGORITHMS
 
 2. Frontend Technology
-    1. HTML
+->    1. HTML
     2. CSS
     3. JAVASCRIPT
     4. TYPESCRIPT
+    14. Session, Cookies, LocalStorage, Json Web Server
     5. REACT.JS
     6. REDUX.JS
     7. ZUSTAND
+
     8. NEXT.JS
-    
+    18. DART
+    17. JEST
+    19. Flutter
+    20. React Native
+    21. SASS
+    22. SCSS
     9. API ARCHITECTURE
     10. TAILWIND CSS
     11. antd
     12. RESTFULL APIs
     13. GRAPHQL
-    14. Session, Cookies, LocalStorage, Json Web Server
     15. Angular.JS
     16. REDIS UI
-    17. JEST
+
+3. Project
 
 2. Backend Technology
-    1. NODE.JS
-    2. EXPRESS
+->    1. NODE.JS
+    18. NEST.JS
     3. MONGODB
-    4. MYSQL
-    5. PYTHON
-    6. DJANGO
+    2. EXPRESS
+    27. Session, Cookies, LocalStorage, Json Web Server
+    26. JEST
+    23. SOLID PRINCIPLE
     7. SYSTEM DESIGN
     8. API ARCHITECTURE
     9. SYSTEM ARCHITECTURE
     10. CLOUD PLATEFORM
-    11. JAVA
-    12. SPRING BOOT
-    13. PAYMENT GATEWAY
     14. DOCKER
     15. CI/CD PIPELINE
-    16. KUBERNETES
     17. KAFKA
-    18. NEST.JS
+    16. KUBERNETES
+    13. PAYMENT GATEWAY
+    26. Caching
+    5. PYTHON
+    6. DJANGO
+    4. MYSQL
+    11. JAVA
+    12. SPRING BOOT
     19. PHP
     20. LAREBAL
     21. BLOCKCHAIN
     22. SOLIDITY
-    23. SOLID PRINCIPLE
     24. RESTFULL APIs
     25. GRAPHQL
-    26. JEST
-    27. Session, Cookies, LocalStorage, Json Web Server
+
+4. Project

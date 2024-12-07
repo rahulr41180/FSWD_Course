@@ -1,0 +1,24 @@
+
+// Installation of DART
+
+1. First install the DART SDK.
+2. https://dart.dev/get-dart/archive
+3. UNZIP the file
+4. Copy the file path : C:\Users\lenovo\Downloads\dartsdk-windows-x64-release\dart-sdk\bin
+5. Set this path to envirnmental variable.
+6. Click on PATH of User variable.
+7. Set the file path there.
+8. To check just write the 'dart' command in command line.
+9. To check version of dart we have to run 'dart --version'.
+
+10. We have to install some extension in Visual Studio Code like : Dart, 
+11. We have to run 'ctrl + shift + p'
+12. Search 'dart' and select 'dart new project'.
+14. If it will give you error like: 'Could not find a Dart SDK. Please download, or, if already downloaded, click 'Locate SDK'.'
+15. Then select locate SDK option and give them folder path like : 'C:\Users\lenovo\Downloads\dartsdk-windows-x64-release\dart-sdk'
+16. Then choose a option 'console application'
+17. give them folder where you want to create or write dart program
+18. give them a folder name or use default that will be giving by Visual Studio Code.
+19. It will give us folder structure of dart programming. This is also called indexing.
+20. If we want to write code in dart language then we have to create a file with '.dart' application.
+21. Like: index.dart
