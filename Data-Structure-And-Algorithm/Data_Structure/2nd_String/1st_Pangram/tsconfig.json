@@ -1,0 +1,18 @@
+
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "lib": [
+            "ES6",
+            "DOM"
+        ], 
+        "strict": true, 
+        "esModuleInterop": true,
+        "rootDir": "./",
+        "outDir": "./"
+    },
+
+    "include": [
+        "1st_Example.ts"
+    ]
+}

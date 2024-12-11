@@ -1,10 +1,8 @@
-
 // Pangram :
-
-/* 
+/*
 Given a string s, the task is to check if it is Pangram or not. A pangram is a sentence containing all letters of the English Alphabet.
 
-A **Pangram** is a sentence or phrase that contains every letter of the alphabet at least once. For example, the sentence 
+A **Pangram** is a sentence or phrase that contains every letter of the alphabet at least once. For example, the sentence
 "The quick brown fox jumps over the lazy dog" is a well-known pangram because it includes all 26 letters of the English alphabet.
 
 ### Steps to Check if a String is a Pangram
@@ -16,7 +14,7 @@ A **Pangram** is a sentence or phrase that contains every letter of the alphabet
    
 2. **Check for Presence of All Alphabet Letters**:
    - You need to check if the string contains all 26 letters (from 'a' to 'z') at least once.
-   - A simple way to do this is to maintain a set of all alphabet characters, and iterate through the string to 
+   - A simple way to do this is to maintain a set of all alphabet characters, and iterate through the string to
      add encountered characters into the set.
    - At the end of the iteration, if the set contains 26 unique characters, the string is a pangram.
 
@@ -44,27 +42,27 @@ console.log(isPangram("Hello, World!")); // false
 ### Explanation of TypeScript Concepts Used:
 
 1. **TypeScript Function Syntax**:
-   - The function `isPangram(str: string): boolean` takes a single argument `str` (the input string) of type `string`, 
+   - The function `isPangram(str: string): boolean` takes a single argument `str` (the input string) of type `string`,
    and returns a `boolean` (either `true` or `false`).
    - The `string` and `boolean` are TypeScript type annotations that help in defining the type of input and output.
    
 2. **`.toLowerCase()` Method**:
-   - `toLowerCase()` is a JavaScript method that converts a string to all lowercase letters. It's useful for normalizing 
+   - `toLowerCase()` is a JavaScript method that converts a string to all lowercase letters. It's useful for normalizing
    the case so that the comparison is case-insensitive.
    
 3. **`.replace()` Method with Regular Expression**:
-   - `replace(/[^a-z]/g, '')` uses a regular expression to replace all characters that are **not** in the range `a-z` 
+   - `replace(/[^a-z]/g, '')` uses a regular expression to replace all characters that are **not** in the range `a-z`
    (which means all non-alphabetical characters like spaces, punctuation, etc.) with an empty string.
    - The `g` flag means global replacement (i.e., replace all occurrences).
 
 4. **`Set` in TypeScript**:
-   - A `Set` is a collection of values where each value must be unique. The `Set` constructor is used to create an object 
+   - A `Set` is a collection of values where each value must be unique. The `Set` constructor is used to create an object
    that will store unique values from the normalized string.
-   - `Set` is useful here because it automatically removes duplicate characters, which helps us efficiently check if 
+   - `Set` is useful here because it automatically removes duplicate characters, which helps us efficiently check if
    all 26 letters are present.
    
 5. **`.size` Property of `Set`**:
-   - The `size` property of a `Set` gives the number of unique elements in the set. If it equals 26, we know that 
+   - The `size` property of a `Set` gives the number of unique elements in the set. If it equals 26, we know that
    all alphabet letters are present at least once.
 
 ### Example Walkthrough:
@@ -100,9 +98,9 @@ console.log(isPangram("Hello, World!")); // false
 - This set contains only 7 unique characters, so the function returns `false`, indicating that the string is not a pangram.
 
 ### Time and Space Complexity:
-- **Time Complexity**: O(n), where `n` is the length of the input string. We go through the string once to normalize 
+- **Time Complexity**: O(n), where `n` is the length of the input string. We go through the string once to normalize
 it and once to populate the set.
-- **Space Complexity**: O(1), since the size of the set will not exceed 26 (the number of English alphabet letters), 
+- **Space Complexity**: O(1), since the size of the set will not exceed 26 (the number of English alphabet letters),
 and it takes constant space to store the set.
 
 ### Final Thoughts:
@@ -114,13 +112,9 @@ The function works by:
 
 This approach is simple and efficient for checking if a string is a pangram in TypeScript!
 */
-
-function isPangram(str: string): boolean {
-    const normalize = str.toLowerCase().replace(/[^a-z]/g, "");
-
-    const uniqueChars = new Set(normalize);
-
+function isPangram(str) {
+    var normalize = str.toLowerCase().replace(/[^a-z]/g, "");
+    var uniqueChars = new Set(normalize);
     return uniqueChars.size === 26;
 }
-
-console.log(isPangram("The quic brown fox jumps over the lazy dog"))
+console.log(isPangram("The quic brown fox jumps over the lazy dog"));

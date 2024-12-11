@@ -2,7 +2,7 @@
 1. DATA STRUCTURES AND ALGORITHMS
 
 2. Frontend Technology
-->    1. HTML
+    1. HTML
     2. CSS
     3. JAVASCRIPT
     4. TYPESCRIPT
@@ -28,7 +28,7 @@
 
 3. Project
 
-2. Backend Technology
+4. Backend Technology
 ->    1. NODE.JS
     18. NEST.JS
     3. MONGODB
@@ -58,4 +58,4 @@
     24. RESTFULL APIs
     25. GRAPHQL
 
-4. Project
+5. Project

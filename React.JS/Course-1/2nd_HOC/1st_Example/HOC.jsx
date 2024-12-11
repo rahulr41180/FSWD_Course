@@ -30,7 +30,6 @@ export const HOC = ( WrappedComponent, entity ) => {
                 }
             }
             getData();
-
         }
 
         render() {
