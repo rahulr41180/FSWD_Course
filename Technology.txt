@@ -4,20 +4,21 @@
 2. Frontend Technology
     1. HTML
     2. CSS
-    3. JAVASCRIPT
+->    3. JAVASCRIPT
     4. TYPESCRIPT
-    14. Session, Cookies, LocalStorage, Json Web Server
     5. REACT.JS
+    8. NEXT.JS
+    22. Remix.JS
     6. REDUX.JS
     7. ZUSTAND
 
-    8. NEXT.JS
-    18. DART
     17. JEST
+    14. Session, Cookies, LocalStorage, Json Web Server
+    22. SCSS
+    18. DART
     19. Flutter
     20. React Native
     21. SASS
-    22. SCSS
     9. API ARCHITECTURE
     10. TAILWIND CSS
     11. antd
@@ -29,23 +30,24 @@
 3. Project
 
 4. Backend Technology
-->    1. NODE.JS
+    1. NODE.JS
+    2. EXPRESS.JS
     18. NEST.JS
     3. MONGODB
-    2. EXPRESS
+    29. Postgress
+    26. Caching
+    28. JEST
     27. Session, Cookies, LocalStorage, Json Web Server
-    26. JEST
+    14. DOCKER
+    15. CI/CD PIPELINE
+    17. KAFKA
+    16. KUBERNETES
     23. SOLID PRINCIPLE
     7. SYSTEM DESIGN
     8. API ARCHITECTURE
     9. SYSTEM ARCHITECTURE
     10. CLOUD PLATEFORM
-    14. DOCKER
-    15. CI/CD PIPELINE
-    17. KAFKA
-    16. KUBERNETES
     13. PAYMENT GATEWAY
-    26. Caching
     5. PYTHON
     6. DJANGO
     4. MYSQL

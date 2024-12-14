@@ -1,0 +1,99 @@
+
+/* Questions */
+
+/* 
+### **Basic CSS Questions**
+1. What is CSS?
+2. How do you link a CSS file to an HTML document?
+3. What are the three ways to apply CSS to a webpage?
+4. What are the differences between class selectors, ID selectors, and element selectors?
+5. What is the CSS box model?
+6. Explain the difference between `margin` and `padding`.
+7. How can you center a block element in CSS?
+8. What is the difference between `display: block;` and `display: inline;`?
+9. What is the `float` property used for in CSS?
+10. What is the `clear` property used for in CSS?
+11. What is the purpose of the `z-index` property?
+12. What is the difference between `position: relative;` and `position: absolute;`?
+13. What is the `visibility` property in CSS?
+14. What is the difference between `visibility: hidden;` and `display: none;`?
+15. What does `box-sizing: border-box;` do?
+
+### **Intermediate CSS Questions**
+16. What are pseudo-classes in CSS? Provide some examples.
+17. What are pseudo-elements in CSS? Provide some examples.
+18. How do you style a specific element on hover?
+19. What is the difference between `em`, `rem`, `px`, and `%` units in CSS?
+20. Explain the concept of CSS specificity.
+21. What is the `!important` rule, and how is it used in CSS?
+22. What is the purpose of media queries in CSS?
+23. How do you create a responsive layout using CSS?
+24. What is the difference between `inline` and `inline-block` elements in CSS?
+25. How can you create a simple dropdown menu with CSS?
+26. How can you create rounded corners in CSS?
+27. What is the `box-shadow` property in CSS?
+28. How do you use the `border-radius` property to create circular elements?
+29. What is the difference between `flexbox` and `grid` in CSS?
+30. What are the different types of positioning in CSS?
+
+### **CSS3 Questions**
+31. What is CSS3 and how does it differ from previous versions of CSS?
+32. How do you create animations in CSS3?
+33. Explain the use of `@keyframes` in CSS3.
+34. How do you create transitions in CSS3?
+35. What is the `transform` property in CSS3, and how is it used?
+36. What are CSS3 Media Queries, and how do they work?
+37. How do you create a CSS3 gradient?
+38. What is the difference between `linear-gradient` and `radial-gradient`?
+39. How do you create shadows in CSS3 (box-shadow and text-shadow)?
+40. What are `calc()`, `vw`, `vh`, and `em` units in CSS3?
+41. How can you create a 3D effect with CSS3?
+42. How can you create a CSS3 animation with `@keyframes`?
+43. What is `transform-origin` and how does it work?
+44. What are CSS3 media queries and how do they help in creating responsive websites?
+45. What is `will-change` property in CSS3?
+46. How do you use `object-fit` and `object-position` in CSS3?
+47. What is `clip-path` in CSS3 and how do you use it?
+48. What are CSS3 variables and how do you use them?
+49. How do you use `flexbox` for creating a responsive layout in CSS3?
+50. How do you create circular or elliptical shapes with CSS3?
+
+### **Advanced CSS Questions**
+51. What is the difference between `display: grid;` and `display: flex;`?
+52. How do you create a sticky header using CSS?
+53. How do you achieve a parallax effect using CSS?
+54. Explain the concept of CSS Grid Layout and its use cases.
+55. What is the `:nth-child()` pseudo-class and how do you use it in CSS?
+56. What are the limitations of CSS Grid?
+57. How can you create a multi-column layout using CSS?
+58. What are the best practices for writing maintainable and scalable CSS?
+59. What is the `position: sticky;` property and how is it different from `position: fixed;`?
+60. How can you animate SVG elements using CSS?
+61. What is the `::after` pseudo-element and how can you use it to create content?
+62. How does `object-fit` work in responsive images?
+63. Explain the difference between `transform` and `transition` in CSS3.
+64. What is the purpose of the `filter` property in CSS?
+65. How do you create a responsive image gallery using CSS?
+66. What is a "flex container" and how does it work in a flexbox layout?
+67. What are some of the common accessibility considerations when using CSS for layout?
+68. What is the difference between `align-items` and `justify-items` in CSS Grid?
+69. What are some common performance optimization techniques for CSS?
+70. How does `grid-template-areas` work in CSS Grid?
+
+### **Advanced CSS3 & Performance Questions**
+71. How can you prevent "layout shifts" in CSS for better performance?
+72. Explain the concept of "critical CSS" and how it improves page load time.
+73. How can you use CSS for responsive typography (fluid typography)?
+74. What is `backface-visibility` and how does it relate to CSS3 transforms?
+75. How do you use CSS custom properties (variables) for theming a website?
+76. How can you prevent CSS styles from affecting legacy browsers (i.e., using feature queries)?
+77. How do you use `@supports` to write fallback styles for unsupported features?
+78. How does `contain` property work in CSS, and what are its advantages?
+79. Explain the `will-change` property and how it impacts performance.
+80. How can you use CSS3 to create a "hamburger" menu animation?
+81. How do you create a full-screen background image that adapts to different screen sizes using CSS?
+82. What are some techniques for creating pixel-perfect layouts with CSS?
+83. How can you optimize CSS for a mobile-first design approach?
+84. What are some techniques to reduce CSS file size for better website performance?
+85. Explain the concept of CSS "Critical Rendering Path" and how it relates to performance.
+*/
