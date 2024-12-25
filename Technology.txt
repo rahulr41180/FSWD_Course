@@ -5,13 +5,17 @@
     1. HTML
     2. CSS
     3. JAVASCRIPT
+<<<<<<< HEAD
 ->    4. TYPESCRIPT
+=======
+    4. TYPESCRIPT
+>>>>>>> 2f26c80c255bec31b51c2005e521a0d85e186bff
     5. REACT.JS
     8. NEXT.JS
     22. Remix.JS
     6. REDUX.JS
-    7. ZUSTAND
 
+    7. ZUSTAND
     17. JEST
     14. Session, Cookies, LocalStorage, Json Web Server
     22. SCSS
@@ -35,6 +39,7 @@
     18. NEST.JS
     3. MONGODB
     29. Postgress
+    4. MYSQL
     26. Caching
     28. JEST
     27. Session, Cookies, LocalStorage, Json Web Server
@@ -50,7 +55,6 @@
     13. PAYMENT GATEWAY
     5. PYTHON
     6. DJANGO
-    4. MYSQL
     11. JAVA
     12. SPRING BOOT
     19. PHP
@@ -59,5 +63,6 @@
     22. SOLIDITY
     24. RESTFULL APIs
     25. GRAPHQL
+
 
 5. Project
