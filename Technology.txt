@@ -4,8 +4,8 @@
 2. Frontend Technology
     1. HTML
     2. CSS
-->    3. JAVASCRIPT
-    4. TYPESCRIPT
+    3. JAVASCRIPT
+->    4. TYPESCRIPT
     5. REACT.JS
     8. NEXT.JS
     22. Remix.JS
@@ -30,7 +30,7 @@
 3. Project
 
 4. Backend Technology
-    1. NODE.JS
+->    1. NODE.JS
     2. EXPRESS.JS
     18. NEST.JS
     3. MONGODB
