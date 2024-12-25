@@ -30,7 +30,7 @@
 3. Project
 
 4. Backend Technology
-    1. NODE.JS
+->    1. NODE.JS
     2. EXPRESS.JS
     18. NEST.JS
     3. MONGODB
