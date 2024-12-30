@@ -1359,3 +1359,19 @@ var y = 5;
 console.log(y);
 var z = 5;
 console.log(z);
+
+
+var a = 5;
+console.log(a);
+var b = 5;
+console.log(b);
+var c = 5;
+console.log(c);
+var d = 5;
+console.log(d);
+
+
+var e = 5;
+console.log(e);
+var f = 5;
+console.log(f);

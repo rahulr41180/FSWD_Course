@@ -303,5 +303,4 @@ Some key takeaways:
 
 I hope this overview gives you a solid understanding of Zustand, from basic usage to more advanced patterns! 
 Feel free to ask if you need more examples or clarification on any point.
-
 */
