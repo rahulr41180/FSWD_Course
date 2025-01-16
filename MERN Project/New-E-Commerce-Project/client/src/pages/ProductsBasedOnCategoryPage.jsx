@@ -50,7 +50,6 @@ export const ProductBasedOnCategoryPage = () => {
         } catch (error) {
             // console.log(error.message);
         }
-        
     }
 
     return (
