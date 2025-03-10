@@ -53,13 +53,11 @@ export const ProductBasedOnCategoryPage = () => {
     }
 
     return (
-
         <Layout title={"Product Based On Category | rR FASTeSTORE"}>
             <div className="pbocp_container row mt-3 ps-4 pe-2">
                 <div className="width100 p-0">
                     <h4 className="text-center">{categoryName} Based Products</h4>
                     {loading ?
-
                         <div id="grid-container" className="width100 m-0 row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 g-3">
                             {products?.map((element, index) => {
                                 return (
@@ -89,6 +87,4 @@ export const ProductBasedOnCategoryPage = () => {
             </div>
         </Layout>
     )
- 
-    
 }
