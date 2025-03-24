@@ -5,7 +5,11 @@
     1. HTML
     2. CSS
     3. JAVASCRIPT
+<<<<<<< HEAD
+->    4. TYPESCRIPT
+=======
     4. TYPESCRIPT
+>>>>>>> 2f26c80c255bec31b51c2005e521a0d85e186bff
     5. REACT.JS
     8. NEXT.JS
     22. Remix.JS
