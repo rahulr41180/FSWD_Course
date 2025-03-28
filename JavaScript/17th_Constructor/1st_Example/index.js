@@ -99,7 +99,7 @@ function BankAccount3(customerName, custormerAccountBalance) {
     return this.customerName;
 }
 
-console.log(BankAccount3("user1"));
+// console.log(BankAccount3("user1"));
 
 // -----------------------------------------------------------
 
@@ -123,7 +123,7 @@ function BankAccount4(customerName, custormerAccountBalance) {
 }
 
 let user1 = new BankAccount4()
-console.log('user1:', user1)
+// console.log('user1:', user1)
 
 // ------------------------------------------------------------
 
@@ -141,13 +141,14 @@ function BankAccount5(customerName, custormerAccountBalance) {
 }
 
 let user2 = new BankAccount5("user2", 1000);
-console.log('user2:', user2)
+// console.log('user2:', user2)
 
 // -----------------------------------------------------------
 
 /* 
-
+user3 and user4 have their separat object that we have created by using 'new' keyword.
 */
+
 function BankAccount6(customerName, custormerAccountBalance) {
     this.customerName = customerName;
     this.custormerAccountNumber = new Date().getTime();
@@ -155,6 +156,138 @@ function BankAccount6(customerName, custormerAccountBalance) {
 }
 
 let user3 = new BankAccount6("user3", 1000);
-console.log('user3:', user3)
+// console.log('user3:', user3)
 let user4 = new BankAccount6("user4", 1000);
-console.log('user4:', user4)
+// console.log('user4:', user4);
+
+// -----------------------------------------------------------
+
+/* 
+Now if we want to get or print the value from CF so for that as we
+know we have created instance of CF for two user u5, u6 by using 'new' keyword
+
+Means we have created two instance/copies of CF Object with new memory location/refernce and those instanced object we have assigned to
+their respective U5, U6 means now U5 and U6 have separate object reference and we can do updation of value, getting the value
+*/
+
+function BankAccount7(customerName, custormerAccountBalance) {
+    this.customerName = customerName;
+    this.custormerAccountNumber = new Date().getTime();
+    this.custormerAccountBalance = custormerAccountBalance || 0;
+}
+
+let user5 = new BankAccount7("user3", 1000);
+// console.log('user5:', user5) 
+// console.log('user5:', user5.customerName)
+// console.log('user5:', user5.custormerAccountBalance)
+let user6 = new BankAccount7("user4", 1000);
+// console.log('user6', user6);
+
+// ---------------------------------------------------------------
+
+/* 
+In real world problem we should not update and change the value like this that have did below.
+Because OOP programming tells that we should not do this things
+
+That topics called Encapsulation which means we did privatitation of properties and methods of 'CF O'
+that means we won't be able to modefied this like this
+but if we want to modefied the properties and methods then have some feature those allow us to do that.
+
+But if we want to update then what we can do we can write some method inside this 'B/A8 CF O' so that we can modefied the properties as well.
+*/
+
+function BankAccount8(customerName, custormerAccountBalance) {
+    this.customerName = customerName;
+    this.custormerAccountNumber = new Date().getTime();
+    this.custormerAccountBalance = custormerAccountBalance || 0;
+}
+
+let user7 = new BankAccount8("user3", 1000);
+// console.log('user7:', user7) 
+user7.custormerAccountBalance += 1000
+// console.log('user7:', user7)
+let user8 = new BankAccount7("user4", 1000);
+// console.log('user8', user8);
+
+// ------------------------------------------------------
+
+/* 
+Here I have created deposit method inside B/A9 CF, with regular function expression as we have assiging the function to
+a property at runtime that's why it is called a function expression and function expression are not hoisted means
+if we try to access the deposite function before creating an instance then it will give us an error.
+*/
+
+function BankAccount9(customerName, custormerAccountBalance) {
+    this.customerName = customerName;
+    this.custormerAccountNumber = new Date().getTime();
+    this.custormerAccountBalance = custormerAccountBalance || 0;
+
+    this.deposit = function(amount) {
+        this.custormerAccountBalance += amount;
+    }
+}
+
+let user9 = new BankAccount9("user3", 1000);
+// console.log('user9:', user9) // balance : 1000
+user9.deposit(200);
+// console.log('user10:', user9) // balance : 1200
+let user10 = new BankAccount9("user4", 1000); 
+// console.log('user11', user10);
+
+// -----------------------------------------------------------
+
+/* 
+This is not good way to write method in CF because we are creating the instance means copy of
+this CF that means each instance will have this method in their object that will cause problem like
+memory usage.
+
+So for that we will move this method into prototype of CF object and inherit that method from prototype into instance/copied object.
+*/
+
+function BankAccount10(customerName, custormerAccountBalance) {
+    this.customerName = customerName;
+    this.custormerAccountNumber = new Date().getTime();
+    this.custormerAccountBalance = custormerAccountBalance || 0;
+
+    this.deposit = function(amount) {
+        this.custormerAccountBalance += amount;
+    }
+
+    this.withdraw = function(amount) {
+        this.custormerAccountBalance -= amount;
+    }
+}
+
+let user11 = new BankAccount10("user3", 1000);
+// console.log('user11:', user11)
+user11.deposit(500)
+// console.log('user11:', user11)
+user11.withdraw(200);
+// console.log('user11:', user11)
+let user12 = new BankAccount10("user4", 1000); 
+// console.log('user12:', user12)
+
+// ------------------------------------------------------------------
+
+/* 
+Let's do this by using form data means we will create UI in 2nd_Example.js
+*/
+
+function BankAccount11(customerName, custormerAccountBalance) {
+    this.customerName = customerName;
+    this.custormerAccountNumber = new Date().getTime();
+    this.custormerAccountBalance = custormerAccountBalance || 0;
+
+    this.deposit = function(amount) {
+        this.custormerAccountBalance += amount;
+    }
+
+    this.withdraw = (amount) => {
+        this.custormerAccountBalance -= amount;
+    }
+}
+
+let user14 = new BankAccount11("user3", 1000);
+user14.deposit(500)
+user14.withdraw(200);
+let user16 = new BankAccount11("user4", 1000); 
