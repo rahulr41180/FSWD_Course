@@ -1,0 +1,17 @@
+{
+  "name": "web-scrapping",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "scrape": "node scripts/scraper.js",
+    "start": "node scripts/scraper.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "playwright": "^1.51.1"
+  }
+}
