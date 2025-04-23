@@ -10,4 +10,5 @@ Method Overriding (Runtime Polymorphism)
 Method Overloading (JavaScript does not support it directly, but it can be simulated)
 
 Duck Typing (Objects with similar behavior can be used interchangeably)
+
 */

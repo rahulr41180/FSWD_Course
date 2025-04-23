@@ -20,13 +20,11 @@ If by any change Docker Engine will be down then we won't we able to manage Dock
 // 2. Multiple Layers :
 /*
 When we convert Docker File to Image then while being convertion lots of layer has built.
-
 Each layer takes lots of space.
 */
 
 // Builda Tool :
 /*
 Builda Tool will easily handle SPOF and Multiple Layers Problem.
-
 Builda tool have lots have commands.
 */

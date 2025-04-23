@@ -1,6 +1,7 @@
 
 /*
-In JavaScript, a child class can provide a specific implementation of a method that is already defined in its parent class. This is known as method overriding.
+In JavaScript, a child class can provide a specific implementation of a method that is already defined in its parent class. 
+This is known as method overriding.
 */
 
 class Animal {

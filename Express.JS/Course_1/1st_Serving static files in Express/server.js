@@ -9,8 +9,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // virtual path
-app.use(express.static(path.join(__dirname, "public")));
+// this line of code require when my serving file or server file are not in same root of public folder.
 
+// it will call relative path
+// app.use(express.static(path.join(__dirname, "public")));
+
+// this line of code require when my serving file or server file are in the same root of public folder.
+// it will call absolute path
+app.use(express.static(path.join(__dirname, "public")));
 
 // If I want to show index.html file from a route.
 app.get("/public", (req, res) => {
