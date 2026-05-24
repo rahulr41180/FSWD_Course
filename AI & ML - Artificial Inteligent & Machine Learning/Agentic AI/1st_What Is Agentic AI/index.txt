@@ -1,0 +1,38 @@
+
+Agents = LLM(Gyaan) + Kaam
+Information + Action = Agents
+
+Agents have feature like
+
+Agents can Autonomy
+Planning interation and feedback
+coordination (somtimes)
+
+Agents --> Agents --> Agents --> Agents
+|____________|___________|^         |^
+             |______________________|
+
+
+Agents have components means
+means chat gpt is also an agents
+components like 
+
+1st: Agents must need of a LLM
+LLM from OpenAI, Gemini
+
+2nd: Memory (to remember last conversation)
+
+3rd: Tool or ToolBox (functions)
+
+Leep Forward we called NLP(Natural Language Process)
+means we can say tell one command or prompt or need in multi way but for all work will same
+like create a notion page
+I would like a notion page
+give me a notion page
+prepare a notion page for me
+
+tool like
+create_notion_page(data) {}
+if agents build a notion page and we know that it has a memory so it remember in future user can ask me to update or user can ask me to get same one so for that
+I have to create another tool for update same notion page like
+edit_notion_page(data) {}

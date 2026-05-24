@@ -1,0 +1,27 @@
+
+Agentic Workflow
+                   <------------------------------------ Agentic Workflow ----------------------------------------------------------->
+user did query --> make plan (planning agents) ------------------------> execute actions with tool(toolBox) -------> reflect on result
+                          |^__result not okay again if get while reflect on result time than it again goes to planning agents__| |
+                                                                                                                                 |
+ response <---------------------------------------------if reflect on result okay than send response-----------------------------|
+
+               <------------------------ Multi Agentic Workflow ------------------------>
+                    Coding Agent                  Planning Agent                DSA Agent
+                        |^                              |^                          |^    
+user input              |                               |                           |
+                        |_______________________________|___________________________|
+                                                        |^
+                classifier      ------->     Agent selection   ---------------> response
+                                                    |                               |
+                                                    |>                              |
+                                            conversational history(memory)          |
+                                                                                    |
+user gets a response <--------------------------------------------------------------|
+
+
+
+
+Generative AI -> use content creation 
+
+Agentic AI -> dicision making and execution (both things agentic ai can do with tools or ToolBox)

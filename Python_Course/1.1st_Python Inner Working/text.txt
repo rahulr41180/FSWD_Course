@@ -1,0 +1,4 @@
+
+index.py -> Byte Code -> Python VM(Virtual Machine);
+
+1st Compile To Byte Code -> Byte code is low level code, it's not machine code and which is platform independent.

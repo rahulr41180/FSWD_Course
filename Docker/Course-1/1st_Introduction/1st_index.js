@@ -27,3 +27,21 @@ But all application will run in same physical server but they are logically tigh
 
 Saperation of those Virtual Machine(Application + OS) will do by Hypervisor and that Hypervisor is installed top of our physical server.
 */
+
+/*
+To check that is my docker running or not
+
+docker run hello-worl
+*/
+
+/* 
+by default docker has to be installed by root user only 
+and docker demon also executes the root user
+
+that is one more dropback of docker 
+because it's is single process means monolithick process
+
+as docker demon run by root user that means hacker can hack our entire system
+if docker demon goes down than our container will affected
+
+*/

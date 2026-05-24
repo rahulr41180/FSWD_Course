@@ -10,8 +10,8 @@ class Animal {
     }
 }
 
-class Dog extends Animal {
 
+class Dog extends Animal {
     makeSound(): void {
         console.log("Bark! Bark!");
     }

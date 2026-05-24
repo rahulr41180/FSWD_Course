@@ -20,8 +20,8 @@ Unlike JavaScript strings, which are Unicode (UTF-16), Buffers are raw binary da
 Fixed-size memory allocation: Buffers are allocated in fixed-size chunks of memory, 
 and the size of a Buffer is specified at the time of its creation. Once created, you cannot change the size of the Buffer.
 
-Node.js Buffer vs JavaScript Array: While Buffers are similar to arrays, they store raw binary data, 
-and their elements are bytes (8-bit unsigned integers). 
+Node.js Buffer vs JavaScript Array: 
+Buffers are similar to arrays, they store raw binary data, and their elements are bytes (8-bit unsigned integers). 
 JavaScript arrays, on the other hand, store any kind of JavaScript value (numbers, strings, objects).
 */
 

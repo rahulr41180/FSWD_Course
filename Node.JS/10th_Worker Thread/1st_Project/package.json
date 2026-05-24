@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "server.ts",
   "scripts": {
-    "dev": "npm-run-all --parallel dev:watch dev:start",
-    "dev:watch": "tsc --watch",
-    "dev:start": "nodemon src/server.ts",
+    "dev": "npm-run-all --parallel dev:start",
+    "dev:start": "nodemon --exec \"node --expose-gc -r ts-node/register\" src/server.ts",
     "build": "tsc",
     "start": "node build/server.js",
     "clean": "rm -rf build"
