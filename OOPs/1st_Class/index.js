@@ -8,5 +8,7 @@ Example:
 */
 
 class car {
-    
+    constructor(name, model, year) {
+        
+    }   
 }
