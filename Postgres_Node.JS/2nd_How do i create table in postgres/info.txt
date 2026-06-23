@@ -1,0 +1,20 @@
+
+npm install pg
+
+Question:
+
+Ye kyu install kar rahe hain?
+
+Kyuki Node.js ko PostgreSQL ki language samajh nahi aati.
+
+pg package translator ka kaam karta hai.
+
+Node.js
+   ↓
+pg package
+   ↓
+PostgreSQL
+
+Initialize tsconfig.json TypeScript
+
+npx tsc --init

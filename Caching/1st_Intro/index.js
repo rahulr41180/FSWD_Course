@@ -78,8 +78,6 @@ technologies and tools, categorized based on their use cases and implementation:
    entirely in RAM but need to be accessed frequently.
 
    - **Ehcache**: A Java-based caching solution that supports both in-memory and disk-based caching. It is widely used in 
-   
-   
    Java applications.
    - **Apache Cassandra**: A NoSQL database that has built-in caching capabilities for frequent data access and can cache data on disk.
 
@@ -94,8 +92,8 @@ technologies and tools, categorized based on their use cases and implementation:
    **Object caching** caches objects, data structures, or computation results, reducing the need for repeated expensive operations.
 
    - **Symfony Cache (PHP)**: A caching system in the Symfony framework that supports caching at the object level, often 
-   
    using backends like Redis or Memcached.
+   
    - **Laravel Cache (PHP)**: A caching layer in the Laravel PHP framework that supports multiple drivers, including Redis 
    and Memcached, for object-level caching.
 

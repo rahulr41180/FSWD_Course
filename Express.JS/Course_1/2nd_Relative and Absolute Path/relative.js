@@ -27,7 +27,7 @@ If we run localhost:5000 in browser then we won't be able to see index.html in b
 /*
 Relative Path Issue:
 
-When you use app.use(express.static('public'));, 
+When you use app.use(express.static('public'));
 the path 'public' is relative to the current working directory from which the Node.js process is started. 
 This means if you run your script from a different directory, 
 it may not find the public directory.

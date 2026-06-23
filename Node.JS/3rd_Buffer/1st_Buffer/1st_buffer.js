@@ -474,6 +474,28 @@ app.post('/upload', upload.single('file'), (req, res) => {
 app.listen(3000, () => {
     console.log('Server running on port 3000');
 });
+
+File System
+     ↓
+Browser reads file
+     ↓
+Browser sends chunks
+     ↓
+Network
+     ↓
+Node.js receives chunks
+     ↓
+Multer collects chunks
+     ↓
+Buffer.concat()
+     ↓
+Complete Buffer in RAM
+     ↓
+req.file.buffer
+     ↓
+fs.writeFile()
+     ↓
+Disk
 ```
 
 - In this example, when a client uploads a file, the binary data is stored as a `Buffer` in memory (via `multer`).

@@ -1,0 +1,282 @@
+
+Dependency Hell
+
+`requirements.txt` is a file that lists all the Python packages (dependencies) your project needs.
+
+Example:
+
+```txt
+flask==3.0.3
+requests==2.32.3
+pandas==2.2.2
+numpy==2.0.1
+```
+
+---
+
+# Why do we need `requirements.txt`?
+
+Suppose you build a Python project using:
+
+```python
+import flask
+import pandas
+import requests
+```
+
+These libraries are **not part of Python itself**. They are installed separately using pip.
+
+On your machine:
+
+```bash
+pip install flask pandas requests
+```
+
+Everything works.
+
+Now imagine you send your project to another developer.
+
+Without `requirements.txt`, they don't know:
+
+* Which packages you used
+* Which versions you used
+* What they need to install
+
+Your project may fail immediately.
+
+---
+
+# Real-World Example
+
+You build an API:
+
+```python
+from flask import Flask
+import pandas as pd
+```
+
+Project structure:
+
+```txt
+my_project/
+│
+├── app.py
+└── requirements.txt
+```
+
+requirements.txt:
+
+```txt
+flask==3.0.3
+pandas==2.2.2
+```
+
+Another developer simply runs:
+
+```bash
+pip install -r requirements.txt
+```
+
+and gets exactly the same environment.
+
+---
+
+# What happens if we DON'T use it?
+
+Suppose your project uses:
+
+```python
+import requests
+```
+
+You send the code to someone.
+
+They run:
+
+```bash
+python app.py
+```
+
+Error:
+
+```txt
+ModuleNotFoundError: No module named 'requests'
+```
+
+Because they never installed it.
+
+---
+
+# Version Problems
+
+This is the biggest reason.
+
+Suppose you developed using:
+
+```txt
+django==4.2
+```
+
+But another developer installs:
+
+```txt
+django==5.1
+```
+
+Some APIs may have changed.
+
+Now:
+
+```python
+from django.urls import url
+```
+
+might fail or behave differently.
+
+The application works on your machine but not theirs.
+
+This is called:
+
+> "Dependency Hell"
+
+`requirements.txt` solves this.
+
+---
+
+# How do we create it?
+
+If packages are already installed:
+
+```bash
+pip freeze > requirements.txt
+```
+
+Output:
+
+```txt
+certifi==2025.5.1
+flask==3.0.3
+numpy==2.0.1
+pandas==2.2.2
+requests==2.32.3
+```
+
+---
+
+# How do others install everything?
+
+```bash
+pip install -r requirements.txt
+```
+
+Python reads each line and installs all packages.
+
+---
+
+# What happens internally?
+
+When you run:
+
+```bash
+pip install -r requirements.txt
+```
+
+Pip:
+
+1. Opens the file.
+2. Reads line by line.
+3. Downloads packages from the Python Package Index (PyPI).
+4. Installs the specified versions.
+5. Resolves sub-dependencies.
+
+Example:
+
+```txt
+requests==2.32.3
+```
+
+Pip may also install:
+
+```txt
+urllib3
+certifi
+charset-normalizer
+idna
+```
+
+because `requests` depends on them.
+
+---
+
+# Is it mandatory?
+
+No.
+
+A small script can work without it:
+
+```python
+print("Hello World")
+```
+
+No external libraries.
+
+No need for `requirements.txt`.
+
+But for professional projects:
+
+* Flask
+* Django
+* FastAPI
+* Machine Learning
+* Data Science
+* Automation Scripts
+
+it is considered essential.
+
+---
+
+# Typical Workflow
+
+Create virtual environment:
+
+```bash
+python -m venv venv
+```
+
+Activate it:
+
+```bash
+# Windows
+venv\Scripts\activate
+
+# Mac/Linux
+source venv/bin/activate
+```
+
+Install packages:
+
+```bash
+pip install flask pandas requests
+```
+
+Generate requirements:
+
+```bash
+pip freeze > requirements.txt
+```
+
+Share project.
+
+Other developers run:
+
+```bash
+pip install -r requirements.txt
+```
+
+and get the exact same setup.
+
+---
+
+### Interview Answer (Short)
+
+> `requirements.txt` is used to store all Python project dependencies along with their versions. It helps reproduce the same environment across different machines and avoids dependency/version conflicts. Without it, other developers or deployment servers may not know which packages need to be installed, causing the application to fail.

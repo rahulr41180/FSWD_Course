@@ -39,3 +39,7 @@ Represent the environment for a specific application
 
 3. Docker Registry (Docker Hub)
 
+---------------------------- How Do I start Docker Image ---------------------------
+
+Agar image bani hi nahi hai, toh current folder mein jaakar build karo:
+docker build -t 2nd_entrypoint-vs-cmd .

@@ -1,0 +1,10 @@
+
+rm
+cd
+mkdir
+ls
+mv
+chmod
+ping
+kill port | kill process
+clear

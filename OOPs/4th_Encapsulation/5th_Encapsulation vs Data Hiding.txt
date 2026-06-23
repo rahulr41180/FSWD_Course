@@ -1,0 +1,20 @@
+
+Bahut important interview question.
+
+Most people bolte hain:
+
+Encapsulation = Data Hiding
+
+Wrong.
+
+Data Hiding is PART of Encapsulation.
+
+Encapsulation includes:
+
+Data
++
+Methods
++
+Access Control
++
+Data Hiding

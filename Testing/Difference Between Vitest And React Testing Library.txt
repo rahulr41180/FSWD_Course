@@ -1,0 +1,41 @@
+
+Vitest is a text runner while testing UI application we need 2 things
+
+1st: Tool which will give the tooling for testing like where we can write the test and it should run the test so for that Vitest is there
+means just find the test file in our project and run them so vitest providing that kind of tooling to run the test.
+Vitest: Is test Runner
+
+2nd React testing library is more focused about react means react component means what actions do we need to do with react components
+and we need to find the element we need to wait and we need to click on something or typing in input box
+React Testing Library: Provide the tool to text the react components.
+
+
+
+
+React Testing library interact with virtual dom
+
+Suppose I wrote a text and I ran that text using vitest what vitest does is
+it first find the text file
+and it's running the code
+when component render in the virtual DOM we can interact with that virtual DOM Screen API providing by React Testing library
+then we can click on it and we can type text also all the things those we can do on the browser
+and we can put some assertion means if we click on this button than this thing should happened that behaviour we can test 
+whenever we are adding some new code
+
+You Test Code --> Vitest(runs the test file) --> React Testing Library(renders components in jsdom) --> Our React Component --> Assertions(using vitest's expect) --> Vitest outputs result
+
+What is React Testing Library?
+
+React Testing Library helps test React components the way users use them.
+
+Instead of testing:
+
+state variables
+internal methods
+implementation details
+
+You test:
+
+what user sees
+what user clicks
+what user types

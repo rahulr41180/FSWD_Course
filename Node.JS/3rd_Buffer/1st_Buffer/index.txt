@@ -1,0 +1,6319 @@
+
+Perfect. Let's go **line by line** and understand **what happens in memory**, **what objects are created**, **how Express and Multer work internally**, **how binary data reaches Node.js**, and **how the file gets saved**.
+
+---
+
+# Full Code
+
+```js
+const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
+const app = express();
+
+// Set up multer to store uploaded files in memory
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.post('/upload', upload.single('file'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    // req.file.buffer contains the binary data of the uploaded file
+    const uploadedFileBuffer = req.file.buffer;
+
+    fs.writeFile('uploaded_file.png', uploadedFileBuffer, (err) => {
+        if (err) {
+            return res.status(500).send('Error saving file.');
+        }
+        res.send('File uploaded and saved!');
+    });
+});
+
+app.listen(3000, () => {
+    console.log('Server running on port 3000');
+});
+```
+
+---
+
+# STEP 1
+
+```js
+const express = require('express');
+```
+
+---
+
+## What happens?
+
+Node.js loads Express package.
+
+Internally:
+
+```text
+node_modules
+ └── express
+```
+
+Node finds:
+
+```text
+express/index.js
+```
+
+loads it and returns its exports.
+
+---
+
+### Suppose Express exports
+
+```js
+module.exports = createApplication;
+```
+
+Then:
+
+```js
+const express = require('express');
+```
+
+becomes:
+
+```js
+const express = createApplication;
+```
+
+---
+
+So now:
+
+```js
+typeof express
+```
+
+returns:
+
+```text
+function
+```
+
+because Express itself is a function.
+
+---
+
+# STEP 2
+
+```js
+const multer = require('multer');
+```
+
+Same thing.
+
+Node loads Multer package.
+
+Now:
+
+```js
+typeof multer
+```
+
+returns:
+
+```text
+function
+```
+
+---
+
+# STEP 3
+
+```js
+const fs = require('fs');
+```
+
+---
+
+This loads Node's built-in File System module.
+
+Now:
+
+```js
+fs.writeFile()
+fs.readFile()
+fs.unlink()
+```
+
+are available.
+
+---
+
+# STEP 4
+
+```js
+const app = express();
+```
+
+---
+
+This is VERY IMPORTANT.
+
+Remember:
+
+```js
+express
+```
+
+is a function.
+
+So:
+
+```js
+express()
+```
+
+executes.
+
+---
+
+Internally Express creates:
+
+```js
+{
+  get: function(){},
+  post: function(){},
+  put: function(){},
+  delete: function(){},
+  use: function(){},
+  listen: function(){}
+}
+```
+
+and returns it.
+
+---
+
+So:
+
+```js
+const app = express();
+```
+
+means:
+
+```js
+const app = {
+   get(){},
+   post(){},
+   listen(){},
+   use(){}
+}
+```
+
+(very simplified)
+
+---
+
+Now:
+
+```js
+app
+```
+
+represents your web application.
+
+---
+
+# STEP 5
+
+```js
+const upload = multer({
+    storage: multer.memoryStorage()
+});
+```
+
+---
+
+This line creates Multer middleware.
+
+---
+
+First:
+
+```js
+multer.memoryStorage()
+```
+
+runs.
+
+---
+
+Internally:
+
+```js
+{
+   _handleFile(){},
+   _removeFile(){}
+}
+```
+
+storage engine object created.
+
+---
+
+Meaning:
+
+```text
+Store uploaded file in RAM
+NOT on disk
+```
+
+---
+
+So:
+
+```js
+storage: multer.memoryStorage()
+```
+
+means:
+
+```text
+Keep file inside Buffer memory
+```
+
+---
+
+Then:
+
+```js
+multer(...)
+```
+
+creates middleware.
+
+Returns:
+
+```js
+{
+   single(){},
+   array(){},
+   fields(){}
+}
+```
+
+---
+
+Stored in:
+
+```js
+upload
+```
+
+---
+
+# STEP 6
+
+```js
+app.post(...)
+```
+
+---
+
+This registers a POST route.
+
+---
+
+Meaning:
+
+```text
+POST /upload
+```
+
+is now available.
+
+---
+
+# STEP 7
+
+```js
+upload.single('file')
+```
+
+---
+
+Very important.
+
+This creates middleware.
+
+---
+
+Meaning:
+
+```text
+Expect ONE uploaded file
+```
+
+with field name:
+
+```html
+<input type="file" name="file">
+```
+
+Notice:
+
+```text
+file
+```
+
+must match.
+
+---
+
+If frontend sends:
+
+```html
+<input type="file" name="profile">
+```
+
+then:
+
+```js
+upload.single('file')
+```
+
+won't find it.
+
+---
+
+# Request arrives
+
+Suppose browser sends:
+
+```http
+POST /upload
+```
+
+with image:
+
+```text
+cat.png
+```
+
+---
+
+Browser sends:
+
+```http
+Content-Type:
+multipart/form-data
+```
+
+---
+
+Body contains binary data.
+
+Example:
+
+```text
+------abc
+file content
+------abc
+```
+
+---
+
+Express alone cannot parse this.
+
+That's why Multer is used.
+
+---
+
+# STEP 8
+
+Multer intercepts request first.
+
+Flow:
+
+```text
+Request
+   ↓
+Multer
+   ↓
+Route Handler
+```
+
+---
+
+Multer reads stream.
+
+Internally:
+
+```js
+req.on('data')
+```
+
+collects chunks.
+
+---
+
+Example:
+
+```text
+chunk1
+chunk2
+chunk3
+```
+
+---
+
+Then combines:
+
+```text
+chunk1 + chunk2 + chunk3
+```
+
+into:
+
+```js
+Buffer
+```
+
+---
+
+Example:
+
+```js
+<Buffer 89 50 4E 47 ...>
+```
+
+PNG binary bytes.
+
+---
+
+# STEP 9
+
+Multer creates:
+
+```js
+req.file
+```
+
+---
+
+Example:
+
+```js
+req.file = {
+  fieldname: 'file',
+  originalname: 'cat.png',
+  mimetype: 'image/png',
+  size: 50000,
+  buffer: <Buffer ...>
+}
+```
+
+---
+
+Now route handler executes.
+
+---
+
+# STEP 10
+
+```js
+if (!req.file)
+```
+
+---
+
+Checks:
+
+```text
+Did user upload a file?
+```
+
+If not:
+
+```js
+return res
+   .status(400)
+   .send('No file uploaded.');
+```
+
+---
+
+Response:
+
+```http
+400 Bad Request
+```
+
+---
+
+# STEP 11
+
+```js
+const uploadedFileBuffer =
+      req.file.buffer;
+```
+
+---
+
+Suppose:
+
+```js
+req.file = {
+  buffer: <Buffer 89 50 4E 47 ...>
+}
+```
+
+Then:
+
+```js
+uploadedFileBuffer
+```
+
+points to same Buffer.
+
+---
+
+Buffer contains:
+
+```text
+Raw binary bytes
+```
+
+of image.
+
+---
+
+# What is Buffer?
+
+Buffer is Node's binary container.
+
+Example:
+
+```js
+Buffer.from("Hello")
+```
+
+becomes:
+
+```text
+48 65 6c 6c 6f
+```
+
+ASCII bytes.
+
+---
+
+For image:
+
+```text
+89 50 4E 47 ...
+```
+
+PNG bytes.
+
+---
+
+# STEP 12
+
+```js
+fs.writeFile(
+   'uploaded_file.png',
+   uploadedFileBuffer,
+   callback
+)
+```
+
+---
+
+Meaning:
+
+```text
+Take binary data
+Write to disk
+```
+
+---
+
+Internally:
+
+```text
+Open file
+Write bytes
+Close file
+```
+
+---
+
+OS receives:
+
+```text
+89 50 4E 47 ...
+```
+
+and writes.
+
+---
+
+Now file exists:
+
+```text
+project
+ ├── uploaded_file.png
+```
+
+---
+
+# STEP 13
+
+If error
+
+```js
+if (err)
+```
+
+---
+
+Return:
+
+```http
+500 Internal Server Error
+```
+
+---
+
+```js
+res.status(500)
+   .send('Error saving file.');
+```
+
+---
+
+# STEP 14
+
+If success:
+
+```js
+res.send(
+ 'File uploaded and saved!'
+);
+```
+
+Response:
+
+```http
+200 OK
+```
+
+---
+
+# STEP 15
+
+```js
+app.listen(3000)
+```
+
+---
+
+Express creates HTTP server.
+
+Internally similar to:
+
+```js
+http.createServer(...)
+```
+
+---
+
+OS opens:
+
+```text
+PORT 3000
+```
+
+---
+
+Now server waits.
+
+```text
+Client Request
+      ↓
+Express
+      ↓
+Multer
+      ↓
+Route Handler
+      ↓
+fs.writeFile
+      ↓
+Response
+```
+
+---
+
+# Complete Flow
+
+User selects:
+
+```text
+cat.png
+```
+
+↓
+
+Browser sends:
+
+```http
+POST /upload
+```
+
+↓
+
+Multer receives stream
+
+↓
+
+Converts to:
+
+```js
+Buffer
+```
+
+↓
+
+Stores:
+
+```js
+req.file.buffer
+```
+
+↓
+
+Route executes
+
+↓
+
+```js
+fs.writeFile(...)
+```
+
+↓
+
+Disk write
+
+↓
+
+```text
+uploaded_file.png
+```
+
+created
+
+↓
+
+Response:
+
+```text
+File uploaded and saved!
+```
+
+---
+
+One important interview question from this code:
+
+**Why is `memoryStorage()` risky for large files, and what happens to Node.js memory if 100 users upload 100 MB files simultaneously?**
+
+This is a very common Node.js backend interview question, especially for developers working with file uploads and production systems.
+
+=====================================================================================
+
+Haan, **almost sahi samjha hai**, lekin ek important correction hai.
+
+Tumne bola:
+
+> `upload.single('file')` binary data generate karta hai.
+
+❌ **Generate nahi karta.**
+
+Binary data already browser se aa rahi hoti hai.
+
+---
+
+## Actually kya hota hai?
+
+Maan lo user select karta hai:
+
+```text
+cat.png
+```
+
+Browser ke system mein file already binary form mein hoti hai.
+
+Example:
+
+```text
+89 50 4E 47 ...
+```
+
+PNG ke bytes.
+
+---
+
+Browser request bhejta hai:
+
+```http
+POST /upload
+Content-Type: multipart/form-data
+```
+
+Body:
+
+```text
+------abc
+file bytes
+------abc
+```
+
+---
+
+Ab request Node.js tak pahunchti hai.
+
+Us time:
+
+```text
+Request Stream
+```
+
+ke form mein data aa raha hota hai.
+
+---
+
+## `upload.single('file')` kya karta hai?
+
+Ye middleware:
+
+```js
+upload.single('file')
+```
+
+incoming stream ko read karta hai.
+
+Internally kuch aisa:
+
+```js
+req.on('data', chunk => {
+   ...
+});
+```
+
+---
+
+Suppose image aa rahi hai:
+
+```text
+chunk1
+chunk2
+chunk3
+```
+
+Multer:
+
+```text
+chunk1 + chunk2 + chunk3
+```
+
+combine karke Buffer banata hai.
+
+---
+
+Fir:
+
+```js
+req.file = {
+   buffer: <Buffer ...>
+}
+```
+
+create karta hai.
+
+To correct statement:
+
+✅
+
+```text
+upload.single('file')
+
+receives uploaded binary data,
+parses it,
+and stores it in req.file.buffer
+inside RAM.
+```
+
+---
+
+# Ye line
+
+```js
+const uploadedFileBuffer = req.file.buffer;
+```
+
+Kya karti hai?
+
+Ye naya Buffer create nahi karti.
+
+Sirf reference copy karti hai.
+
+Example:
+
+```js
+const a = req.file.buffer;
+const b = a;
+```
+
+Dono same Buffer ko point kar rahe hain.
+
+---
+
+# Ye line
+
+```js
+fs.writeFile(
+   'uploaded_file.png',
+   uploadedFileBuffer,
+   callback
+)
+```
+
+kya karti hai?
+
+Ye RAM ke andar jo bytes hain unko disk pe likh deti hai.
+
+---
+
+Flow:
+
+```text
+Browser
+   ↓
+Binary Data
+   ↓
+upload.single('file')
+   ↓
+req.file.buffer (RAM)
+   ↓
+fs.writeFile(...)
+   ↓
+uploaded_file.png (Disk)
+```
+
+---
+
+Ek aur important baat.
+
+Agar tum ye code hata do:
+
+```js
+fs.writeFile(
+   'uploaded_file.png',
+   uploadedFileBuffer,
+   callback
+)
+```
+
+to kya hoga?
+
+Answer:
+
+```text
+File RAM me aa jayegi
+req.file.buffer me store ho jayegi
+
+lekin disk par save nahi hogi
+```
+
+Request khatam hone ke baad eventually memory free ho jayegi.
+
+---
+
+Isliye:
+
+```js
+upload.single('file')
+```
+
+👉 Upload ko parse karke RAM me rakhta hai.
+
+Aur:
+
+```js
+fs.writeFile(...)
+```
+
+👉 RAM se Disk me permanently save karta hai.
+
+Ye dono alag responsibilities hain. 🚀
+
+============================================================
+
+Bilkul bhai, ab tum sahi direction mein soch rahe ho. Bas thoda aur precise karte hain.
+
+## Step 1: Browser file read karta hai
+
+Maan lo user ne select ki:
+
+```text
+cat.png
+```
+
+Browser ke paas already file system se bytes aa jaate hain.
+
+```text
+89 50 4E 47 ...
+```
+
+Ye pura binary data hai.
+
+---
+
+## Step 2: Kya browser chunk create karta hai?
+
+✅ Haan.
+
+Browser aur OS milke network par data ko **chunks/packets** mein bhejte hain.
+
+Tum generally nahi bolte:
+
+```js
+chunk1
+chunk2
+chunk3
+```
+
+Browser internally karta hai.
+
+Example:
+
+Maan lo image:
+
+```text
+10 MB
+```
+
+ki hai.
+
+Browser aise nahi bhejega:
+
+```text
+10 MB ek hi baar mein
+```
+
+Balki:
+
+```text
+64 KB
+64 KB
+64 KB
+64 KB
+...
+```
+
+multiple chunks mein bhej sakta hai.
+
+Real size browser, OS, TCP, network conditions par depend karta hai.
+
+---
+
+## Step 3: Node.js ko kya milta hai?
+
+Node.js ke liye incoming request ek:
+
+```js
+IncomingMessage
+```
+
+stream hoti hai.
+
+Internally:
+
+```js
+req.on('data', chunk => {
+   console.log(chunk);
+});
+```
+
+har chunk receive hota hai.
+
+Example:
+
+```text
+Chunk 1
+Chunk 2
+Chunk 3
+Chunk 4
+```
+
+---
+
+## Step 4: Multer kya karta hai?
+
+Jab tum likhte ho:
+
+```js
+upload.single('file')
+```
+
+Multer internally request stream ko read karta hai.
+
+Simplified version:
+
+```js
+let chunks = [];
+
+req.on('data', chunk => {
+   chunks.push(chunk);
+});
+
+req.on('end', () => {
+   const file = Buffer.concat(chunks);
+});
+```
+
+---
+
+## Step 5: Buffer.concat kya karta hai?
+
+Suppose:
+
+```js
+chunk1 = <Buffer 89 50>
+chunk2 = <Buffer 4E 47>
+chunk3 = <Buffer AA BB>
+```
+
+Then:
+
+```js
+Buffer.concat([
+   chunk1,
+   chunk2,
+   chunk3
+]);
+```
+
+banega:
+
+```js
+<Buffer 89 50 4E 47 AA BB>
+```
+
+Ek complete binary.
+
+---
+
+## Step 6: RAM mein store
+
+MemoryStorage use kar rahe ho:
+
+```js
+multer.memoryStorage()
+```
+
+To Multer karega:
+
+```js
+req.file = {
+   buffer: completeBuffer
+}
+```
+
+Example:
+
+```js
+req.file = {
+   originalname: "cat.png",
+   buffer: <Buffer 89 50 4E 47 ...>
+}
+```
+
+Ye buffer RAM mein hai.
+
+---
+
+## Step 7: fs.writeFile
+
+Ab:
+
+```js
+fs.writeFile(
+   'uploaded_file.png',
+   req.file.buffer
+)
+```
+
+RAM ke bytes ko disk pe likh deta hai.
+
+---
+
+## Complete Flow
+
+```text
+File System
+     ↓
+Browser reads file
+     ↓
+Browser sends chunks
+     ↓
+Network
+     ↓
+Node.js receives chunks
+     ↓
+Multer collects chunks
+     ↓
+Buffer.concat()
+     ↓
+Complete Buffer in RAM
+     ↓
+req.file.buffer
+     ↓
+fs.writeFile()
+     ↓
+Disk
+```
+
+---
+
+Ab ek interview-level question:
+
+### Agar file 500 MB ki ho aur 100 users same time upload kar dein using:
+
+```js
+multer.memoryStorage()
+```
+
+to approx Node.js RAM ke saath kya problem ho sakti hai?
+
+Iska answer samajh loge to tumhe pata chal jayega ki production mein log `memoryStorage()` ki jagah stream-based uploads ya disk storage kyu use karte hain.
+
+===================================================
+
+Bhai ye bahut important production-level concept hai. Chalo step by step samajhte hain.
+
+---
+
+# Scenario
+
+Maan lo:
+
+```text
+1 file = 500 MB
+```
+
+Aur:
+
+```text
+100 users
+```
+
+same time upload kar rahe hain.
+
+Aur tum use kar rahe ho:
+
+```js
+multer.memoryStorage()
+```
+
+---
+
+## User 1
+
+Multer karega:
+
+```text
+500 MB file
+     ↓
+Buffer
+     ↓
+RAM
+```
+
+RAM usage:
+
+```text
+500 MB
+```
+
+---
+
+## User 2
+
+```text
+500 MB
+```
+
+Aur RAM mein:
+
+```text
+500 + 500
+=
+1000 MB
+=
+1 GB
+```
+
+---
+
+## User 10
+
+```text
+10 × 500 MB
+=
+5000 MB
+=
+5 GB
+```
+
+RAM consumed.
+
+---
+
+## User 100
+
+```text
+100 × 500 MB
+=
+50000 MB
+=
+50 GB
+```
+
+RAM consumed.
+
+---
+
+# Problem 1: Server ke paas itni RAM hi nahi hai
+
+Maan lo VPS:
+
+```text
+4 GB RAM
+```
+
+ya
+
+```text
+8 GB RAM
+```
+
+ka hai.
+
+Lekin tumhari uploads demand kar rahi hain:
+
+```text
+50 GB RAM
+```
+
+---
+
+Result:
+
+```text
+Out Of Memory
+```
+
+---
+
+# Problem 2: Node.js Process Crash
+
+Jab memory limit exceed ho jaati hai:
+
+```text
+JavaScript heap out of memory
+```
+
+Error aati hai.
+
+Example:
+
+```text
+FATAL ERROR:
+Reached heap limit
+Allocation failed
+```
+
+---
+
+Node process:
+
+```text
+❌ Crash
+```
+
+---
+
+Users:
+
+```text
+500 Internal Server Error
+```
+
+dekhte hain.
+
+---
+
+# Problem 3: Garbage Collector Pressure
+
+Maan lo server crash nahi hua.
+
+Still:
+
+```text
+Huge Buffers
+```
+
+RAM mein pade hain.
+
+GC ko:
+
+```text
+scan
+mark
+sweep
+```
+
+karna padega.
+
+---
+
+Result:
+
+```text
+CPU High
+Response Slow
+```
+
+---
+
+# Problem 4: Event Loop Slow
+
+Memory bahut badh gayi.
+
+GC frequently run karega.
+
+Result:
+
+```text
+API latency increase
+```
+
+---
+
+Example:
+
+```text
+Normal:
+20 ms
+
+After huge uploads:
+500 ms
+1 sec
+2 sec
+```
+
+---
+
+# Why memoryStorage Dangerous?
+
+Because:
+
+```js
+multer.memoryStorage()
+```
+
+poori file ko RAM mein rakhta hai.
+
+---
+
+For:
+
+```text
+5 KB image
+```
+
+No issue.
+
+For:
+
+```text
+50 MB video
+```
+
+Danger.
+
+For:
+
+```text
+500 MB video
+```
+
+Very dangerous.
+
+---
+
+# Production Solution 1
+
+## Disk Storage
+
+```js
+const upload = multer({
+    storage: multer.diskStorage(...)
+});
+```
+
+---
+
+Flow:
+
+```text
+Chunks
+   ↓
+Disk
+```
+
+instead of
+
+```text
+Chunks
+   ↓
+Huge Buffer in RAM
+```
+
+---
+
+RAM usage:
+
+```text
+Very small
+```
+
+---
+
+# Production Solution 2
+
+## Streaming
+
+Best solution.
+
+Example:
+
+```text
+Browser
+   ↓
+Node Stream
+   ↓
+S3
+```
+
+No full file in RAM.
+
+---
+
+Imagine:
+
+```text
+500 MB file
+```
+
+---
+
+Chunk 1:
+
+```text
+64 KB
+```
+
+comes.
+
+Immediately:
+
+```text
+upload to S3
+```
+
+---
+
+Chunk 2:
+
+```text
+64 KB
+```
+
+comes.
+
+Immediately:
+
+```text
+upload to S3
+```
+
+---
+
+Result:
+
+```text
+RAM usage
+≈ few KB
+```
+
+instead of:
+
+```text
+500 MB
+```
+
+---
+
+# Real World Example
+
+Suppose you're building:
+
+* YouTube
+* Google Drive
+* Dropbox
+
+Can they do:
+
+```js
+memoryStorage()
+```
+
+for:
+
+```text
+2 GB videos
+```
+
+?
+
+Absolutely not.
+
+---
+
+They use:
+
+```text
+Streams
+Chunk Uploads
+Multipart Uploads
+```
+
+---
+
+# Interview Answer
+
+If interviewer asks:
+
+> Why is `multer.memoryStorage()` dangerous?
+
+Answer:
+
+> `memoryStorage()` stores the entire uploaded file in RAM as a Buffer. If multiple users upload large files simultaneously, memory consumption can grow rapidly, leading to high garbage collection overhead, degraded performance, and potentially crashing the Node.js process with an out-of-memory error. In production, disk storage or streaming uploads to services like S3 are generally preferred.
+
+---
+
+Ab next level question:
+
+**Agar 500 MB file upload ho rahi hai using Streams, to kya poori 500 MB file kabhi RAM mein aati hai ya sirf ek chunk RAM mein rehta hai?**
+
+Ye samajh gaye to Streams ka magic samajh aa jayega. 🚀
+
+===========================================================
+
+Perfect. Ye topic bahut important hai Node.js backend interviews ke liye.
+
+Tum already samajh chuke ho ki:
+
+```js
+multer.memoryStorage()
+```
+
+mein poori file RAM mein aa jati hai.
+
+Ab dekhte hain production mein log kya karte hain.
+
+---
+
+# Solution 1
+
+# Disk Storage
+
+---
+
+## Problem
+
+Tumhara current code:
+
+```js
+const upload = multer({
+    storage: multer.memoryStorage()
+});
+```
+
+kar raha hai:
+
+```text
+Browser
+    ↓
+Chunks
+    ↓
+Buffer
+    ↓
+RAM
+```
+
+500 MB file:
+
+```text
+500 MB RAM
+```
+
+consume karegi.
+
+---
+
+# Disk Storage kya karta hai?
+
+Instead of:
+
+```text
+RAM
+```
+
+Multer file ko:
+
+```text
+Disk
+```
+
+par save karta hai.
+
+---
+
+Example
+
+```js
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads');
+    },
+
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+const upload = multer({
+    storage
+});
+```
+
+---
+
+# Step 1
+
+User selects:
+
+```text
+cat.png
+```
+
+---
+
+# Step 2
+
+Browser sends:
+
+```text
+Chunk1
+Chunk2
+Chunk3
+```
+
+---
+
+# Step 3
+
+Multer receives chunks.
+
+---
+
+# Step 4
+
+Instead of:
+
+```text
+Chunk1
+Chunk2
+Chunk3
+     ↓
+Buffer
+     ↓
+RAM
+```
+
+Multer does:
+
+```text
+Chunk1
+     ↓
+Disk
+
+Chunk2
+     ↓
+Disk
+
+Chunk3
+     ↓
+Disk
+```
+
+---
+
+# destination()
+
+```js
+destination(req, file, cb)
+```
+
+tells Multer:
+
+```text
+Kis folder mein file save karni hai?
+```
+
+Example:
+
+```js
+cb(null, './uploads');
+```
+
+means:
+
+```text
+uploads/
+```
+
+folder.
+
+---
+
+# filename()
+
+```js
+filename(req, file, cb)
+```
+
+tells:
+
+```text
+File ka naam kya hoga?
+```
+
+Example:
+
+```js
+Date.now()
+```
+
+Suppose:
+
+```text
+1719999999999
+```
+
+---
+
+Result:
+
+```text
+1719999999999-cat.png
+```
+
+---
+
+# req.file
+
+After upload:
+
+```js
+console.log(req.file);
+```
+
+returns:
+
+```js
+{
+   fieldname: 'file',
+   originalname: 'cat.png',
+   filename: '1719999999999-cat.png',
+   destination: './uploads',
+   path: './uploads/1719999999999-cat.png'
+}
+```
+
+Notice:
+
+```text
+buffer nahi hai
+```
+
+because file disk pe hai.
+
+---
+
+# Advantages
+
+```text
+RAM usage low
+```
+
+Example:
+
+100 users
+
+500 MB file
+
+Memory:
+
+```text
+Few MB
+```
+
+instead of:
+
+```text
+50 GB
+```
+
+---
+
+# Disadvantages
+
+Disk operations.
+
+```text
+Read
+Write
+Delete
+```
+
+slow hote hain RAM se.
+
+---
+
+# Real Example
+
+Profile pictures
+
+```text
+5 MB
+10 MB
+20 MB
+```
+
+---
+
+Most applications:
+
+```text
+Disk Storage
+```
+
+use kar leti hain.
+
+---
+
+# Solution 2
+
+# Streams
+
+Ye production ka king hai.
+
+---
+
+# Idea
+
+Kabhi bhi poori file:
+
+```text
+RAM
+```
+
+mein nahi aani chahiye.
+
+---
+
+# Example
+
+500 MB video
+
+---
+
+memoryStorage:
+
+```text
+500 MB
+↓
+RAM
+```
+
+---
+
+Stream:
+
+```text
+64 KB
+↓
+Upload
+
+64 KB
+↓
+Upload
+
+64 KB
+↓
+Upload
+```
+
+---
+
+# Analogy
+
+MemoryStorage
+
+---
+
+Maan lo tanker hai:
+
+```text
+500 litre
+```
+
+Pehle:
+
+```text
+500 litre bucket mein bharo
+```
+
+phir:
+
+```text
+destination par bhejo
+```
+
+---
+
+Huge bucket required.
+
+---
+
+Stream
+
+Pipe.
+
+```text
+Tank
+ ↓
+Pipe
+ ↓
+Destination
+```
+
+Water continuously flow.
+
+---
+
+No giant bucket.
+
+---
+
+# Node Stream Example
+
+File read:
+
+```js
+const fs = require('fs');
+
+const readStream =
+    fs.createReadStream('movie.mp4');
+
+const writeStream =
+    fs.createWriteStream('copy.mp4');
+
+readStream.pipe(writeStream);
+```
+
+---
+
+# What happens?
+
+Suppose:
+
+```text
+movie.mp4
+500 MB
+```
+
+---
+
+Chunk 1
+
+```text
+64 KB
+```
+
+read.
+
+Immediately:
+
+```text
+write
+```
+
+---
+
+Chunk 2
+
+```text
+64 KB
+```
+
+read.
+
+Immediately:
+
+```text
+write
+```
+
+---
+
+Chunk 3
+
+```text
+64 KB
+```
+
+read.
+
+Immediately:
+
+```text
+write
+```
+
+---
+
+Continue.
+
+---
+
+RAM usage:
+
+```text
+Few KB
+```
+
+---
+
+# S3 Upload Example
+
+Real production.
+
+User uploads:
+
+```text
+2 GB video
+```
+
+---
+
+Flow:
+
+```text
+Browser
+   ↓
+Node Stream
+   ↓
+AWS S3
+```
+
+---
+
+No:
+
+```text
+2 GB Buffer
+```
+
+created.
+
+---
+
+Instead:
+
+```text
+64 KB
+```
+
+comes.
+
+Uploaded.
+
+Discarded.
+
+---
+
+Next:
+
+```text
+64 KB
+```
+
+comes.
+
+Uploaded.
+
+Discarded.
+
+---
+
+# Why Streams Are Amazing
+
+Suppose:
+
+```text
+100 users
+```
+
+uploading:
+
+```text
+500 MB
+```
+
+files.
+
+---
+
+memoryStorage:
+
+```text
+100 × 500 MB
+=
+50 GB RAM
+```
+
+Boom 💥
+
+---
+
+Streams:
+
+Each user:
+
+```text
+64 KB
+```
+
+chunk.
+
+---
+
+Memory:
+
+```text
+100 × 64 KB
+=
+6400 KB
+≈ 6.4 MB
+```
+
+Huge difference.
+
+---
+
+# Production Architecture
+
+Most SaaS applications:
+
+```text
+Browser
+   ↓
+Load Balancer
+   ↓
+Node.js
+   ↓
+Stream
+   ↓
+S3
+```
+
+---
+
+Examples:
+
+* YouTube
+* Dropbox
+* Google Drive
+* Netflix
+* Instagram
+
+all rely heavily on streaming.
+
+---
+
+# Interview Question
+
+If interviewer asks:
+
+> Disk Storage vs Streams?
+
+Answer:
+
+### Disk Storage
+
+```text
+File is written to local disk.
+Consumes little RAM.
+Uses disk I/O.
+Suitable for medium-sized uploads.
+```
+
+---
+
+### Streams
+
+```text
+File is processed chunk by chunk.
+Never loads the entire file into memory.
+Extremely memory efficient.
+Best for large files and cloud storage uploads.
+```
+
+---
+
+One correction to remember:
+
+People often say:
+
+```text
+Streams use zero RAM.
+```
+
+❌ Wrong.
+
+Streams **do use RAM**, but only for a **small chunk at a time**, not for the entire file. That's why they scale so well.
+
+==============================================
+
+Bhai **haan, tum 90% sahi samjhe ho**. Bas ek important point clear kar deta hoon jo tumhare doubt ka root hai.
+
+---
+
+# Pehle Disk Storage wali baat
+
+Tumne bola:
+
+> chunk1 ayega usko store krega disk mai
+>
+> chunk2 ayega usko store krega disk mai
+>
+> chunk3 ayega usko store krega disk mai
+
+✅ Bilkul sahi.
+
+Conceptually yehi hota hai.
+
+```text
+Browser
+   ↓
+Chunk1
+   ↓
+Disk
+
+Browser
+   ↓
+Chunk2
+   ↓
+Disk
+
+Browser
+   ↓
+Chunk3
+   ↓
+Disk
+```
+
+Actually internally OS file handle open rakhta hai aur chunks append hote rehte hain.
+
+Example:
+
+```text
+uploaded_file.png
+
+Chunk1 write
+Chunk2 append
+Chunk3 append
+Chunk4 append
+```
+
+End mein complete file ban jaati hai.
+
+---
+
+# Ab tumhara doubt
+
+Tumne pucha:
+
+> req.file mai buffer kyu nahi hai?
+
+Bahut acha question.
+
+---
+
+## memoryStorage
+
+```js
+multer({
+   storage: multer.memoryStorage()
+})
+```
+
+Yahan Multer sochta hai:
+
+```text
+Mujhe file RAM me rakhni hai.
+```
+
+To obviously usse file ke bytes chahiye.
+
+Isliye:
+
+```js
+req.file = {
+   buffer: <Buffer ...>
+}
+```
+
+milta hai.
+
+---
+
+## diskStorage
+
+```js
+multer({
+   storage: multer.diskStorage(...)
+})
+```
+
+Yahan Multer sochta hai:
+
+```text
+File to disk pe already save kar di.
+```
+
+Ab socho.
+
+Agar Multer ye bhi kare:
+
+```js
+buffer: <500 MB Buffer>
+```
+
+to phir RAM bhi consume hogi.
+
+Fir diskStorage ka fayda hi kya hua?
+
+😂
+
+Isliye Multer intentionally:
+
+```js
+buffer
+```
+
+nahi rakhta.
+
+Instead:
+
+```js
+req.file = {
+   path: './uploads/file.png'
+}
+```
+
+deta hai.
+
+---
+
+Matlab:
+
+Memory Storage:
+
+```text
+RAM me file
+```
+
+To:
+
+```js
+req.file.buffer
+```
+
+available.
+
+---
+
+Disk Storage:
+
+```text
+Disk me file
+```
+
+To:
+
+```js
+req.file.path
+```
+
+available.
+
+---
+
+# Ab Stream wali understanding check karte hain
+
+Tumne bola:
+
+> chunk1 aya tank mai
+>
+> pipe ke through destination per chla gya
+>
+> chunk2 aya
+>
+> pipe ke through destination per chla gya
+
+✅ 100% Correct.
+
+Yehi stream hai.
+
+---
+
+Example
+
+500 MB file.
+
+Stream flow:
+
+```text
+Browser
+   ↓
+Chunk1 (64 KB)
+   ↓
+Node
+   ↓
+S3
+
+Browser
+   ↓
+Chunk2 (64 KB)
+   ↓
+Node
+   ↓
+S3
+
+Browser
+   ↓
+Chunk3 (64 KB)
+   ↓
+Node
+   ↓
+S3
+```
+
+---
+
+Node kabhi ye nahi karta:
+
+```text
+Chunk1
+Chunk2
+Chunk3
+...
+Chunk8000
+
+sab collect karo
+
+fir upload karo
+```
+
+❌
+
+Ye memoryStorage wala behavior hai.
+
+---
+
+Stream me:
+
+```text
+Receive
+↓
+Forward
+
+Receive
+↓
+Forward
+
+Receive
+↓
+Forward
+```
+
+---
+
+# Real Visualization
+
+Memory Storage
+
+```text
+Browser
+   ↓
+500 MB
+   ↓
+RAM
+   ↓
+S3
+```
+
+RAM:
+
+```text
+500 MB
+```
+
+---
+
+Stream
+
+```text
+Browser
+   ↓
+64 KB
+   ↓
+S3
+
+Browser
+   ↓
+64 KB
+   ↓
+S3
+```
+
+RAM:
+
+```text
+64 KB
+```
+
+ya thoda aur depending on stream buffer.
+
+---
+
+# Ek aur subtle point
+
+Jab hum kehte hain:
+
+> Chunk1 aya aur direct S3 chala gaya
+
+Technically Node ke RAM ko touch kiye bina nahi ja sakta.
+
+Actually flow hota hai:
+
+```text
+Chunk1
+   ↓
+Node RAM (64 KB)
+   ↓
+S3
+
+Chunk2
+   ↓
+Node RAM (64 KB)
+   ↓
+S3
+```
+
+Bas difference ye hai ki:
+
+```text
+500 MB poori file RAM me nahi aati
+```
+
+Sirf:
+
+```text
+Current chunk
+```
+
+RAM me hota hai.
+
+---
+
+Ye distinction interview me bahut important hota hai:
+
+❌ Wrong:
+
+```text
+Streams use no memory.
+```
+
+✅ Correct:
+
+```text
+Streams use very little memory because only small chunks are kept in memory at a time.
+```
+
+Ab agla step ye samajhna hai ki **Node.js me `pipe()` internally kaise kaam karta hai aur Backpressure kya hota hai**. Ye streams ka sabse important production concept hai.
+
+===============================================
+
+Bhai tumhara confusion bilkul valid hai. Tum ek bahut important cheez miss kar rahe ho:
+
+> **File aur bytes alag cheez nahi hain. File = bytes hi hoti hai.**
+
+Chalo step by step.
+
+---
+
+# Pehla doubt
+
+Tum bol rahe ho:
+
+> browser abhi chunk bhejna start hi kiya hai, file save kab ho gayi?
+
+Jab maine bola:
+
+```text
+File to disk pe already save kar di.
+```
+
+Uska matlab tha:
+
+```text
+Route handler execute hone tak
+```
+
+file disk pe save ho chuki hoti hai.
+
+**Start hote hi nahi.**
+
+---
+
+Flow:
+
+```text
+Browser
+ ↓
+Chunk1
+ ↓
+Multer
+
+Chunk2
+ ↓
+Multer
+
+Chunk3
+ ↓
+Multer
+```
+
+Multer continuously write karta rehta hai.
+
+Example:
+
+```text
+uploads/cat.png
+```
+
+create ho gaya.
+
+---
+
+Chunk1 aaya:
+
+```text
+89 50
+```
+
+disk pe likh diya.
+
+File abhi:
+
+```text
+89 50
+```
+
+hi hai.
+
+Incomplete.
+
+---
+
+Chunk2 aaya:
+
+```text
+4E 47
+```
+
+append kar diya.
+
+File:
+
+```text
+89 50 4E 47
+```
+
+---
+
+Chunk3 aaya:
+
+```text
+AA BB
+```
+
+append.
+
+File:
+
+```text
+89 50 4E 47 AA BB
+```
+
+---
+
+Ab request finish hui.
+
+Tab Multer bolta hai:
+
+```js
+next();
+```
+
+Aur tab tumhare route mein:
+
+```js
+req.file.path
+```
+
+aa jata hai.
+
+---
+
+Isliye:
+
+```text
+req.file.path
+```
+
+tab milta hai jab upload complete ho chuka hota hai.
+
+---
+
+# Dusra doubt
+
+Tum puch rahe ho:
+
+> chunk binary mein hai, disk pe file kaise ban gayi?
+
+Bhai file aur binary alag nahi hote.
+
+Example:
+
+PNG file.
+
+Actually disk pe kya store hota hai?
+
+```text
+89 50 4E 47 ...
+```
+
+Bas bytes.
+
+---
+
+Tum Windows mein dekhte ho:
+
+```text
+cat.png
+```
+
+To lagta hai:
+
+```text
+Image
+```
+
+store hai.
+
+Reality:
+
+```text
+89 50 4E 47 ...
+```
+
+store hai.
+
+---
+
+OS interpretation karta hai.
+
+---
+
+Example:
+
+Agar main likhu:
+
+```js
+fs.writeFileSync(
+  "test.txt",
+  Buffer.from([72,101,108,108,111])
+);
+```
+
+Disk pe kya gaya?
+
+```text
+72 101 108 108 111
+```
+
+---
+
+Lekin jab open karoge:
+
+```text
+Hello
+```
+
+dikhega.
+
+---
+
+# Ab S3 wala confusion
+
+Tum bol rahe ho:
+
+> S3 to disk hai, binary kaise ja rahi hai?
+
+Bilkul binary hi ja rahi hai.
+
+---
+
+Maan lo:
+
+```text
+Chunk1
+```
+
+contains:
+
+```text
+89 50
+```
+
+---
+
+Node receive karta hai:
+
+```text
+89 50
+```
+
+Buffer ke form mein.
+
+Example:
+
+```js
+<Buffer 89 50>
+```
+
+---
+
+AWS SDK internally request bhejti hai.
+
+```text
+Node
+ ↓
+HTTPS Request
+ ↓
+AWS S3
+```
+
+Body mein kya hai?
+
+```text
+89 50
+```
+
+---
+
+S3 receive karta hai:
+
+```text
+89 50
+```
+
+Aur apni storage mein likh deta hai.
+
+---
+
+Fir:
+
+```text
+Chunk2
+```
+
+aata hai.
+
+```text
+4E 47
+```
+
+---
+
+S3 usko bhi append kar deta hai.
+
+---
+
+End mein S3 ke paas:
+
+```text
+89 50 4E 47 ...
+```
+
+Complete object ban jata hai.
+
+---
+
+# Real Internal Flow
+
+Tum soch rahe ho:
+
+```text
+Chunk
+ ↓
+Node
+ ↓
+Image ban gayi
+ ↓
+S3
+```
+
+❌
+
+Aisa nahi hota.
+
+---
+
+Actually:
+
+```text
+Chunk(binary)
+ ↓
+Node Buffer
+ ↓
+HTTPS packet
+ ↓
+S3
+ ↓
+Disk
+```
+
+Bas bytes travel kar rahi hain.
+
+---
+
+# Tank Example
+
+Tumhari analogy:
+
+```text
+Browser
+ ↓
+Tank (RAM)
+ ↓
+Pipe
+ ↓
+S3
+```
+
+Almost correct.
+
+Bas tank ko huge tank mat samjho.
+
+Actually:
+
+```text
+Chunk1
+ ↓
+Small RAM buffer
+ ↓
+Pipe
+ ↓
+S3
+
+Chunk2
+ ↓
+Small RAM buffer
+ ↓
+Pipe
+ ↓
+S3
+```
+
+---
+
+# Sabse Important Line
+
+Ye yaad rakhna:
+
+```text
+Image, PDF, Video, ZIP
+
+sab ultimately bytes hi hote hain.
+```
+
+Node.js:
+
+```text
+Image nahi dekhta
+Video nahi dekhta
+PDF nahi dekhta
+```
+
+Node.js sirf dekhta hai:
+
+```js
+Buffer
+```
+
+Example:
+
+```js
+<Buffer 89 50 4E 47 ...>
+```
+
+Aur wahi bytes:
+
+```text
+RAM
+ ↓
+Network
+ ↓
+Disk
+ ↓
+S3
+```
+
+move karti rehti hain.
+
+Isi liye stream upload mein bhi **binary hi S3 tak ja rahi hoti hai**, aur disk storage mein bhi **binary hi disk par likhi ja rahi hoti hai**. File naam (`cat.png`) sirf metadata hai; asli file to bytes hi hain.
+
+=================================
+
+Bhai 🔥 ab tum bilkul core concept ke paas pahunch gaye ho.
+
+Aur haan, tumhari understanding **80-90% correct** hai. Bas ek chhota sa misconception hai:
+
+> "Stream mein bhi Multer chunk ko array mein rakhta hoga."
+
+❌ Nahi.
+
+Yahi memoryStorage aur stream ka sabse bada difference hai.
+
+---
+
+# Memory Storage
+
+Maan lo browser se aa raha hai:
+
+```text id="l1e0a3"
+Chunk1
+Chunk2
+Chunk3
+Chunk4
+```
+
+Multer internally kuch aisa karta hai:
+
+```js id="u5nztp"
+const chunks = [];
+
+req.on("data", chunk => {
+    chunks.push(chunk);
+});
+```
+
+Ab:
+
+```text id="qtm4kt"
+chunks = [
+  chunk1,
+  chunk2,
+  chunk3,
+  chunk4
+]
+```
+
+Ye sab RAM mein pada hai.
+
+---
+
+Fir:
+
+```js id="j2f3ks"
+Buffer.concat(chunks)
+```
+
+---
+
+Banega:
+
+```text id="s1sjtt"
+One Big Buffer
+```
+
+---
+
+Fir:
+
+```js id="20chvw"
+req.file.buffer
+```
+
+banega.
+
+---
+
+To memoryStorage mein:
+
+```text id="7q7zls"
+Chunk1 RAM
+Chunk2 RAM
+Chunk3 RAM
+Chunk4 RAM
+```
+
+sab simultaneously memory occupy karte hain.
+
+---
+
+# Stream
+
+Ab stream dekho.
+
+Maan lo browser bhej raha hai:
+
+```text id="kg6g3y"
+Chunk1
+Chunk2
+Chunk3
+Chunk4
+```
+
+---
+
+Node receive karta hai:
+
+```text id="fjv1vl"
+Chunk1
+```
+
+---
+
+Ye chunk RAM mein aata hai.
+
+Obviously bina RAM ke impossible hai.
+
+```js id="8xawlw"
+chunk
+```
+
+variable ya internal buffer mein rehta hai.
+
+---
+
+Fir immediately:
+
+```text id="pfk66j"
+Chunk1
+ ↓
+S3
+```
+
+bhej diya.
+
+---
+
+Uske baad:
+
+```text id="jj0l63"
+Chunk1
+```
+
+ka kaam khatam.
+
+GC future mein clean kar dega.
+
+---
+
+Ab:
+
+```text id="z4x05z"
+Chunk2
+```
+
+aaya.
+
+---
+
+Fir:
+
+```text id="0v1pxw"
+Chunk2
+ ↓
+S3
+```
+
+---
+
+Fir:
+
+```text id="jnn4gf"
+Chunk3
+ ↓
+S3
+```
+
+---
+
+Fir:
+
+```text id="i0lhfk"
+Chunk4
+ ↓
+S3
+```
+
+---
+
+Notice:
+
+❌ Ye nahi ho raha:
+
+```js id="3zix9y"
+[
+ chunk1,
+ chunk2,
+ chunk3,
+ chunk4
+]
+```
+
+---
+
+Sirf:
+
+```text id="syiowz"
+Current Chunk
+```
+
+RAM mein hai.
+
+---
+
+# Real Visualization
+
+MemoryStorage:
+
+```text id="vso8ef"
+Browser
+ ↓
+Chunk1
+ ↓
+RAM
+
+Browser
+ ↓
+Chunk2
+ ↓
+RAM
+
+Browser
+ ↓
+Chunk3
+ ↓
+RAM
+
+Browser
+ ↓
+Chunk4
+ ↓
+RAM
+
+All chunks wait
+ ↓
+Combine
+ ↓
+Buffer
+```
+
+---
+
+Stream:
+
+```text id="azj84j"
+Browser
+ ↓
+Chunk1
+ ↓
+RAM
+ ↓
+S3
+
+Browser
+ ↓
+Chunk2
+ ↓
+RAM
+ ↓
+S3
+
+Browser
+ ↓
+Chunk3
+ ↓
+RAM
+ ↓
+S3
+```
+
+---
+
+# Tumhara statement
+
+Tumne bola:
+
+> multer ne chunk1 ko array mai rkha quki directly RAM mai tho rhkk nhi skta atleast variable tho use krna padega
+
+✅ Half correct.
+
+---
+
+Actually stream mein:
+
+```js id="8b24pb"
+chunk
+```
+
+temporary variable ya internal stream buffer mein rehta hai.
+
+Lekin:
+
+❌
+
+```js id="8j2x6z"
+chunks.push(chunk)
+```
+
+nahi hota.
+
+---
+
+Ye bahut important difference hai.
+
+---
+
+# Tumhara next statement
+
+> firr multer ne binna dusre chunk2 ka wait kiye chunk1 ko pipe ke through s3 mai as it is store kr diya means same binary
+
+✅ 100% Correct.
+
+Bilkul.
+
+Example:
+
+Browser ne bheja:
+
+```text id="08uqjl"
+89 50
+```
+
+---
+
+Node ne receive kiya:
+
+```js id="y6kphx"
+<Buffer 89 50>
+```
+
+---
+
+S3 ko bhej diya:
+
+```js id="6k1lj8"
+<Buffer 89 50>
+```
+
+Same bytes.
+
+---
+
+Fir browser:
+
+```text id="q7s7gh"
+4E 47
+```
+
+bhejta hai.
+
+---
+
+Node:
+
+```js id="q4t8wg"
+<Buffer 4E 47>
+```
+
+receive karta hai.
+
+---
+
+S3 ko bhej deta hai.
+
+---
+
+End mein S3 ke paas:
+
+```text id="s2m6fb"
+89 50 4E 47 ...
+```
+
+complete file ban jaati hai.
+
+---
+
+Ek aur important baat:
+
+Real S3 upload mein har chunk ko separate object nahi banaya jata.
+
+Internally AWS SDK aur S3 multipart upload protocol use karte hain jo chunks ko assemble karke **ek final object** banata hai.
+
+```text id="64sp3o"
+Part1
+Part2
+Part3
+ ↓
+S3 assembles
+ ↓
+final video.mp4
+```
+
+Isi wajah se tum 5 GB, 50 GB, hatta ki 100 GB files bhi stream karke upload kar sakte ho bina poori file RAM mein laaye. 🚀
+
+=====================================
+
+Bhai ab tum actual Node.js Streams ke dil tak pahunch gaye ho. 😄
+
+Tum puch rahe ho:
+
+> Multer ke bina stream case mein Node chunk ko kaise read karta hai? Buffer mein? Variable mein?
+
+Answer:
+
+✅ **Node.js khud stream provide karta hai. Multer ki zaroorat nahi hai.**
+
+---
+
+# Sabse pehle samjho
+
+Jab request aati hai:
+
+```http
+POST /upload
+```
+
+to Express ka:
+
+```js
+req
+```
+
+actually kya hota hai?
+
+---
+
+`req` koi normal object nahi hai.
+
+Ye internally:
+
+```js
+http.IncomingMessage
+```
+
+hota hai.
+
+Aur `IncomingMessage` inherit karta hai:
+
+```js
+stream.Readable
+```
+
+se.
+
+Matlab:
+
+```js
+req instanceof Readable
+```
+
+≈ true
+
+---
+
+# Isliye tum directly kar sakte ho
+
+```js
+app.post('/upload', (req, res) => {
+
+    req.on('data', chunk => {
+        console.log(chunk);
+    });
+
+    req.on('end', () => {
+        console.log('Upload completed');
+    });
+
+});
+```
+
+---
+
+# Ab flow dekh
+
+Browser:
+
+```text
+Chunk1
+Chunk2
+Chunk3
+```
+
+bhej raha hai.
+
+---
+
+Node:
+
+```js
+req.on('data', chunk => {
+    console.log(chunk);
+});
+```
+
+run karega.
+
+---
+
+Pehli baar:
+
+```js
+chunk =
+<Buffer 89 50>
+```
+
+---
+
+Dusri baar:
+
+```js
+chunk =
+<Buffer 4E 47>
+```
+
+---
+
+Teesri baar:
+
+```js
+chunk =
+<Buffer AA BB>
+```
+
+---
+
+Notice:
+
+❌ Koi array nahi.
+
+❌ Koi Buffer.concat nahi.
+
+---
+
+Bas:
+
+```text
+Chunk aaya
+↓
+callback execute
+↓
+chunk process
+```
+
+---
+
+# Stream mein chunk kahan store hota hai?
+
+Bahut important.
+
+Tum puch rahe the:
+
+> Variable to use karna padega?
+
+✅ Bilkul.
+
+---
+
+Internally Node kuch aisa karta hai:
+
+```js
+socket.read()
+```
+
+---
+
+Aur temporary memory allocate hoti hai.
+
+Example:
+
+```js
+chunk
+```
+
+parameter.
+
+---
+
+Pehli call:
+
+```js
+chunk =
+<Buffer 89 50>
+```
+
+---
+
+S3 ko bhej diya.
+
+---
+
+Callback khatam.
+
+---
+
+Ab:
+
+```js
+chunk
+```
+
+ka reference khatam.
+
+---
+
+GC future mein clean kar dega.
+
+---
+
+Fir:
+
+```js
+chunk =
+<Buffer 4E 47>
+```
+
+aata hai.
+
+---
+
+Matlab:
+
+```text
+Ek waqt par
+sirf current chunk
+memory mein hai
+```
+
+---
+
+# Direct S3 Example
+
+Maan lo:
+
+```js
+app.post('/upload', (req, res) => {
+
+    req.pipe(s3UploadStream);
+
+});
+```
+
+---
+
+Ab kya hoga?
+
+Browser:
+
+```text
+Chunk1
+```
+
+↓
+
+Node:
+
+```text
+Chunk1
+```
+
+↓
+
+pipe()
+
+↓
+
+S3 stream
+
+---
+
+Fir:
+
+```text
+Chunk2
+```
+
+↓
+
+Node
+
+↓
+
+S3
+
+---
+
+Fir:
+
+```text
+Chunk3
+```
+
+↓
+
+Node
+
+↓
+
+S3
+
+---
+
+# Visual Flow
+
+Memory Storage
+
+```text
+Chunk1
+Chunk2
+Chunk3
+Chunk4
+     ↓
+Array
+     ↓
+Buffer.concat
+     ↓
+Big Buffer
+```
+
+---
+
+Stream
+
+```text
+Chunk1
+ ↓
+Current Buffer
+ ↓
+S3
+
+Chunk2
+ ↓
+Current Buffer
+ ↓
+S3
+
+Chunk3
+ ↓
+Current Buffer
+ ↓
+S3
+```
+
+---
+
+# Pipe actually kya karta hai?
+
+Suppose:
+
+```js
+req.pipe(destination);
+```
+
+---
+
+Internally simplified:
+
+```js
+req.on('data', chunk => {
+    destination.write(chunk);
+});
+
+req.on('end', () => {
+    destination.end();
+});
+```
+
+---
+
+Ye exact implementation nahi hai, but conceptually yehi hai.
+
+---
+
+# Sabse Important Point
+
+Tumne pucha:
+
+> kya chunk binary hi rehta hai?
+
+✅ Haan.
+
+Pura journey:
+
+```text
+Browser
+ ↓
+Binary
+
+Node
+ ↓
+Buffer
+
+pipe()
+ ↓
+Binary
+
+S3
+ ↓
+Bytes
+
+Disk
+ ↓
+Bytes
+```
+
+Kahin bhi:
+
+```text
+Image
+PDF
+Video
+```
+
+nahi banta.
+
+Har jagah:
+
+```js
+Buffer
+```
+
+ya raw bytes hi travel karte hain.
+
+---
+
+Ab tum next level question ke liye ready ho:
+
+**Agar S3 slow ho aur browser bahut fast chunks bhej raha ho, to Node.js memory overflow se kaise bachta hai?**
+
+Is concept ko **Backpressure** kehte hain aur ye streams ka sabse important production feature hai. 🚀
+
+===============================================
+
+Bhai agar tum **stream ko deeply samajhna chahte ho**, to Multer ko bhool jao 5 minute ke liye.
+
+Sabse pehle dekhte hain **pure Node.js stream upload** ka code.
+
+---
+
+# Example 1
+
+Browser → Node → Disk
+
+```js
+const express = require('express');
+const fs = require('fs');
+
+const app = express();
+
+app.post('/upload', (req, res) => {
+
+    const writeStream = fs.createWriteStream(
+        './uploads/file.bin'
+    );
+
+    req.pipe(writeStream);
+
+    writeStream.on('finish', () => {
+        res.send('Upload Complete');
+    });
+
+    writeStream.on('error', (err) => {
+        console.log(err);
+        res.status(500).send('Error');
+    });
+
+});
+
+app.listen(3000);
+```
+
+---
+
+# Step 1
+
+Browser request bhejta hai.
+
+```text
+POST /upload
+```
+
+---
+
+# Step 2
+
+Express route execute hoti hai.
+
+```js
+(req,res) => {}
+```
+
+---
+
+# Step 3
+
+```js
+const writeStream =
+      fs.createWriteStream(
+        './uploads/file.bin'
+      );
+```
+
+---
+
+Ye kya karta hai?
+
+OS ko bolta hai:
+
+```text
+uploads/file.bin
+```
+
+naam ki file open karo.
+
+---
+
+Internally:
+
+```text
+File Descriptor
+```
+
+create hota hai.
+
+Example:
+
+```text
+fd = 7
+```
+
+---
+
+Ab Node ke paas ek stream hai.
+
+```js
+writeStream
+```
+
+---
+
+# Step 4
+
+```js
+req.pipe(writeStream);
+```
+
+Yahi magic line hai.
+
+---
+
+Internally conceptually:
+
+```js
+req.on('data', chunk => {
+
+   writeStream.write(chunk);
+
+});
+
+req.on('end', () => {
+
+   writeStream.end();
+
+});
+```
+
+---
+
+Ye exact implementation nahi hai.
+
+Par concept yehi hai.
+
+---
+
+# Browser
+
+Suppose browser bhejta hai:
+
+```text
+Chunk1
+Chunk2
+Chunk3
+```
+
+---
+
+# First chunk
+
+```text
+Chunk1
+```
+
+Node receive karta hai.
+
+---
+
+`pipe()`
+
+internally:
+
+```js
+writeStream.write(chunk1);
+```
+
+---
+
+OS:
+
+```text
+Disk
+```
+
+par likh deta hai.
+
+---
+
+Ab file:
+
+```text
+file.bin
+```
+
+contains:
+
+```text
+Chunk1
+```
+
+---
+
+# Second chunk
+
+Browser:
+
+```text
+Chunk2
+```
+
+---
+
+Node:
+
+```js
+writeStream.write(chunk2);
+```
+
+---
+
+Disk:
+
+```text
+Chunk1
+Chunk2
+```
+
+---
+
+# Third chunk
+
+Browser:
+
+```text
+Chunk3
+```
+
+---
+
+Disk:
+
+```text
+Chunk1
+Chunk2
+Chunk3
+```
+
+---
+
+# Upload Complete
+
+Browser:
+
+```text
+No more chunks
+```
+
+---
+
+Node:
+
+```js
+req.on('end')
+```
+
+trigger.
+
+---
+
+Internally:
+
+```js
+writeStream.end();
+```
+
+---
+
+File close.
+
+---
+
+Trigger:
+
+```js
+writeStream.on('finish')
+```
+
+---
+
+Response:
+
+```js
+res.send(
+  'Upload Complete'
+);
+```
+
+---
+
+# IMPORTANT
+
+Kya ye hua?
+
+```js
+const chunks = [];
+```
+
+❌ NO
+
+---
+
+Kya ye hua?
+
+```js
+Buffer.concat(chunks);
+```
+
+❌ NO
+
+---
+
+Kya poori file RAM mein aayi?
+
+❌ NO
+
+---
+
+Sirf:
+
+```text
+Current Chunk
+```
+
+RAM mein aaya.
+
+---
+
+# Memory View
+
+MemoryStorage
+
+```text
+Chunk1
+Chunk2
+Chunk3
+Chunk4
+
+↓ RAM
+
+[Chunk1,Chunk2,Chunk3,Chunk4]
+
+↓
+Buffer.concat
+```
+
+---
+
+Stream
+
+```text
+Chunk1
+ ↓
+Disk
+
+Chunk2
+ ↓
+Disk
+
+Chunk3
+ ↓
+Disk
+```
+
+---
+
+# Example 2
+
+Browser → Node → S3
+
+Real production.
+
+```js
+app.post('/upload', (req, res) => {
+
+    req.pipe(s3UploadStream);
+
+});
+```
+
+---
+
+Conceptually:
+
+```text
+Chunk1
+ ↓
+Node
+ ↓
+S3
+
+Chunk2
+ ↓
+Node
+ ↓
+S3
+
+Chunk3
+ ↓
+Node
+ ↓
+S3
+```
+
+---
+
+# Actual Stream Events
+
+Agar pipe use na karein:
+
+```js
+app.post('/upload', (req,res)=>{
+
+    req.on('data', chunk => {
+
+        console.log(
+          'Chunk Received'
+        );
+
+        console.log(chunk);
+
+    });
+
+    req.on('end', ()=>{
+
+        console.log(
+          'Upload Complete'
+        );
+
+        res.send('Done');
+
+    });
+
+});
+```
+
+---
+
+Suppose browser sends:
+
+```text
+ABCDEF
+```
+
+---
+
+Output:
+
+```js
+<Buffer 41 42>
+<Buffer 43 44>
+<Buffer 45 46>
+```
+
+---
+
+Notice:
+
+```js
+chunk
+```
+
+already Buffer hai.
+
+Tumhe:
+
+```js
+Buffer.from(...)
+```
+
+karne ki zaroorat nahi.
+
+Node already Buffer deta hai.
+
+---
+
+# Stream Chain
+
+Real world mein:
+
+```js
+req
+ .pipe(transformStream)
+ .pipe(compressionStream)
+ .pipe(encryptionStream)
+ .pipe(writeStream);
+```
+
+---
+
+Flow:
+
+```text
+Browser
+ ↓
+Chunk
+ ↓
+Transform
+ ↓
+Compress
+ ↓
+Encrypt
+ ↓
+Disk
+```
+
+---
+
+Ab sabse important question aata hai:
+
+### Agar browser bahut fast chunks bhej raha ho aur disk ya S3 bahut slow ho to `pipe()` memory overflow hone se kaise bachata hai?
+
+Ye concept **Backpressure** hai, aur stream ka sabse powerful feature hai. Agar ye samajh gaye to stream internally almost complete samajh jaoge.
+
+======================================================
+
+Bhai tumhara confusion bilkul sahi jagah hai. Tum `pipe()` ko ulta samajh rahe ho.
+
+Pehle ye clear karte hain:
+
+---
+
+# Question 1
+
+> createReadStream kyu nahi use kiya?
+
+Kyuki hum file **read nahi kar rahe**.
+
+Hum file **receive kar rahe hain browser se**.
+
+---
+
+Tum soch rahe ho:
+
+```js
+fs.createReadStream(...)
+```
+
+zaruri hai.
+
+Lekin browser se jo data aa raha hai:
+
+```js
+req
+```
+
+wo already ek **Readable Stream** hai.
+
+---
+
+Proof:
+
+```js
+app.post('/upload', (req,res)=>{
+   console.log(req.readable);
+});
+```
+
+Output:
+
+```text
+true
+```
+
+---
+
+Matlab:
+
+```text
+Browser
+   ↓
+req (Readable Stream)
+```
+
+Already read stream available hai.
+
+Isliye:
+
+```js
+req.pipe(...)
+```
+
+possible hai.
+
+---
+
+Agar local file ko read karna hota:
+
+```js
+const readStream =
+   fs.createReadStream('movie.mp4');
+```
+
+tab createReadStream use karte.
+
+---
+
+# Real Visualization
+
+Current case:
+
+```text
+Browser
+   ↓
+req (Readable)
+   ↓
+writeStream (Writable)
+   ↓
+Disk
+```
+
+---
+
+File copy case:
+
+```text
+movie.mp4
+   ↓
+createReadStream()
+   ↓
+createWriteStream()
+   ↓
+copy.mp4
+```
+
+---
+
+Isliye:
+
+```js
+createReadStream()
+```
+
+ki zarurat nahi padi.
+
+Kyuki:
+
+```js
+req
+```
+
+already read stream hai.
+
+---
+
+# Question 2
+
+Tumne bola:
+
+> Chunk1 aaya
+>
+> writeStream ne file.bin me store kar diya
+>
+> phir pipe kya karta hai?
+
+Yahan sequence ulta samajh liya tumne.
+
+---
+
+Actually:
+
+```js
+req.pipe(writeStream);
+```
+
+ke baad flow hota hai:
+
+---
+
+Browser:
+
+```text
+Chunk1
+```
+
+bhejta hai.
+
+---
+
+Node:
+
+```text
+req
+```
+
+receive karta hai.
+
+---
+
+Pipe:
+
+```js
+writeStream.write(chunk1)
+```
+
+call karta hai.
+
+---
+
+Fir:
+
+```text
+Chunk1
+```
+
+disk pe write ho jata hai.
+
+---
+
+Notice:
+
+Pipe ne write hone ke baad detect nahi kiya.
+
+Pipe hi write karwa raha hai.
+
+---
+
+Matlab:
+
+❌ Ye nahi ho raha
+
+```text
+Chunk1
+ ↓
+Disk
+ ↓
+Pipe
+```
+
+---
+
+✅ Ye ho raha
+
+```text
+Chunk1
+ ↓
+req
+ ↓
+pipe
+ ↓
+writeStream.write(chunk1)
+ ↓
+Disk
+```
+
+---
+
+# Internally Pipe
+
+Conceptually:
+
+```js
+req.on('data', chunk => {
+
+   writeStream.write(chunk);
+
+});
+```
+
+---
+
+Suppose:
+
+Browser bhejta hai:
+
+```text
+Chunk1
+```
+
+---
+
+Pipe:
+
+```js
+writeStream.write(chunk1);
+```
+
+---
+
+Browser:
+
+```text
+Chunk2
+```
+
+---
+
+Pipe:
+
+```js
+writeStream.write(chunk2);
+```
+
+---
+
+Browser:
+
+```text
+Chunk3
+```
+
+---
+
+Pipe:
+
+```js
+writeStream.write(chunk3);
+```
+
+---
+
+Browser finished.
+
+---
+
+Pipe:
+
+```js
+writeStream.end();
+```
+
+---
+
+Then:
+
+```js
+finish
+```
+
+event trigger hota hai.
+
+---
+
+# Exact Visualization
+
+```text
+Browser
+   ↓
+Chunk1
+   ↓
+req
+
+pipe catches it
+
+   ↓
+writeStream.write(chunk1)
+
+   ↓
+file.bin
+```
+
+---
+
+Next:
+
+```text
+Browser
+   ↓
+Chunk2
+   ↓
+req
+
+pipe catches it
+
+   ↓
+writeStream.write(chunk2)
+
+   ↓
+file.bin
+```
+
+---
+
+Then:
+
+```text
+Browser
+   ↓
+Chunk3
+   ↓
+req
+
+pipe catches it
+
+   ↓
+writeStream.write(chunk3)
+
+   ↓
+file.bin
+```
+
+---
+
+# file.bin internally
+
+Initially:
+
+```text
+(empty)
+```
+
+After Chunk1:
+
+```text
+Chunk1
+```
+
+After Chunk2:
+
+```text
+Chunk1Chunk2
+```
+
+After Chunk3:
+
+```text
+Chunk1Chunk2Chunk3
+```
+
+---
+
+# Sabse Important Line
+
+Bhai yaad rakho:
+
+```js
+req.pipe(writeStream);
+```
+
+ka matlab hai:
+
+```text
+Jo bhi chunk req me aaye,
+usko automatically writeStream me bhej do.
+```
+
+Pipe disk ko observe nahi karta.
+
+Pipe disk se read nahi karta.
+
+Pipe ka kaam sirf:
+
+```text
+Readable Stream
+      ↓
+Writable Stream
+```
+
+connect karna hai.
+
+---
+
+Agla step mein main tumhe **pipe ke bina manually stream upload code** dikha sakta hoon:
+
+```js
+req.on('data', ...)
+req.on('end', ...)
+writeStream.write(...)
+writeStream.end(...)
+```
+
+Usse tumhe exactly samajh aa jayega ki `pipe()` internally kya karta hai aur kyun use convenient mana jata hai.
+
+=====================================
+
+Bhai tumhara doubt bahut achha hai. Tum ek important misunderstanding ko pakad rahe ho.
+
+Tum soch rahe ho:
+
+> Agar `req.pipe(writeStream)` hi chunk write kar raha hai to `fs.createWriteStream()` ki zaroorat kya thi?
+
+---
+
+# Simple Answer
+
+`req.pipe(writeStream)` khud kuch store nahi karta.
+
+Usko ek destination chahiye hota hai.
+
+Example:
+
+```js
+req.pipe(????)
+```
+
+Pipe bol raha hai:
+
+```text
+Jo data req se aa raha hai,
+main usko kahan bheju?
+```
+
+---
+
+Isliye hum banate hain:
+
+```js
+const writeStream =
+    fs.createWriteStream(
+       './uploads/file.bin'
+    );
+```
+
+Ye ek destination create karta hai.
+
+---
+
+# Real World Example
+
+Maan lo tumhare paas paani hai.
+
+```text
+Tank
+```
+
+Aur tumhare paas pipe hai.
+
+```text
+Pipe
+```
+
+Ab question:
+
+```text
+Pipe paani kahan bheje?
+```
+
+Pipe ko destination chahiye.
+
+Example:
+
+```text
+Bucket
+Tank
+River
+```
+
+---
+
+Yahan:
+
+```text
+req
+```
+
+=
+
+Tank
+
+---
+
+```text
+pipe()
+```
+
+=
+
+Pipe
+
+---
+
+```text
+writeStream
+```
+
+=
+
+Bucket
+
+---
+
+Visualization:
+
+```text
+Browser
+   ↓
+req
+   ↓
+pipe()
+   ↓
+writeStream
+   ↓
+file.bin
+```
+
+---
+
+# Ab dekhte hain createWriteStream actually kya karta hai
+
+Ye line:
+
+```js
+const writeStream =
+    fs.createWriteStream(
+       './uploads/file.bin'
+    );
+```
+
+Sirf variable create nahi kar rahi.
+
+Bahut kaam kar rahi hai.
+
+---
+
+# Step 1
+
+Node OS ko bolta hai:
+
+```text
+uploads/file.bin
+```
+
+naam ki file open karo.
+
+---
+
+Internally:
+
+```text
+File Descriptor
+```
+
+milta hai.
+
+Example:
+
+```text
+fd = 7
+```
+
+---
+
+# Step 2
+
+Node ek Writable Stream object banata hai.
+
+```js
+writeStream
+```
+
+Ab is object ko pata hai:
+
+```text
+Mujhe bytes milenge
+Aur mujhe file.bin me likhna hai
+```
+
+---
+
+# Step 3
+
+Ab jab pipe likhte ho:
+
+```js
+req.pipe(writeStream);
+```
+
+To pipe internally karega:
+
+```js
+req.on('data', chunk => {
+
+    writeStream.write(chunk);
+
+});
+```
+
+---
+
+Notice:
+
+Pipe directly disk par write nahi kar raha.
+
+Pipe call kar raha hai:
+
+```js
+writeStream.write(chunk)
+```
+
+---
+
+Aur:
+
+```js
+writeStream.write(chunk)
+```
+
+disk par likh raha hai.
+
+---
+
+# Matlab Responsibility
+
+### createWriteStream
+
+Responsible for:
+
+```text
+File kholna
+File descriptor manage karna
+Disk write karna
+Buffering manage karna
+```
+
+---
+
+### pipe
+
+Responsible for:
+
+```text
+Readable se data lena
+Writable ko dena
+```
+
+---
+
+# Agar createWriteStream na ho
+
+Maan lo:
+
+```js
+req.pipe(????)
+```
+
+Pipe puchhega:
+
+```text
+Data kahan bheju?
+```
+
+Koi answer nahi.
+
+Error.
+
+---
+
+# Ek aur Example
+
+Ye bhi valid hai:
+
+```js
+const zlib = require('zlib');
+
+req.pipe(
+   zlib.createGzip()
+);
+```
+
+Yahan destination disk nahi hai.
+
+Destination:
+
+```text
+Compression Stream
+```
+
+hai.
+
+---
+
+Ya:
+
+```js
+req.pipe(res);
+```
+
+Yahan destination:
+
+```text
+HTTP Response
+```
+
+hai.
+
+---
+
+Isliye:
+
+```js
+pipe()
+```
+
+sirf transport hai.
+
+Aur:
+
+```js
+createWriteStream()
+```
+
+actual destination hai jo bytes ko file mein save karta hai.
+
+---
+
+Agar main `pipe()` ke bina wahi code likhun:
+
+```js
+req.on('data', chunk => {
+   writeStream.write(chunk);
+});
+
+req.on('end', () => {
+   writeStream.end();
+});
+```
+
+to tumhe aur clearly samajh aayega ki `pipe()` internally exactly kya kar raha hai aur `writeStream.write(chunk)` disk tak kaise pahunchta hai. Ye next logical step hai.
+
+=============================
+
+Bhai 🔥 ab tum almost sahi track par ho. Bas ek chhoti si correction hai.
+
+Tumne bola:
+
+> pipe continuously req.readable stream ko check kr rha hai
+
+Conceptually samajhne ke liye theek hai, lekin technically:
+
+❌ Pipe polling nahi karta ("check check check" nahi karta)
+
+✅ Pipe events listen karta hai.
+
+---
+
+Tumhara flow kuch aisa hai:
+
+```js
+const writeStream =
+    fs.createWriteStream('./uploads/file.bin');
+
+req.pipe(writeStream);
+```
+
+---
+
+### Step 1
+
+Browser:
+
+```text
+Chunk1
+```
+
+bhejta hai.
+
+---
+
+### Step 2
+
+`req` ke andar internally:
+
+```js
+data event
+```
+
+fire hota hai.
+
+Jaise:
+
+```js
+req.on('data', chunk => {
+   // chunk1
+});
+```
+
+---
+
+### Step 3
+
+Pipe already listener laga chuka hai.
+
+Conceptually:
+
+```js
+req.on('data', chunk => {
+    writeStream.write(chunk);
+});
+```
+
+---
+
+### Step 4
+
+Pipe:
+
+```js
+writeStream.write(chunk1);
+```
+
+call karta hai.
+
+---
+
+### Step 5
+
+writeStream:
+
+```text
+Chunk1
+```
+
+ko
+
+```text
+file.bin
+```
+
+mein write kar deta hai.
+
+Ab file:
+
+```text
+file.bin
+
+[Chunk1]
+```
+
+---
+
+### Step 6
+
+Browser:
+
+```text
+Chunk2
+```
+
+bhejta hai.
+
+---
+
+`data` event fir fire hota hai.
+
+Pipe:
+
+```js
+writeStream.write(chunk2);
+```
+
+call karta hai.
+
+---
+
+File ban jati hai:
+
+```text
+file.bin
+
+[Chunk1][Chunk2]
+```
+
+---
+
+### Step 7
+
+Browser:
+
+```text
+Chunk3
+```
+
+bhejta hai.
+
+Pipe:
+
+```js
+writeStream.write(chunk3);
+```
+
+---
+
+File:
+
+```text
+file.bin
+
+[Chunk1][Chunk2][Chunk3]
+```
+
+---
+
+### Step 8
+
+Browser bolta hai:
+
+```text
+Bas ho gaya
+```
+
+---
+
+`end` event fire hota hai.
+
+Pipe internally:
+
+```js
+writeStream.end();
+```
+
+call karta hai.
+
+---
+
+### Step 9
+
+writeStream bolta hai:
+
+```text
+Saara data successfully disk par likh diya
+```
+
+Aur:
+
+```js
+finish
+```
+
+event fire karta hai.
+
+---
+
+Tab ye chalega:
+
+```js
+writeStream.on('finish', () => {
+   res.send('Upload Complete');
+});
+```
+
+---
+
+### Ek Visual
+
+```text
+Browser
+   │
+   ├── Chunk1
+   │       ↓
+   │   write(chunk1)
+   │       ↓
+   │    file.bin
+   │
+   ├── Chunk2
+   │       ↓
+   │   write(chunk2)
+   │       ↓
+   │    file.bin
+   │
+   ├── Chunk3
+   │       ↓
+   │   write(chunk3)
+   │       ↓
+   │    file.bin
+   │
+   └── END
+           ↓
+      writeStream.end()
+           ↓
+        finish
+```
+
+---
+
+Ek aur important baat:
+
+Tumne bola:
+
+> write method chunk1 ko createWriteStream destination per store kr dega
+
+Thoda wording change karo.
+
+`createWriteStream()` destination nahi hai.
+
+Ye **destination ko represent karne wala Writable Stream object** hai.
+
+Ye:
+
+```js
+const writeStream =
+    fs.createWriteStream('./uploads/file.bin');
+```
+
+internally file descriptor maintain karta hai aur uske paas:
+
+```js
+writeStream.write(chunk)
+```
+
+method hota hai jo bytes ko disk tak pahunchata hai.
+
+---
+
+To short mein:
+
+✅ Chunk1 aaya → pipe ne `write(chunk1)` call kiya → disk par likh diya
+
+✅ Chunk2 aaya → pipe ne `write(chunk2)` call kiya → same file mein append ho gaya
+
+✅ Chunk3 aaya → same process
+
+✅ End aaya → `writeStream.end()` → `finish`
+
+Tumhari understanding ab kaafi strong ho gayi hai. Agla important concept hai:
+
+**Agar Chunk2 aane se pehle Chunk1 abhi disk par write hi ho raha ho, to Node kaise ensure karta hai ki data corrupt na ho?** Ye hume **internal buffering aur backpressure** tak le jayega. 🚀
+
+=======================================
+
+Perfect bhai. Ab hum **Browser → Node.js Stream → AWS S3** ko itni depth mein samjhenge ki tumhe pata chal jayega internally har chunk ke saath kya ho raha hai.
+
+Sabse pehle ek misconception clear karte hain:
+
+```text
+S3 = Folder nahi hai
+S3 = Normal Disk bhi nahi hai
+```
+
+S3 ek **Object Storage Service** hai.
+
+Tum file upload karte ho:
+
+```text
+cat.png
+```
+
+S3 store karta hai:
+
+```text
+bucket/
+   cat.png
+```
+
+Lekin internally wo bytes hi store kar raha hota hai.
+
+---
+
+# Real Flow
+
+```text
+Browser
+   ↓
+HTTP Request
+   ↓
+Node.js
+   ↓
+Readable Stream (req)
+   ↓
+PassThrough Stream
+   ↓
+AWS SDK
+   ↓
+HTTPS
+   ↓
+AWS S3
+```
+
+---
+
+# Code
+
+Pehle code dekhte hain.
+
+```js
+const express = require('express');
+const AWS = require('aws-sdk');
+const { PassThrough } = require('stream');
+
+const app = express();
+
+const s3 = new AWS.S3({
+    accessKeyId: 'YOUR_KEY',
+    secretAccessKey: 'YOUR_SECRET',
+    region: 'ap-south-1'
+});
+
+app.post('/upload', (req, res) => {
+
+    const passThrough = new PassThrough();
+
+    const uploadPromise = s3.upload({
+        Bucket: 'my-bucket',
+        Key: 'video.mp4',
+        Body: passThrough
+    }).promise();
+
+    req.pipe(passThrough);
+
+    uploadPromise
+        .then(() => {
+            res.send('Uploaded');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send('Error');
+        });
+});
+
+app.listen(3000);
+```
+
+---
+
+# Step 1
+
+Browser file select karta hai:
+
+```text
+video.mp4
+500 MB
+```
+
+---
+
+Browser kya bhejta hai?
+
+```text
+Chunk1
+Chunk2
+Chunk3
+...
+Chunk8000
+```
+
+---
+
+Suppose:
+
+```text
+Chunk1
+=
+64 KB
+```
+
+---
+
+# Step 2
+
+Node Request Receive
+
+```js
+app.post('/upload', (req,res)=>{})
+```
+
+Yahan:
+
+```js
+req
+```
+
+already:
+
+```js
+Readable Stream
+```
+
+hai.
+
+---
+
+# Step 3
+
+PassThrough
+
+```js
+const passThrough =
+    new PassThrough();
+```
+
+Tum puchoge:
+
+> Ye kya hai?
+
+PassThrough ek special stream hai.
+
+Jo andar aata hai:
+
+```text
+Input
+```
+
+wahi bahar nikalta hai:
+
+```text
+Output
+```
+
+---
+
+Example
+
+Input:
+
+```text
+ABC
+```
+
+Output:
+
+```text
+ABC
+```
+
+---
+
+Input:
+
+```text
+Chunk1
+```
+
+Output:
+
+```text
+Chunk1
+```
+
+---
+
+Ye kuch modify nahi karta.
+
+Sirf bridge ka kaam karta hai.
+
+---
+
+# Step 4
+
+S3 Upload Start
+
+```js
+s3.upload({
+   Bucket: 'my-bucket',
+   Key: 'video.mp4',
+   Body: passThrough
+})
+```
+
+---
+
+Important:
+
+```js
+Body: passThrough
+```
+
+iska matlab:
+
+```text
+AWS SDK
+```
+
+bol raha hai:
+
+```text
+Mujhe data PassThrough stream se milega
+```
+
+---
+
+AWS wait kar raha hai:
+
+```text
+Chunk bhejo
+Chunk bhejo
+Chunk bhejo
+```
+
+---
+
+# Step 5
+
+Pipe Connect
+
+```js
+req.pipe(passThrough);
+```
+
+Ab connection ban gaya.
+
+```text
+req
+ ↓
+passThrough
+ ↓
+AWS SDK
+ ↓
+S3
+```
+
+---
+
+# Step 6
+
+Chunk1 arrives
+
+Browser:
+
+```text
+Chunk1
+```
+
+---
+
+Node:
+
+```text
+req
+```
+
+receive karta hai.
+
+---
+
+Pipe:
+
+```js
+passThrough.write(chunk1)
+```
+
+kar deta hai.
+
+---
+
+PassThrough:
+
+```text
+Chunk1
+```
+
+AWS SDK ko de deta hai.
+
+---
+
+AWS SDK:
+
+```text
+Chunk1
+```
+
+HTTPS packet bana ke bhej deta hai.
+
+---
+
+S3 receive:
+
+```text
+Chunk1
+```
+
+---
+
+Abhi tak:
+
+```text
+Chunk2
+```
+
+ka wait nahi hua.
+
+---
+
+# Step 7
+
+Chunk2 arrives
+
+Browser:
+
+```text
+Chunk2
+```
+
+---
+
+Node:
+
+```text
+req
+```
+
+receive.
+
+---
+
+Pipe:
+
+```text
+Chunk2
+```
+
+PassThrough ko.
+
+---
+
+PassThrough:
+
+```text
+Chunk2
+```
+
+AWS SDK ko.
+
+---
+
+AWS SDK:
+
+```text
+Chunk2
+```
+
+S3 ko.
+
+---
+
+# Visualization
+
+```text
+Chunk1
+ ↓
+req
+ ↓
+passThrough
+ ↓
+AWS
+ ↓
+S3
+
+Chunk2
+ ↓
+req
+ ↓
+passThrough
+ ↓
+AWS
+ ↓
+S3
+
+Chunk3
+ ↓
+req
+ ↓
+passThrough
+ ↓
+AWS
+ ↓
+S3
+```
+
+---
+
+# Important Question
+
+Tum puchoge:
+
+> S3 mein Chunk1 aur Chunk2 alag-alag file ban rahi hain?
+
+❌ Nahi.
+
+AWS SDK Multipart Upload use karta hai.
+
+Internally:
+
+```text
+Part1
+Part2
+Part3
+Part4
+```
+
+---
+
+Upload complete hone ke baad:
+
+```text
+CompleteMultipartUpload
+```
+
+call karta hai.
+
+---
+
+Aur S3 final object bana deta hai.
+
+```text
+video.mp4
+```
+
+---
+
+# RAM Usage
+
+Memory Storage:
+
+```text
+Chunk1
+Chunk2
+Chunk3
+Chunk4
+...
+Chunk8000
+
+RAM
+```
+
+---
+
+500 MB file:
+
+```text
+500 MB RAM
+```
+
+---
+
+Stream:
+
+```text
+Current Chunk
+```
+
+only.
+
+---
+
+Example:
+
+```text
+64 KB
+```
+
+RAM.
+
+---
+
+Chunk1 gaya.
+
+Memory free.
+
+---
+
+Chunk2 aaya.
+
+Memory use.
+
+---
+
+Chunk2 gaya.
+
+Memory free.
+
+---
+
+Isi wajah se:
+
+```text
+100 users
+500 MB upload
+```
+
+possible ho jata hai.
+
+---
+
+# Sabse Important Internal Flow
+
+Ye yaad rakho:
+
+```text
+Browser
+```
+
+kabhi file nahi bhejta.
+
+Browser bhejta hai:
+
+```text
+Bytes
+```
+
+---
+
+Node receive karta hai:
+
+```js
+Buffer
+```
+
+---
+
+AWS SDK bhejta hai:
+
+```js
+Buffer
+```
+
+---
+
+S3 receive karta hai:
+
+```js
+Buffer
+```
+
+---
+
+Disk par store hota hai:
+
+```js
+Bytes
+```
+
+---
+
+Kahin bhi:
+
+```text
+Image
+Video
+PDF
+```
+
+travel nahi karte.
+
+Har jagah:
+
+```js
+Buffer
+```
+
+ya raw bytes travel karte hain.
+
+---
+
+Ab next level concept hai:
+
+### "Agar Browser 1 GB/sec se chunks bhej raha hai aur S3 sirf 100 MB/sec receive kar raha hai to Node memory crash kyu nahi karta?"
+
+Iska answer hai **Backpressure**, aur ye streams ka sabse powerful feature hai. Ye samajh loge to streams ka production-grade understanding complete ho jayega.
+

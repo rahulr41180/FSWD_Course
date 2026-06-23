@@ -1,0 +1,14 @@
+
+Prototype
+Prototype Chain
+this
+Constructor Function
+Static Keyword
+Inheritance
+Encapsulation
+super
+Object.create()
+__proto__
+Execution Context
+
+Heap vs Stack Memory

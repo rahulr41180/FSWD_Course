@@ -69,7 +69,7 @@ def divide(x, y):
     return x/y;
 
 print("Select Operation..");
-print("Type 1 for add");
+print("Type 1 for   ");
 print("Type 2 for subtract");
 print("Type 3 for multiply");
 print("Type 4 for divide");

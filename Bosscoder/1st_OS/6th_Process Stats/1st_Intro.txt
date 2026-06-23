@@ -1,0 +1,50 @@
+
+             LTS            (IF THERE Is priority task then that pass from Ready to Running state through STS)
+New(Create) ======> Ready(Queue) ============> Running(Queue) ==========> Terminated
+
+Whenever a process/task is initiated/created it comes under 'New'
+
+Process/task created it passed on Ready state means when process just created and it is near to execution phase that state called Ready state
+Ready state is more like a queue system
+means all created process comes under queue means Ready state and OS execute it either FIFO manner or parellel it depend on what OS are we using
+multi processing OS | Uni Processing OS
+
+Usually our laptop have multi processing OS which execute task one by one or parellel
+
+Once process created then it pass to Ready state by long term scheduler
+
+Then process to one by one passed to Running state
+Then passed to Terminated
+
+In the Terminated state there is process called deallocation
+Means we process is created then a PID is assign to that process and once it terminated then that PID is remove from storage 
+then this process is called deallocation process
+
+There is term called priority task
+
+Priority Task :
+what means suppose my all process are bussy in Running the task in Running phase then I want to execute or start New
+task and that is priority task so what would happen when I started or created priority task then if all process are 
+busy to doing some work then my Running state is through back the Running task to Ready state and we know that
+my priority task is in Ready while we created then it move to Running state and then once any process is free then
+again my back through task come from Ready state to Running state to continue it's work
+
+So when priority task is giving from Ready state to Running state by short term scheduler (STS)
+
+I/O Task : 
+If any task is I/O task which comming from Ready state to Running state means it is Running so what Running process do
+it move it to wait phase(Queue) and once it done/completed then it again move to Ready state from wait phase and then move to
+Running state and then move to terminated state once it terminated
+
+Suspend Wait :
+Suppose lot of I/O task is coming at same time so all come from New to Ready to Running to Wait Phase and suppose Wait Phase
+is fully occupied measn Wait phase queue is full then what would happend if again some new I/O task is coming from Running state
+but wait phase queue is full then what if would do it passes those I/O task to Suspend Wait phase and once I/O task is done in 
+Suspend wait phase then it move back to wait phase queue then wait phase queue move back that task to Ready queue
+
+Suspend Ready Phase :
+Suppose while moving the I/O task to wait phase queue from Suspend wait phase and suppose wait phase queue is full then what would
+happened instead of passing the I/O task from Suspend wait phase to wait phase queue it passes to Suppose Ready Phase
+which top of Ready Phase and from Suppose Ready Phase it would again back to Ready Phase and then move to Running phase
+
+=> Uni Processing OS

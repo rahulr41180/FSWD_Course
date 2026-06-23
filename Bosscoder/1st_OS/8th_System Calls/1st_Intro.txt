@@ -1,0 +1,7 @@
+
+System calls are more like operation want to perform
+command we want to give to our OS by application 
+
+Read() System Calls
+Write() System Calls
+These are file oriented or file realted system calls

@@ -1,0 +1,1706 @@
+
+Yes, they are **different concepts**, but they are closely related and often used together when designing software systems.
+
+Think of it like building a city:
+
+```text
+System Design       = Planning the entire city
+System Architecture = Designing the city's structure and zones
+System Patterns     = Reusable city layouts and blueprints
+System Flow         = How people, vehicles, and services move through the city
+```
+
+---
+
+# 1. System Design
+
+System Design is the broadest topic.
+
+It focuses on:
+
+* What to build
+* How components interact
+* Scalability
+* Reliability
+* Performance
+* Security
+* Availability
+
+Examples:
+
+* Design WhatsApp
+* Design YouTube
+* Design Uber
+* Design Google Drive
+
+---
+
+# 2. System Architecture
+
+System Architecture is a subset of System Design.
+
+It defines:
+
+```text
+Services
+Databases
+Queues
+Caches
+Communication
+Deployment
+Infrastructure
+```
+
+Example:
+
+```text
+Client
+   |
+API Gateway
+   |
+--------------------
+|        |         |
+Auth   User    Payment
+Service Service Service
+```
+
+Architecture answers:
+
+```text
+What components exist?
+How do they communicate?
+```
+
+---
+
+# 3. System Patterns
+
+Patterns are reusable solutions.
+
+Example:
+
+Instead of reinventing the wheel:
+
+```text
+Microservices Pattern
+Event Driven Pattern
+CQRS Pattern
+Saga Pattern
+MVC Pattern
+```
+
+These are architectural patterns.
+
+---
+
+# 4. System Flow
+
+System Flow explains:
+
+```text
+Request flow
+Data flow
+Control flow
+Event flow
+```
+
+Example:
+
+```text
+User Login
+
+Browser
+  |
+API
+  |
+Auth Service
+  |
+Redis
+  |
+Database
+```
+
+This is a flow.
+
+---
+
+# Complete Roadmap
+
+---
+
+## A. System Design Fundamentals
+
+1. Scalability
+2. Availability
+3. Reliability
+4. Maintainability
+5. Performance
+6. Fault Tolerance
+7. Consistency
+8. Durability
+9. Latency
+10. Throughput
+
+---
+
+## B. System Architecture
+
+1. Monolithic Architecture
+2. Microservices Architecture
+3. Service-Oriented Architecture (SOA)
+4. Serverless Architecture
+5. Event-Driven Architecture
+6. Layered Architecture
+7. Hexagonal Architecture
+8. Clean Architecture
+9. Onion Architecture
+
+---
+
+## C. Architectural Patterns
+
+1. MVC
+2. MVVM
+3. MVP
+4. CQRS
+5. Saga
+6. Event Sourcing
+7. API Gateway
+8. Backend for Frontend (BFF)
+9. Sidecar Pattern
+10. Strangler Pattern
+
+---
+
+## D. Design Patterns (GoF)
+
+### Creational
+
+1. Singleton
+2. Factory
+3. Abstract Factory
+4. Builder
+5. Prototype
+
+### Structural
+
+6. Adapter
+7. Decorator
+8. Facade
+9. Proxy
+10. Composite
+
+### Behavioral
+
+11. Observer
+12. Strategy
+13. Command
+14. State
+15. Chain of Responsibility
+
+---
+
+## E. Database Design
+
+1. ER Diagrams
+2. Normalization
+3. Denormalization
+4. Indexing
+5. Partitioning
+6. Sharding
+7. Replication
+8. Transactions
+9. ACID
+10. CAP Theorem
+
+---
+
+## F. Distributed Systems
+
+1. CAP Theorem
+2. Consistent Hashing
+3. Leader Election
+4. Consensus Algorithms
+5. Distributed Locks
+6. Distributed Transactions
+7. Eventual Consistency
+8. Split Brain Problem
+9. Gossip Protocol
+10. Vector Clocks
+
+---
+
+## G. Caching
+
+1. Redis
+2. Memcached
+3. Cache Aside
+4. Write Through
+5. Write Back
+6. Write Around
+7. Cache Invalidation
+
+---
+
+## H. Messaging Systems
+
+1. RabbitMQ
+2. Apache Kafka
+3. AWS SQS
+4. Pub/Sub
+5. Dead Letter Queue
+6. Message Ordering
+7. Retry Mechanisms
+
+---
+
+## I. API Design
+
+1. REST APIs
+2. GraphQL
+3. gRPC
+4. WebSockets
+5. API Versioning
+6. Rate Limiting
+7. Idempotency
+
+---
+
+## J. Security Architecture
+
+1. Authentication
+2. Authorization
+3. JWT
+4. OAuth 2.0
+5. OpenID Connect
+6. RBAC
+7. ABAC
+8. Encryption
+9. HTTPS
+10. API Security
+
+---
+
+## K. Cloud & Infrastructure
+
+1. Docker
+2. Kubernetes
+3. AWS
+4. Azure
+5. GCP
+6. Load Balancers
+7. CDN
+8. Auto Scaling
+9. Service Discovery
+
+---
+
+## L. Observability
+
+1. Logging
+2. Monitoring
+3. Metrics
+4. Tracing
+5. Alerting
+6. APM Tools
+
+---
+
+## M. Performance Engineering
+
+1. Load Testing
+2. Stress Testing
+3. Profiling
+4. Horizontal Scaling
+5. Vertical Scaling
+6. Database Optimization
+
+---
+
+## N. System Flows
+
+1. Authentication Flow
+2. Authorization Flow
+3. Payment Flow
+4. Order Flow
+5. Notification Flow
+6. Event Flow
+7. Data Flow
+8. Request Flow
+9. CI/CD Flow
+
+---
+
+# If your goal is Senior Full Stack / Software Engineer / System Design Interviews
+
+A practical learning order is:
+
+```text
+1. System Design Fundamentals
+2. Database Design
+3. API Design
+4. Caching
+5. Messaging Systems
+6. System Architecture
+7. Architectural Patterns
+8. Distributed Systems
+9. Security Architecture
+10. Cloud & Infrastructure
+11. Observability
+12. Advanced System Design Case Studies
+```
+
+With your background in Node.js, Microservices, Redis, RabbitMQ, MySQL, and SaaS platforms, the highest-impact next topics would be:
+
+* Microservices Architecture
+* API Gateway Pattern
+* Saga Pattern
+* CQRS
+* Distributed Systems
+* Caching Strategies
+* Database Scaling (Sharding/Replication)
+* Event-Driven Architecture
+* High-Level & Low-Level System Design
+* Kubernetes and Cloud Architecture
+
+These are the topics most commonly discussed in mid-to-senior backend and full-stack interviews.
+
+
+Excellent question.
+
+**HLD (High-Level Design)** and **LLD (Low-Level Design)** are actually part of **System Design**, but they focus on different levels of abstraction.
+
+Think of it like building a house:
+
+```text id="q2uzj0"
+System Design
+│
+├── HLD (High-Level Design)
+│
+└── LLD (Low-Level Design)
+```
+
+---
+
+# 1. High-Level Design (HLD)
+
+HLD focuses on:
+
+```text id="pjlwmn"
+Big Picture
+Architecture
+Major Components
+Data Flow
+Technology Choices
+```
+
+Questions HLD answers:
+
+```text id="gghbpf"
+How many services?
+Which database?
+Which cache?
+Which message queue?
+How do services communicate?
+```
+
+Example:
+
+```text id="0f5fwi"
+User
+  |
+Load Balancer
+  |
+API Gateway
+  |
+---------------------
+|         |         |
+Auth    Order    Payment
+Service  Service  Service
+  |
+Redis
+  |
+MySQL
+```
+
+This is HLD.
+
+---
+
+## HLD Topics
+
+* System Architecture
+* Microservices
+* Monolith
+* Load Balancer
+* API Gateway
+* Database Selection
+* Caching
+* Message Queues
+* Scaling
+* Availability
+* Reliability
+* CAP Theorem
+
+---
+
+# 2. Low-Level Design (LLD)
+
+LLD focuses on:
+
+```text id="nqkhrj"
+Class Design
+Object Design
+Methods
+Interfaces
+Relationships
+Design Patterns
+```
+
+Questions LLD answers:
+
+```text id="x3bsvr"
+What classes?
+What methods?
+What properties?
+Inheritance?
+Composition?
+```
+
+Example:
+
+```java id="m52mly"
+class User {
+    private String name;
+    private String email;
+}
+
+class Order {
+    private User user;
+    private List<Product> products;
+}
+```
+
+This is LLD.
+
+---
+
+## LLD Topics
+
+### OOP
+
+* Class
+* Object
+* Inheritance
+* Encapsulation
+* Polymorphism
+* Abstraction
+
+### UML
+
+* Class Diagram
+* Sequence Diagram
+* Use Case Diagram
+
+### Design Patterns
+
+* Singleton
+* Factory
+* Builder
+* Strategy
+* Observer
+* Adapter
+* Decorator
+
+### SOLID Principles
+
+* Single Responsibility
+* Open Closed
+* Liskov Substitution
+* Interface Segregation
+* Dependency Inversion
+
+---
+
+# Real Example: Design Uber
+
+## HLD
+
+You discuss:
+
+```text id="4jpq7v"
+Rider Service
+Driver Service
+Location Service
+Payment Service
+Redis
+Kafka
+MySQL
+Load Balancer
+```
+
+Architecture-level discussion.
+
+---
+
+## LLD
+
+You discuss:
+
+```java id="cnz3c7"
+class Driver {}
+
+class Rider {}
+
+class Ride {}
+
+class Payment {}
+```
+
+Methods:
+
+```java id="tlj0f9"
+createRide()
+acceptRide()
+cancelRide()
+```
+
+Object relationships.
+
+---
+
+# Relationship Between Topics
+
+```text id="42g6op"
+Software Engineering
+│
+├── System Design
+│   │
+│   ├── HLD
+│   │   ├── Architecture
+│   │   ├── Databases
+│   │   ├── Caching
+│   │   ├── Queues
+│   │   ├── Scaling
+│   │   └── Distributed Systems
+│   │
+│   └── LLD
+│       ├── OOP
+│       ├── SOLID
+│       ├── Design Patterns
+│       ├── UML
+│       └── Class Design
+│
+├── System Flow
+│
+├── System Architecture
+│
+└── System Patterns
+```
+
+---
+
+# Interview Perspective
+
+For a Full Stack / Backend Developer:
+
+### LLD Preparation
+
+* OOP
+* SOLID
+* Design Patterns
+* UML
+* Machine Coding
+
+### HLD Preparation
+
+* Microservices
+* Redis
+* RabbitMQ/Kafka
+* MySQL Scaling
+* API Gateway
+* Load Balancer
+* Distributed Systems
+* Cloud Architecture
+
+A simple rule:
+
+```text id="s0h3uw"
+HLD = Services, Databases, Infrastructure
+
+LLD = Classes, Objects, Methods, Design Patterns
+```
+
+If you're targeting 3–6 years of experience roles, interviewers often expect both:
+
+* HLD: "Design a URL Shortener / WhatsApp / Google Drive"
+* LLD: "Design Parking Lot / Elevator / BookMyShow classes and APIs"
+
+Yes. If your goal is to become a strong **Senior Full Stack Developer**, **Backend Engineer**, **Software Engineer**, or eventually a **Software Architect**, then the topics we've discussed (HLD, LLD, Architecture, Patterns, System Design) are only part of the overall software engineering landscape.
+
+A more complete map looks like this:
+
+```text id="xq8g2h"
+Software Engineering
+│
+├── Programming Fundamentals
+├── Data Structures & Algorithms
+├── Software Design
+├── System Design
+├── Architecture
+├── Databases
+├── Distributed Systems
+├── Security
+├── Testing
+├── DevOps
+├── Cloud
+├── Observability
+├── Performance Engineering
+└── Software Delivery
+```
+
+---
+
+# 1. Programming Fundamentals
+
+You already work with JavaScript/TypeScript, but mastery includes:
+
+* Memory management
+* Stack vs Heap
+* Execution Context
+* Event Loop
+* Concurrency
+* Multithreading concepts
+* Garbage Collection
+
+For Node.js specifically:
+
+* Event Loop
+* Libuv
+* Streams
+* Buffers
+* Worker Threads
+* Cluster
+* Child Processes
+
+---
+
+# 2. Data Structures & Algorithms
+
+### Data Structures
+
+* Array
+* Linked List
+* Stack
+* Queue
+* HashMap
+* Heap
+* Tree
+* Trie
+* Graph
+
+### Algorithms
+
+* Sorting
+* Searching
+* Recursion
+* Backtracking
+* Greedy
+* Dynamic Programming
+* Graph Algorithms
+
+---
+
+# 3. Object-Oriented Design (LLD)
+
+* OOP
+* SOLID
+* Design Patterns
+* UML
+* Clean Code
+* Refactoring
+
+---
+
+# 4. System Design (HLD)
+
+* Scalability
+* Availability
+* Reliability
+* Fault Tolerance
+* Latency
+* Throughput
+
+---
+
+# 5. System Architecture
+
+* Monolith
+* Microservices
+* Event-Driven
+* Serverless
+* Clean Architecture
+* Hexagonal Architecture
+
+---
+
+# 6. Distributed Systems
+
+This is where senior engineers spend a lot of time.
+
+Topics include:
+
+* CAP Theorem
+* Consistency Models
+* Distributed Locks
+* Consensus
+* Leader Election
+* Eventual Consistency
+* Distributed Transactions
+* Saga Pattern
+
+---
+
+# 7. Databases
+
+### SQL
+
+* MySQL
+* PostgreSQL
+
+Topics:
+
+* Indexing
+* Query Optimization
+* Joins
+* Partitioning
+* Replication
+* Sharding
+
+### NoSQL
+
+* MongoDB
+* Redis
+
+Topics:
+
+* Document Modeling
+* Aggregation
+* Data Distribution
+
+---
+
+# 8. Messaging Systems
+
+You already use RabbitMQ.
+
+Continue with:
+
+* RabbitMQ
+* Kafka
+* AWS SQS
+* Pub/Sub
+
+Patterns:
+
+* Event Driven
+* Producer Consumer
+* Dead Letter Queue
+* Retry Strategy
+
+---
+
+# 9. Caching
+
+* Redis
+* Cache Aside
+* Write Through
+* Write Back
+* Cache Invalidation
+
+---
+
+# 10. API Design
+
+* REST
+* GraphQL
+* gRPC
+* WebSockets
+* API Versioning
+* Rate Limiting
+
+---
+
+# 11. Security
+
+A very important area.
+
+* Authentication
+* Authorization
+* JWT
+* OAuth
+* RBAC
+* Encryption
+* HTTPS
+* OWASP Top 10
+* CSRF
+* XSS
+* SQL Injection
+
+---
+
+# 12. Testing
+
+Since you're learning Vitest:
+
+### Unit Testing
+
+* Vitest
+* Jest
+
+### Integration Testing
+
+* API Testing
+* Database Testing
+
+### E2E Testing
+
+* Playwright
+* Cypress
+
+---
+
+# 13. DevOps
+
+A lot of developers skip this.
+
+* CI/CD
+* GitHub Actions
+* Jenkins
+* Docker
+* Kubernetes
+
+---
+
+# 14. Cloud Engineering
+
+Since many jobs ask for AWS:
+
+### AWS
+
+* EC2
+* S3
+* RDS
+* CloudFront
+* Route53
+* SES
+* Lambda
+
+---
+
+# 15. Observability
+
+Production systems need visibility.
+
+* Logging
+* Monitoring
+* Metrics
+* Tracing
+
+Tools:
+
+* ELK Stack
+* Grafana
+* Prometheus
+
+---
+
+# 16. Performance Engineering
+
+How to make systems faster.
+
+* Profiling
+* Load Testing
+* Stress Testing
+* Memory Optimization
+* Query Optimization
+
+---
+
+# 17. Software Development Lifecycle (SDLC)
+
+Many interviews ask about this indirectly.
+
+* Requirement Gathering
+* Design
+* Development
+* Testing
+* Deployment
+* Monitoring
+* Maintenance
+
+---
+
+# 18. Software Engineering Principles
+
+Often overlooked.
+
+### Design Principles
+
+* SOLID
+* DRY
+* KISS
+* YAGNI
+
+### Architecture Principles
+
+* Separation of Concerns
+* Dependency Injection
+* Loose Coupling
+* High Cohesion
+
+---
+
+# 19. Domain-Specific Topics
+
+Depending on the company:
+
+### SaaS
+
+* Multi-Tenant Architecture
+* Subscription Billing
+* Stripe
+* Usage Tracking
+
+### E-Commerce
+
+* Inventory
+* Orders
+* Payments
+* Checkout
+
+### AI Applications
+
+* Prompt Engineering
+* RAG
+* Vector Databases
+* LLM Integration
+
+---
+
+# A Strong Roadmap for Your Experience Level
+
+Given your background with:
+
+* Next.js
+* Node.js
+* TypeScript
+* MySQL
+* Redis
+* RabbitMQ
+* Microservices
+* Multi-tenant SaaS
+* AWS SES
+* Stripe
+* Google Ads APIs
+
+The next high-impact topics are:
+
+```text id="j2q4gf"
+1. HLD
+2. LLD
+3. Design Patterns
+4. Distributed Systems
+5. Database Scaling
+6. Kafka
+7. Kubernetes
+8. AWS Architecture
+9. Observability
+10. Advanced Security
+11. Event-Driven Architecture
+12. AI System Design
+```
+
+If you master these areas, you'll cover most of what is expected from senior full-stack/backend engineers and many software architect interview tracks.
+
+Yes, there are always more topics because **Software Engineering is a huge field**, but after a point you're moving into specialization rather than core software engineering.
+
+Think of it as layers:
+
+```text id="n4u7sp"
+Software Engineering
+│
+├── Core Topics
+├── Advanced Topics
+└── Specialized Topics
+```
+
+---
+
+# Core Topics (Must Know)
+
+These are expected for most developers:
+
+### Programming
+
+* JavaScript
+* TypeScript
+* Java/Python/C#
+* OOP
+* Functional Programming
+
+### DSA
+
+* Arrays
+* Trees
+* Graphs
+* Dynamic Programming
+
+### Databases
+
+* SQL
+* NoSQL
+* Indexing
+* Transactions
+
+### Backend
+
+* APIs
+* Authentication
+* Authorization
+
+### Frontend
+
+* React
+* Next.js
+* State Management
+
+### Testing
+
+* Unit
+* Integration
+* E2E
+
+### Git
+
+### System Design
+
+* HLD
+* LLD
+
+---
+
+# Advanced Topics
+
+Usually expected from senior engineers.
+
+### Distributed Systems
+
+* CAP Theorem
+* Consensus
+* Distributed Transactions
+
+### Architecture
+
+* Microservices
+* Event Driven
+* Serverless
+
+### Performance
+
+* Caching
+* Query Optimization
+* Profiling
+
+### Cloud
+
+* AWS
+* Azure
+* GCP
+
+### DevOps
+
+* Docker
+* Kubernetes
+* CI/CD
+
+---
+
+# Specialized Topics
+
+These depend on career direction.
+
+---
+
+## Compiler Engineering
+
+How languages work internally.
+
+Topics:
+
+* Lexical Analysis
+* Parsing
+* AST
+* Bytecode
+* JIT Compilation
+
+Examples:
+
+* V8 Engine
+* JVM
+
+---
+
+## Operating Systems
+
+Deep computer science.
+
+Topics:
+
+* Processes
+* Threads
+* Scheduling
+* Memory Management
+* Virtual Memory
+* File Systems
+
+---
+
+## Computer Networks
+
+Very useful for backend engineers.
+
+Topics:
+
+* TCP/IP
+* UDP
+* HTTP
+* HTTPS
+* DNS
+* TLS/SSL
+* WebSockets
+
+---
+
+## Database Internals
+
+How databases work internally.
+
+Topics:
+
+* B-Trees
+* LSM Trees
+* Query Planner
+* MVCC
+* WAL
+
+Examples:
+
+* MySQL Internals
+* PostgreSQL Internals
+
+---
+
+## Distributed Computing
+
+Very advanced.
+
+Topics:
+
+* Raft
+* Paxos
+* MapReduce
+* Distributed Consensus
+
+---
+
+## Site Reliability Engineering (SRE)
+
+Topics:
+
+* SLI
+* SLO
+* SLA
+* Incident Management
+* Capacity Planning
+
+---
+
+## Security Engineering
+
+Topics:
+
+* Cryptography
+* PKI
+* OAuth
+* Zero Trust
+* Threat Modeling
+
+---
+
+## AI Engineering
+
+Since you've worked with AI integrations.
+
+Topics:
+
+* LLMs
+* Prompt Engineering
+* RAG
+* Vector Databases
+* AI Agents
+* MCP
+* Fine Tuning
+
+---
+
+## Data Engineering
+
+Topics:
+
+* ETL
+* Data Warehouses
+* Spark
+* Airflow
+* Streaming
+
+---
+
+## Blockchain
+
+Since you mentioned learning Solidity.
+
+Topics:
+
+* Smart Contracts
+* Consensus
+* Ethereum
+* Layer 2
+* DeFi
+
+---
+
+## Mobile Architecture
+
+Topics:
+
+* Android Internals
+* iOS Internals
+* Offline Sync
+* Push Notifications
+
+---
+
+# If You Want Architect-Level Knowledge
+
+An architect typically understands these domains:
+
+1. Software Engineering
+2. System Design
+3. Distributed Systems
+4. Computer Networks
+5. Operating Systems
+6. Database Systems
+7. Cloud Computing
+8. Cybersecurity
+9. DevOps
+10. Artificial Intelligence
+
+---
+
+For someone with your background (3+ years, Full Stack, Microservices, Redis, RabbitMQ, Multi-tenant SaaS, AWS, AI integrations), the biggest knowledge gaps that usually provide the highest return are:
+
+```text id="sdqk7l"
+Computer Networks
+Operating Systems
+Distributed Systems
+Database Internals
+Advanced System Design
+Kubernetes
+Cloud Architecture
+Security
+AI System Design
+```
+
+Mastering those areas will take you much further than trying to keep adding more and more unrelated topics. The depth of understanding matters more than the total number of topics you've heard of.
+
+Yes. If you're trying to build a **complete Computer Science + Software Engineering map**, then around the areas of **Design, Databases, Networks, Browsers, and Operating Systems**, there are many interconnected topics.
+
+A good mental model is:
+
+```text id="7xksr9"
+Software Engineering
+│
+├── Design
+├── Databases
+├── Distributed Systems
+├── Networking
+├── Browser Internals
+├── Operating Systems
+├── Programming Language Internals
+└── Infrastructure
+```
+
+---
+
+# 1. Design Domain
+
+## Software Design
+
+* HLD (High-Level Design)
+* LLD (Low-Level Design)
+* UML
+* OOP
+* SOLID
+* Design Patterns
+* Clean Architecture
+* Hexagonal Architecture
+* Onion Architecture
+* DDD (Domain-Driven Design)
+
+## System Design
+
+* Scalability
+* Availability
+* Reliability
+* Fault Tolerance
+* CAP Theorem
+* Distributed Systems
+
+## Architecture
+
+* Monolith
+* Microservices
+* SOA
+* Event-Driven
+* Serverless
+
+---
+
+# 2. Database Domain
+
+## Relational Databases
+
+Examples:
+
+* MySQL
+* PostgreSQL
+
+Topics:
+
+* Normalization
+* Denormalization
+* Indexing
+* Joins
+* Transactions
+* ACID
+* Query Optimization
+* Execution Plans
+
+---
+
+## Database Scaling
+
+* Sharding
+* Partitioning
+* Replication
+* Read Replicas
+* Failover
+
+---
+
+## Database Internals
+
+This is where senior engineers go deeper.
+
+Topics:
+
+* B-Tree
+* B+ Tree
+* LSM Tree
+* WAL (Write Ahead Log)
+* MVCC
+* Buffer Pool
+* Query Planner
+* Storage Engine
+
+---
+
+## NoSQL
+
+Examples:
+
+* MongoDB
+* Redis
+
+Topics:
+
+* Document Modeling
+* Aggregation
+* Key-Value Storage
+* Data Distribution
+
+---
+
+# 3. Computer Networks
+
+Most backend engineers should know these.
+
+## Fundamentals
+
+* OSI Model
+* TCP/IP Model
+* IP Address
+* Subnetting
+* DNS
+
+---
+
+## Transport Layer
+
+* TCP
+* UDP
+
+Topics:
+
+* Handshake
+* Retransmission
+* Congestion Control
+
+---
+
+## Web Protocols
+
+* HTTP
+* HTTPS
+* HTTP/2
+* HTTP/3
+* TLS/SSL
+* WebSockets
+* SSE
+
+---
+
+## Network Infrastructure
+
+* CDN
+* Reverse Proxy
+* Load Balancer
+* API Gateway
+
+---
+
+# 4. Browser Internals
+
+Very important for frontend and full-stack developers.
+
+## Rendering Pipeline
+
+```text id="8c6ykm"
+HTML
+ ↓
+DOM
+ ↓
+CSSOM
+ ↓
+Render Tree
+ ↓
+Layout
+ ↓
+Paint
+ ↓
+Composite
+```
+
+---
+
+## JavaScript Engine
+
+Examples:
+
+* V8
+* SpiderMonkey
+
+Topics:
+
+* Parsing
+* AST
+* JIT Compilation
+* Garbage Collection
+
+---
+
+## Browser Storage
+
+* Cookies
+* LocalStorage
+* SessionStorage
+* IndexedDB
+
+---
+
+## Browser Networking
+
+* CORS
+* Preflight Requests
+* Caching
+* Service Workers
+
+---
+
+## Browser Security
+
+* XSS
+* CSRF
+* CSP
+* Same-Origin Policy
+
+---
+
+# 5. Operating Systems
+
+One of the most important foundations.
+
+## Process Management
+
+* Process
+* Thread
+* Context Switching
+* Scheduling
+
+---
+
+## Memory Management
+
+* Stack
+* Heap
+* Virtual Memory
+* Paging
+* Segmentation
+
+---
+
+## Concurrency
+
+* Mutex
+* Semaphore
+* Race Conditions
+* Deadlocks
+
+---
+
+## File Systems
+
+* Inodes
+* Journaling
+* Storage Layers
+
+---
+
+## OS Internals
+
+* System Calls
+* Kernel
+* User Space
+* Interrupts
+
+---
+
+# 6. Programming Language Internals
+
+For JavaScript, Node.js, Java, Python, etc.
+
+Topics:
+
+* Compiler
+* Interpreter
+* AST
+* Bytecode
+* Runtime
+* Garbage Collection
+
+Examples:
+
+* Node.js
+* Java Virtual Machine
+* CPython
+
+---
+
+# 7. Distributed Systems
+
+This connects Design + Database + Network.
+
+Topics:
+
+* CAP Theorem
+* Consistency
+* Consensus
+* Leader Election
+* Distributed Locks
+* Eventual Consistency
+* Saga Pattern
+* Event Sourcing
+
+---
+
+# 8. Infrastructure & Cloud
+
+Topics:
+
+* Docker
+* Kubernetes
+* Service Discovery
+* Auto Scaling
+* Monitoring
+* Logging
+* Observability
+
+Clouds:
+
+* Amazon Web Services
+* Microsoft Azure
+* Google Cloud
+
+---
+
+# If You Want the "Deep Engineering" Roadmap
+
+The most interconnected subjects are:
+
+```text id="dwodof"
+1. Operating Systems
+2. Computer Networks
+3. Database Internals
+4. Browser Internals
+5. Programming Language Internals
+6. Distributed Systems
+7. System Design
+8. Cloud Architecture
+```
+
+These eight areas explain most of what happens when:
+
+```text id="gg5i0r"
+User clicks a button
+        ↓
+Browser renders UI
+        ↓
+HTTP request sent
+        ↓
+Network routes packet
+        ↓
+Load Balancer
+        ↓
+Microservice
+        ↓
+Database query
+        ↓
+OS schedules thread
+        ↓
+Response returned
+        ↓
+Browser paints screen
+```
+
+Understanding that entire journey is what separates a developer who can build features from an engineer who can reason about systems end-to-end.

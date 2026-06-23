@@ -1,0 +1,660 @@
+
+Pure Components samajhne ke liye pehle tumhe ek fundamental React concept samajhna padega:
+
+> **React by default parent re-render hone par child ko bhi re-render karta hai.**
+
+Yahi problem Pure Component solve karta hai.
+
+---
+
+# Step 1: Re-render Kya Hota Hai?
+
+Example:
+
+```jsx
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <button
+        onClick={() => setCount(count + 1)}
+      >
+        Increment
+      </button>
+
+      <Child />
+    </>
+  );
+}
+
+function Child() {
+  console.log("Child Rendered");
+
+  return <h1>Child</h1>;
+}
+```
+
+Button click karo.
+
+Output:
+
+```text
+Child Rendered
+Child Rendered
+Child Rendered
+```
+
+Question:
+
+```text
+Child ke andar kuch change hua?
+```
+
+Nahi.
+
+Phir bhi render hua.
+
+Kyuki:
+
+```text
+Parent Render
+      ↓
+Child Render
+```
+
+React default behavior.
+
+---
+
+# Real World Example
+
+Socho ek office hai.
+
+Manager:
+
+```text
+Parent Component
+```
+
+Employees:
+
+```text
+Child Components
+```
+
+Manager ne sirf apni chair badli.
+
+Lekin HR bolta hai:
+
+```text
+Sab employees ko dobara report submit karo.
+```
+
+Employees:
+
+```text
+Humne kuch change hi nahi kiya.
+```
+
+Ye unnecessary work hai.
+
+Pure Component bolta hai:
+
+```text
+Agar data change nahi hua
+to dobara render mat karo.
+```
+
+---
+
+# Pure Component Kya Hai?
+
+Definition:
+
+```text
+Pure Component wo component hai
+jo props aur state same hone par
+re-render nahi hota.
+```
+
+Ye render skip kar deta hai.
+
+---
+
+# Internal Logic
+
+Normal Component:
+
+```text
+Parent Render
+      ↓
+Child Render
+```
+
+Pure Component:
+
+```text
+Parent Render
+      ↓
+Props Changed?
+      ↓
+No
+      ↓
+Skip Render
+```
+
+---
+
+# Class Component Version
+
+React me built-in class hai:
+
+```js
+React.PureComponent
+```
+
+Example:
+
+```jsx
+class Child extends React.PureComponent {
+  render() {
+    console.log("Child Render");
+
+    return <h1>Child</h1>;
+  }
+}
+```
+
+Ab React automatically comparison karega.
+
+---
+
+# React Kaise Decide Karta Hai?
+
+Ye sabse important part hai.
+
+React Deep Comparison nahi karta.
+
+Ye:
+
+```text
+Shallow Comparison
+```
+
+karta hai.
+
+---
+
+# Shallow Comparison Kya Hai?
+
+Example:
+
+```js
+const obj1 = {
+  name: "Rahul"
+};
+
+const obj2 = {
+  name: "Rahul"
+};
+```
+
+Check:
+
+```js
+obj1 === obj2
+```
+
+Output:
+
+```js
+false
+```
+
+Kyuki references alag hain.
+
+Memory:
+
+```text
+obj1 ---> Address A
+
+obj2 ---> Address B
+```
+
+Values same hain.
+
+References different hain.
+
+---
+
+# Pure Component Internally
+
+React roughly karta hai:
+
+```js
+if (
+  oldProps === newProps &&
+  oldState === newState
+) {
+  skipRender();
+}
+```
+
+Actually thoda aur complex hota hai but conceptually yahi.
+
+---
+
+# Example 1 (Works)
+
+```jsx
+class Child extends React.PureComponent {
+  render() {
+    console.log("Child Render");
+
+    return (
+      <h1>{this.props.name}</h1>
+    );
+  }
+}
+```
+
+Parent:
+
+```jsx
+<Child name="Rahul" />
+```
+
+Agar parent render hua lekin:
+
+```jsx
+name="Rahul"
+```
+
+same raha.
+
+PureComponent bolega:
+
+```text
+Same Prop
+Skip Render
+```
+
+---
+
+# Example 2 (Important Interview Question)
+
+```jsx
+const user = {
+  name: "Rahul"
+};
+
+<Child user={user} />
+```
+
+Next render:
+
+```jsx
+const user = {
+  name: "Rahul"
+};
+
+<Child user={user} />
+```
+
+Question:
+
+```text
+Same data hai.
+Render hoga?
+```
+
+Answer:
+
+```text
+YES
+```
+
+Kyuki:
+
+```js
+oldUser === newUser
+```
+
+false.
+
+Naya object create hua.
+
+---
+
+# Memory View
+
+First Render:
+
+```text
+user
+ ↓
+Address A
+```
+
+Second Render:
+
+```text
+user
+ ↓
+Address B
+```
+
+PureComponent reference compare karta hai.
+
+Value nahi.
+
+---
+
+# Biggest Misconception
+
+Log sochte hain:
+
+```text
+Pure Component
+=
+Deep Comparison
+```
+
+❌ Wrong
+
+Actually:
+
+```text
+Pure Component
+=
+Shallow Comparison
+```
+
+---
+
+# Why Deep Comparison Nahi?
+
+Imagine:
+
+```js
+{
+  a: {
+    b: {
+      c: {
+        d: {}
+      }
+    }
+  }
+}
+```
+
+Deep compare expensive hai.
+
+Har render me pura object traverse karna padega.
+
+Performance kharab.
+
+---
+
+# Function Components Me Equivalent
+
+Class Components:
+
+```js
+React.PureComponent
+```
+
+Function Components:
+
+```js
+React.memo
+```
+
+Example:
+
+```jsx
+const Child = React.memo(
+  function Child({ name }) {
+    console.log("Child Render");
+
+    return <h1>{name}</h1>;
+  }
+);
+```
+
+Ab:
+
+```jsx
+<Child name="Rahul" />
+```
+
+same prop hone par render skip.
+
+---
+
+# Internal Working of React.memo
+
+Conceptually:
+
+```js
+if (
+  previousProps === currentProps
+) {
+  skipRender();
+}
+```
+
+Actually React shallow comparison karta hai.
+
+---
+
+# Real Production Example
+
+Suppose:
+
+```jsx
+<App>
+  <Navbar />
+  <Sidebar />
+  <Dashboard />
+  <Footer />
+</App>
+```
+
+Dashboard me count update hua.
+
+```text
+Dashboard Render
+```
+
+Default React:
+
+```text
+Navbar Render
+Sidebar Render
+Dashboard Render
+Footer Render
+```
+
+Sab render.
+
+---
+
+Using memo:
+
+```jsx
+const Navbar = React.memo(...);
+const Sidebar = React.memo(...);
+const Footer = React.memo(...);
+```
+
+Now:
+
+```text
+Navbar Skip
+Sidebar Skip
+Dashboard Render
+Footer Skip
+```
+
+Performance better.
+
+---
+
+# Problem With Functions
+
+Ye interview me bahut poocha jata hai.
+
+Example:
+
+```jsx
+const Child = React.memo(
+  ({ onClick }) => {
+    console.log("Render");
+
+    return (
+      <button onClick={onClick}>
+        Click
+      </button>
+    );
+  }
+);
+```
+
+Parent:
+
+```jsx
+<Child
+  onClick={() => console.log("Hi")}
+/>
+```
+
+Question:
+
+```text
+React.memo render skip karega?
+```
+
+Answer:
+
+```text
+NO
+```
+
+Kyuki har render par:
+
+```js
+() => console.log("Hi")
+```
+
+naya function banta hai.
+
+Memory:
+
+```text
+Render 1 → Address A
+
+Render 2 → Address B
+```
+
+Different references.
+
+---
+
+# Solution
+
+```jsx
+const handleClick =
+  useCallback(() => {
+    console.log("Hi");
+  }, []);
+```
+
+```jsx
+<Child onClick={handleClick} />
+```
+
+Ab same reference.
+
+Memo properly kaam karega.
+
+---
+
+# When To Use Pure Components?
+
+Use when:
+
+✅ Expensive rendering
+
+✅ Large lists
+
+✅ Complex dashboards
+
+✅ Heavy UI calculations
+
+✅ Re-render issues
+
+---
+
+# When NOT To Use?
+
+Har component ko memo mat karo.
+
+Example:
+
+```jsx
+const Button = React.memo(
+  () => <button>Click</button>
+);
+```
+
+Agar component already lightweight hai.
+
+To memo comparison cost:
+
+```text
+Compare Props Cost
+```
+
+*
+
+```text
+Memory Cost
+```
+
+kabhi kabhi render se zyada ho sakti hai.
+
+---
+
+# Interview Definition
+
+Agar interviewer puche:
+
+> What is a Pure Component?
+
+Answer:
+
+```text
+A Pure Component is a component that skips re-rendering when its props and state have not changed.
+
+It performs a shallow comparison of previous and current props/state. If they are equal by reference, React reuses the previous render result and avoids unnecessary rendering.
+
+In class components we use React.PureComponent, and in function components we use React.memo.
+```
+
+---
+
+Sabse important line yaad rakho:
+
+```text
+Pure Component render ko stop nahi karta.
+
+Pure Component unnecessary render ko stop karta hai.
+```
+
+Aur React internals ke perspective se agla natural topic hai:
+
+**"Shallow Comparison exactly kaise kaam karti hai memory level par?"**
+
+Kyuki PureComponent, React.memo, useMemo, useCallback, Redux optimization — sab usi foundation par based hain.

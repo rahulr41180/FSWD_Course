@@ -1,0 +1,3 @@
+
+OS Decide how much memory, ram or time to be executive to a process.
+So it act as a resource manager

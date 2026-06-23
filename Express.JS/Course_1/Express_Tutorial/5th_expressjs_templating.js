@@ -3,7 +3,7 @@ import express from "express";
 
 const app = express();
 
-https://www.tutorialspoint.com/expressjs/expressjs_templating.htm
+https://www.tutorialspoint.com/expressjs/expressjs_templating.html
 
 app.listen(8080, async () => {
     try {

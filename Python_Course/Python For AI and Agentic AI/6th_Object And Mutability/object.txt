@@ -1,0 +1,9 @@
+
+Object And Mutability
+
+In Python everthing is an Object
+
+Each Object have unique 
+1st id that we called identity
+2nd type
+3rd value like key and value

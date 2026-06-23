@@ -1,0 +1,37 @@
+
+Array/String
+If we are observing that Subarray or Substring hint are there
+If there is no subsequence because it is a not continuous
+Subarray/Substring means continuous
+
+if we have array as asked window of two length [1,2,3,4,5]
+contiguous means [1,2] [2,3] [3,4] [4,5] not [1,4]
+not contiguous means [1,4] [1,3] [1,2] [1,5]
+
+Array/String
+Subarray/Substring
+
+If question is asking to find out of these any one or two
+
+Maximum
+Minimum
+Longest
+Shortest
+Sum / Count / Average
+at most k / at least k / exactly k
+
+Sliding Window are two type
+Fixed length
+Dynamic Length means shrink or expand
+
+Example for fixed length
+Q. Subarray of length 3(fixed length) find max of all their sum
+
+Three Steps Are There Before Starting Sliding Window Question
+
+1st: Indentify pattern means does this question realy belong to sliding window
+2ns: Window Type means does this question related to fixed or variable
+fixed means fixed length means window length should be equal to given in question
+variable means length of window might be changed means window length 2 or 3 or 4 or 5 or 2 or 6
+3rd: Data/Info about window
+4th: Data/Info about next window repeat this work untill we reach to array length or we found our answer

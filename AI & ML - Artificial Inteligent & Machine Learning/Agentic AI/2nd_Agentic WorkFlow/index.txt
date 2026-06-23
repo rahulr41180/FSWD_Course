@@ -19,9 +19,6 @@ user input              |                               |                       
                                                                                     |
 user gets a response <--------------------------------------------------------------|
 
-
-
-
 Generative AI -> use content creation 
 
 Agentic AI -> dicision making and execution (both things agentic ai can do with tools or ToolBox)

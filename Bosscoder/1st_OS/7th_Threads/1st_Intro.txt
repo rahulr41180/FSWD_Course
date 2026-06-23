@@ -1,0 +1,8 @@
+
+Now days we have multi threads system and single threads system
+
+Multi Threads System
+We can perform multiple task parellel means there are multi threads so that each threads have it's own task to handle
+
+Single Threads System
+Means threads is processing multi task one by one

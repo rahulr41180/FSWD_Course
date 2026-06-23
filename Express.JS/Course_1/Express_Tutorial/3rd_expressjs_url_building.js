@@ -15,7 +15,7 @@ app.get('/things/:id([0-9]{5})', function(req, res){
     res.send('id: ' + req.params.id);
 });
 
-//  If none of your routes match the request, you'll get a "Cannot GET <your-request-route>" message as response. 
+// If none of your routes match the request, you'll get a "Cannot GET <your-request-route>" message as response. 
 // This message be replaced by a 404 not found page
 
 //Other routes here

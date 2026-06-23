@@ -1,0 +1,34 @@
+
+SERIAL and Primary Key
+
+Old PostgreSQL style:
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT
+);
+
+What happens internally?
+
+PostgreSQL creates:
+
+Sequence
+users_id_seq
+
+Then:
+
+DEFAULT nextval(...)
+
+Example inserts:
+
+INSERT INTO users(name)
+VALUES ('Rahul');
+
+INSERT INTO users(name)
+VALUES ('Aman');
+
+Table:
+
+id	name
+1	Rahul
+2	Aman

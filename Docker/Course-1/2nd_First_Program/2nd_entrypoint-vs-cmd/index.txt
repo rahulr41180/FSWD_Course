@@ -1,0 +1,551 @@
+
+Bhai, agar Dockerfile ka sabse confusing topic koi hai, toh woh hai:
+
+```dockerfile
+CMD
+ENTRYPOINT
+```
+
+Almost har developer starting mein confuse hota hai ki:
+
+* Dono mein difference kya hai?
+* Kab `CMD` use karna chahiye?
+* Kab `ENTRYPOINT` use karna chahiye?
+* Dono ek saath kyun likhte hain?
+* Command override kaise hoti hai?
+
+Aaj isko bahut depth mein samajhte hain.
+
+---
+
+# Sabse pehle: Container start hone par hota kya hai?
+
+Jab tum run karte ho:
+
+```bash
+docker run my-image
+```
+
+Docker internally sochta hai:
+
+> "Theek hai, image toh mil gayi. Ab container start karne ke baad kaunsi command execute karni hai?"
+
+Ye command Docker ko `CMD` ya `ENTRYPOINT` se milti hai.
+
+---
+
+# CMD kya hota hai?
+
+Definition:
+
+> `CMD` container start hone par default command provide karta hai.
+
+Example:
+
+Dockerfile:
+
+```dockerfile
+FROM node:23.11.1-alpine
+
+WORKDIR /app
+
+COPY . .
+
+CMD ["node", "server.js"]
+```
+
+Tum run karte ho:
+
+```bash
+docker run my-image
+```
+
+Docker internally chalata hai:
+
+```bash
+node server.js
+```
+
+---
+
+# Real World Example
+
+Maan lo tumne ek music player banaya.
+
+Default behaviour:
+
+```text
+Play song.mp3
+```
+
+Lekin user chahe toh song change kar sakta hai.
+
+Yahi CMD hai.
+
+Default command.
+
+---
+
+# CMD Override ho sakta hai
+
+Dockerfile:
+
+```dockerfile
+CMD ["node", "server.js"]
+```
+
+Run:
+
+```bash
+docker run my-image node test.js
+```
+
+Ab kya hoga?
+
+CMD replace ho jayega.
+
+Docker execute karega:
+
+```bash
+node test.js
+```
+
+Aur:
+
+```bash
+node server.js
+```
+
+nahi chalega.
+
+---
+
+# Example
+
+Dockerfile:
+
+```dockerfile
+FROM alpine
+
+CMD ["echo", "Hello"]
+```
+
+Run:
+
+```bash
+docker run my-image
+```
+
+Output:
+
+```text
+Hello
+```
+
+Run:
+
+```bash
+docker run my-image echo Rahul
+```
+
+Output:
+
+```text
+Rahul
+```
+
+CMD poora replace ho gaya.
+
+---
+
+# ENTRYPOINT kya hota hai?
+
+Definition:
+
+> ENTRYPOINT container ka main executable define karta hai.
+
+Ye bolta hai:
+
+> "Container start hoga toh ye command zaroor chalegi."
+
+Isko easily replace nahi kiya ja sakta.
+
+Example:
+
+```dockerfile
+FROM alpine
+
+ENTRYPOINT ["echo", "Hello"]
+```
+
+Run:
+
+```bash
+docker run my-image
+```
+
+Output:
+
+```text
+Hello
+```
+
+Ab run karo:
+
+```bash
+docker run my-image Rahul
+```
+
+Output:
+
+```text
+Hello Rahul
+```
+
+Notice ki:
+
+ENTRYPOINT replace nahi hua.
+
+Uske aage argument add hua.
+
+Internally Docker ne chalaya:
+
+```bash
+echo Hello Rahul
+```
+
+---
+
+# CMD vs ENTRYPOINT
+
+CMD:
+
+```dockerfile
+CMD ["node", "server.js"]
+```
+
+Run:
+
+```bash
+docker run image node test.js
+```
+
+Internal:
+
+```bash
+node test.js
+```
+
+CMD replace ho gaya.
+
+---
+
+ENTRYPOINT:
+
+```dockerfile
+ENTRYPOINT ["node"]
+```
+
+Run:
+
+```bash
+docker run image test.js
+```
+
+Internal:
+
+```bash
+node test.js
+```
+
+ENTRYPOINT same raha.
+
+Argument append hua.
+
+---
+
+# Sabse Powerful Combination
+
+Industry mein bahut use hota hai:
+
+```dockerfile
+ENTRYPOINT ["node"]
+
+CMD ["server.js"]
+```
+
+Ab kya hoga?
+
+Default:
+
+```bash
+docker run my-image
+```
+
+Internal:
+
+```bash
+node server.js
+```
+
+---
+
+Override:
+
+```bash
+docker run my-image test.js
+```
+
+Internal:
+
+```bash
+node test.js
+```
+
+Yahan:
+
+ENTRYPOINT fixed raha.
+
+CMD replace ho gaya.
+
+---
+
+# Real World Analogy
+
+Socho tum taxi service ho.
+
+## ENTRYPOINT
+
+Taxi driver.
+
+```text
+Driver fix hai.
+```
+
+Woh hamesha jayega.
+
+---
+
+## CMD
+
+Destination.
+
+```text
+Default destination = Airport
+```
+
+Lekin customer bol sakta hai:
+
+```text
+Mall chalo.
+```
+
+Toh destination change ho jayegi.
+
+---
+
+Analogy:
+
+```text
+ENTRYPOINT = Driver
+CMD = Destination
+```
+
+---
+
+# Node.js Real Example
+
+Dockerfile:
+
+```dockerfile
+FROM node:23.11.1-alpine
+
+WORKDIR /app
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+ENTRYPOINT ["node"]
+
+CMD ["server.js"]
+```
+
+Run:
+
+```bash
+docker run my-image
+```
+
+Internal:
+
+```bash
+node server.js
+```
+
+---
+
+Run:
+
+```bash
+docker run my-image test.js
+```
+
+Internal:
+
+```bash
+node test.js
+```
+
+---
+
+# Override ENTRYPOINT
+
+ENTRYPOINT ko override karna ho:
+
+```bash
+docker run --entrypoint sh my-image
+```
+
+Ab shell open hogi.
+
+ENTRYPOINT replace ho gaya.
+
+---
+
+# Exec Form vs Shell Form
+
+Recommended:
+
+```dockerfile
+CMD ["node", "server.js"]
+
+ENTRYPOINT ["node"]
+```
+
+Ye Exec Form hai.
+
+Benefits:
+
+* Better signal handling
+* PID 1 issues kam
+* Production friendly
+
+---
+
+Avoid:
+
+```dockerfile
+CMD node server.js
+
+ENTRYPOINT node
+```
+
+Ye shell form hai.
+
+Internally:
+
+```bash
+sh -c "node server.js"
+```
+
+Extra shell create hoti hai.
+
+---
+
+# PID 1 Concept
+
+Container mein jo process sabse pehle start hoti hai:
+
+```text
+PID 1
+```
+
+woh signals handle karti hai.
+
+Exec form:
+
+```dockerfile
+ENTRYPOINT ["node"]
+```
+
+Node directly PID 1 hota hai.
+
+Shell form:
+
+```dockerfile
+ENTRYPOINT node
+```
+
+Shell PID 1 ban jata hai.
+
+Production mein exec form preferred hota hai.
+
+---
+
+# Kab kya use kare?
+
+### Sirf CMD
+
+Jab default command deni ho.
+
+Example:
+
+```dockerfile
+CMD ["npm","start"]
+```
+
+---
+
+### Sirf ENTRYPOINT
+
+Jab command hamesha same rehni chahiye.
+
+Example:
+
+```dockerfile
+ENTRYPOINT ["python"]
+```
+
+---
+
+### ENTRYPOINT + CMD
+
+Jab executable fixed ho aur arguments customizable ho.
+
+Example:
+
+```dockerfile
+ENTRYPOINT ["node"]
+
+CMD ["server.js"]
+```
+
+---
+
+# Final Summary
+
+| Feature            | CMD             | ENTRYPOINT                 |
+| ------------------ | --------------- | -------------------------- |
+| Purpose            | Default command | Fixed executable           |
+| Override           | Yes             | No (unless `--entrypoint`) |
+| Arguments appended | No              | Yes                        |
+| Real analogy       | Destination     | Driver                     |
+| Most common use    | `npm start`     | CLI tools                  |
+| Together use?      | Yes             | Yes                        |
+
+---
+
+## Sabse important line yaad rakhna:
+
+```text
+CMD = "Agar user kuch na bole toh kya chalana hai."
+
+ENTRYPOINT = "Container ka asli executable kya hai."
+
+ENTRYPOINT + CMD = "Executable fix hai, arguments change ho sakte hain."
+```
+
+Agar tum ye concept samajh gaye, toh Docker ke 90% interview questions on `CMD` and `ENTRYPOINT` tum easily answer kar paoge.

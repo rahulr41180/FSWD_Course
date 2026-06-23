@@ -1,0 +1,4 @@
+
+1st: We can't find this pattern like Array | String | LinkedList | N number
+2nd: We can find this pattern Cycle | Loop | Repeatetive
+3rd: Is there any repeatetive like 3 17 17 17 17 17 .....

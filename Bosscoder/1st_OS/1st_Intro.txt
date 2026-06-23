@@ -1,0 +1,2 @@
+
+Operating system is like an interface between the user and the hardware.

@@ -1,0 +1,9 @@
+
+Project Name is 
+
+chai_shop/
+    run.py -> start the app -> modules
+    helper.py -> modules -> because it has code related module like classes and function
+    processing/
+    utils/ -> this folder called package because it has __init__.py file means any fodler has this typeo of file that folder called package
+        __init__.py

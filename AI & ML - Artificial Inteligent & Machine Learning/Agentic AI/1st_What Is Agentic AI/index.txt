@@ -14,7 +14,7 @@ Agents --> Agents --> Agents --> Agents
 
 
 Agents have components means
-means chat gpt is also an agents
+chat gpt is also an agents
 components like 
 
 1st: Agents must need of a LLM

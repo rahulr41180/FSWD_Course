@@ -10,6 +10,7 @@ animation-iteration-count, animation-direction, animation-fill-mode, animation-p
 */
 
 .p1 {
+    
     animation: 3s ease-in 1s 2 reverse both paused slidein;
 
 }
