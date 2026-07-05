@@ -1,0 +1,42 @@
+
+Suppose I build a calculator with node.js and we wrote a DOCKERFILE like
+
+FROM Ubunto
+
+WORKDIR
+
+RUN install node.js
+
+CMD
+
+========================================================
+
+I have written good docker file as a beginner level
+
+but problem is that we need only node.js runtime to execute this calculator because it is a node.js application so we need only node.js run time environment if is is 
+python or java application then we need only python or java run time environment
+
+but our dockerfile has lot of things like Ubunto base image and we know Ubunto comes with system dependencies apt-packages apt-repo
+
+becuase at end we need only node.js environment to run this calculator means to build our applicataion we need whole things Ubunto, node.js, npm install but to run this
+calculator app we need only node.js environment
+
+means there are two stages
+
+1st: Build application 
+2nd: Running application
+
+to build we need multiple things
+but to run we need only node.js run time
+
+on the other side we know why we written DockerFile like this because I require Ubunto base image because I want to install
+all node.js dependencies but this process has problem which I already discussed so to resolve this problem what Docker said
+let me introduce a new concept and that is multi stage build
+
+===============================================
+So what multi stage means
+I will split our Docker file into two or multiple parts
+
+===================================================
+
+As of now we look on two split later we will see how we split DockerFile into multiple parts

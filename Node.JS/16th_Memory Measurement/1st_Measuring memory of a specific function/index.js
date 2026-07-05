@@ -21,3 +21,13 @@ const after = (process.memoryUsage().heapUsed)/1024/1024;
 console.log('after:', after)
 
 console.log(after-before);
+
+/* 
+
+Shallow Size vs Retained Size
+Closure memory consumption
+Async/Await memory retention
+Express request-wise memory profiling
+Production memory leak debugging using Heap Snapshots.
+
+*/

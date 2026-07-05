@@ -1,0 +1,16 @@
+
+Interview Answer
+
+Agar interviewer puche:
+
+Are there types of Encapsulation?
+
+Short answer:
+
+Yes. Commonly Encapsulation is discussed as:
+
+Data Encapsulation → Hiding and protecting data.
+Method Encapsulation → Hiding internal implementation methods.
+Class Encapsulation → Bundling data and behavior into a single unit.
+
+And in practice, Data Encapsulation is the most important and most commonly referred type when people talk about Encapsulation in OOP.  

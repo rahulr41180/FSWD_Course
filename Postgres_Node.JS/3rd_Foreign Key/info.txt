@@ -1,0 +1,33 @@
+
+Foreign Key SQL ka sabse important concept hai. Agar tum Foreign Key deeply samajh gaye, to tum:
+
+One-to-One Relationship
+One-to-Many Relationship
+Many-to-Many Relationship
+Joins
+Database Design
+Normalization
+
+sab aasani se samajh jaoge.
+
+
+Real World Example
+
+Socho tumhare paas ek school hai.
+
+Students Table
+student_id	name
+1	Rahul
+2	Amit
+Courses Table
+course_id	course_name
+101	SQL
+102	Node.js
+
+Ab maan lo Rahul aur Amit dono SQL course me enrolled hain.
+
+To course table ke andar student ki details rakhna galat hai.
+
+Aur student table ke andar course ki details rakhna bhi galat hai.
+
+Isliye relationship banate hain.

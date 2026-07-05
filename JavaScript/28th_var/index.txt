@@ -1,0 +1,2016 @@
+
+Absolutely. Since you're learning JavaScript from beginner to advanced, **`var`** is much more than just an old keyword. Many interview questions and tricky JavaScript behaviors revolve around `var`.
+
+# Complete Roadmap of `var`
+
+I'll cover **every concept** related to `var`.
+
+```
+1. Introduction
+2. Declaration
+3. Initialization
+4. Declaration + Initialization
+5. Multiple Variables
+6. Redeclaration
+7. Reassignment
+8. Scope
+   ├── Global Scope
+   ├── Function Scope
+   ├── Block Scope (Important)
+9. Hoisting
+10. Hoisting with Initialization
+11. Temporal Dead Zone (Comparison with let)
+12. var inside loops
+13. var inside nested loops
+14. var inside functions
+15. var inside nested functions
+16. var with if
+17. var with switch
+18. var with try-catch
+19. var with closure
+20. var with setTimeout
+21. var in asynchronous code
+22. var and window object
+23. var in strict mode
+24. var inside modules
+25. var memory behavior
+26. var interview questions
+27. Tricky scenarios
+28. Best practices
+29. Real-world examples
+30. Practice Questions (Easy → Advanced)
+```
+
+---
+
+# 1. What is `var`?
+
+`var` is a keyword used to declare variables in JavaScript.
+
+```javascript
+var name = "Rahul";
+```
+
+Here,
+
+```
+var -> keyword
+name -> variable
+Rahul -> value
+```
+
+---
+
+# Why was var introduced?
+
+Variables store data.
+
+Example
+
+```javascript
+var age = 25;
+```
+
+Instead of writing
+
+```
+25
+```
+
+everywhere, we store it.
+
+---
+
+# 2. Declaration
+
+Declaration means creating a variable.
+
+```javascript
+var age;
+```
+
+Memory
+
+```
+age
+|
+undefined
+```
+
+Nothing has been assigned.
+
+---
+
+# 3. Initialization
+
+Initialization means assigning a value.
+
+```javascript
+var age;
+
+age = 25;
+```
+
+Memory
+
+```
+age
+|
+25
+```
+
+---
+
+# 4. Declaration + Initialization
+
+Most common.
+
+```javascript
+var age = 25;
+```
+
+---
+
+# 5. Multiple Variable Declaration
+
+```javascript
+var a = 10;
+var b = 20;
+var c = 30;
+```
+
+Or
+
+```javascript
+var a = 10,
+    b = 20,
+    c = 30;
+```
+
+Or
+
+```javascript
+var a,
+    b,
+    c;
+```
+
+---
+
+# 6. Redeclaration
+
+One of the biggest characteristics.
+
+```javascript
+var age = 20;
+
+var age = 30;
+
+console.log(age);
+```
+
+Output
+
+```
+30
+```
+
+No error.
+
+Why?
+
+Because `var` allows redeclaration.
+
+---
+
+Example
+
+```javascript
+var x = 10;
+var x = 20;
+var x = 30;
+
+console.log(x);
+```
+
+Output
+
+```
+30
+```
+
+---
+
+# 7. Reassignment
+
+```javascript
+var age = 20;
+
+age = 40;
+
+console.log(age);
+```
+
+Output
+
+```
+40
+```
+
+Perfectly valid.
+
+---
+
+Difference
+
+Redeclaration
+
+```javascript
+var age = 20;
+
+var age = 40;
+```
+
+Reassignment
+
+```javascript
+var age = 20;
+
+age = 40;
+```
+
+---
+
+# 8. Scope
+
+This is the most important topic.
+
+There are only **two scopes** for `var`.
+
+```
+Global Scope
+
+Function Scope
+```
+
+Not Block Scope.
+
+---
+
+# Global Scope
+
+```javascript
+var name = "Rahul";
+
+console.log(name);
+```
+
+Accessible everywhere.
+
+---
+
+Example
+
+```javascript
+var city = "Delhi";
+
+function print() {
+    console.log(city);
+}
+
+print();
+```
+
+Output
+
+```
+Delhi
+```
+
+---
+
+# Function Scope
+
+```javascript
+function demo() {
+
+    var age = 25;
+
+    console.log(age);
+
+}
+
+demo();
+```
+
+Output
+
+```
+25
+```
+
+Outside
+
+```javascript
+console.log(age);
+```
+
+Output
+
+```
+ReferenceError
+```
+
+Because age belongs only to the function.
+
+---
+
+# Block Scope
+
+Many beginners think
+
+```javascript
+if(true){
+
+    var x = 10;
+
+}
+
+console.log(x);
+```
+
+will give an error.
+
+Wrong.
+
+Output
+
+```
+10
+```
+
+Because `var` ignores blocks.
+
+---
+
+Same with loop
+
+```javascript
+for(var i=0;i<5;i++){
+
+}
+
+console.log(i);
+```
+
+Output
+
+```
+5
+```
+
+---
+
+Same
+
+```javascript
+while(true){
+
+    var x = 20;
+
+    break;
+
+}
+
+console.log(x);
+```
+
+Output
+
+```
+20
+```
+
+---
+
+# 9. Hoisting
+
+One of the most asked interview topics.
+
+Code
+
+```javascript
+console.log(age);
+
+var age = 25;
+```
+
+Output
+
+```
+undefined
+```
+
+Not
+
+```
+ReferenceError
+```
+
+Why?
+
+Because JavaScript internally moves the declaration to the top.
+
+JavaScript sees
+
+```javascript
+var age;
+
+console.log(age);
+
+age = 25;
+```
+
+---
+
+Execution
+
+```
+age
+
+↓
+
+undefined
+
+↓
+
+console.log(age)
+
+↓
+
+undefined
+
+↓
+
+age = 25
+```
+
+---
+
+# 10. Hoisting with Initialization
+
+People think
+
+```javascript
+console.log(age);
+
+var age = 25;
+```
+
+becomes
+
+```javascript
+var age = 25;
+
+console.log(age);
+```
+
+Wrong.
+
+Only declaration moves.
+
+Initialization stays.
+
+Correct interpretation
+
+```javascript
+var age;
+
+console.log(age);
+
+age = 25;
+```
+
+---
+
+# 11. Comparison with let
+
+```javascript
+console.log(a);
+
+var a = 10;
+```
+
+Output
+
+```
+undefined
+```
+
+---
+
+```javascript
+console.log(a);
+
+let a = 10;
+```
+
+Output
+
+```
+ReferenceError
+```
+
+Reason
+
+Temporal Dead Zone.
+
+---
+
+# 12. var inside if
+
+```javascript
+if(true){
+
+    var age = 30;
+
+}
+
+console.log(age);
+```
+
+Output
+
+```
+30
+```
+
+---
+
+# 13. var inside loop
+
+```javascript
+for(var i=0;i<3;i++){
+
+}
+
+console.log(i);
+```
+
+Output
+
+```
+3
+```
+
+---
+
+# 14. Nested Loop
+
+```javascript
+for(var i=0;i<2;i++){
+
+    for(var j=0;j<2;j++){
+
+    }
+
+}
+
+console.log(i);
+
+console.log(j);
+```
+
+Output
+
+```
+2
+
+2
+```
+
+Both survive outside the loop.
+
+---
+
+# 15. var inside function
+
+```javascript
+function test(){
+
+    var x = 10;
+
+}
+
+console.log(x);
+```
+
+Output
+
+```
+ReferenceError
+```
+
+---
+
+# 16. var inside nested function
+
+```javascript
+function outer(){
+
+    var x = 10;
+
+    function inner(){
+
+        console.log(x);
+
+    }
+
+    inner();
+
+}
+
+outer();
+```
+
+Output
+
+```
+10
+```
+
+---
+
+# 17. var with Closure
+
+Classic interview question.
+
+```javascript
+function outer(){
+
+    var count = 0;
+
+    function inner(){
+
+        count++;
+
+        console.log(count);
+
+    }
+
+    return inner;
+
+}
+
+const fn = outer();
+
+fn();
+
+fn();
+
+fn();
+```
+
+Output
+
+```
+1
+
+2
+
+3
+```
+
+Reason
+
+The inner function closes over `count`, so it retains access to the same variable even after `outer` has finished executing.
+
+---
+
+# 18. var with setTimeout (Famous Interview Question)
+
+```javascript
+for(var i=1;i<=5;i++){
+
+    setTimeout(function(){
+
+        console.log(i);
+
+    },1000);
+
+}
+```
+
+Output
+
+```
+6
+6
+6
+6
+6
+```
+
+Why?
+
+All callbacks share the same `i`. By the time they execute, the loop has completed and `i` equals `6`.
+
+**Fix using `let`:**
+
+```javascript
+for(let i=1;i<=5;i++){
+
+    setTimeout(function(){
+
+        console.log(i);
+
+    },1000);
+
+}
+```
+
+Output
+
+```
+1
+2
+3
+4
+5
+```
+
+**Fix using `var` with an IIFE:**
+
+```javascript
+for (var i = 1; i <= 5; i++) {
+    (function(current) {
+        setTimeout(function() {
+            console.log(current);
+        }, 1000);
+    })(i);
+}
+```
+
+Output
+
+```
+1
+2
+3
+4
+5
+```
+
+The IIFE creates a new function scope for each iteration, capturing the current value.
+
+---
+
+# 19. var and Window Object
+
+In a browser:
+
+```javascript
+var name = "Rahul";
+
+console.log(window.name);
+```
+
+Output
+
+```
+Rahul
+```
+
+Global `var` declarations in classic browser scripts become properties of the `window` object.
+
+> Note: This is **not true** in Node.js or in JavaScript modules.
+
+---
+
+# 20. var inside try
+
+```javascript
+try{
+
+    var x = 100;
+
+}catch{
+
+}
+
+console.log(x);
+```
+
+Output
+
+```
+100
+```
+
+---
+
+# 21. var inside switch
+
+```javascript
+switch(1){
+
+case 1:
+
+    var age = 25;
+
+}
+
+console.log(age);
+```
+
+Output
+
+```
+25
+```
+
+---
+
+# 22. var Memory Behavior
+
+When execution starts:
+
+```
+Memory Phase
+
+age
+
+↓
+
+undefined
+```
+
+Execution phase
+
+```
+age
+
+↓
+
+25
+```
+
+---
+
+# 23. Common Interview Questions
+
+### Question 1
+
+```javascript
+console.log(a);
+
+var a = 5;
+```
+
+**Answer**
+
+```
+undefined
+```
+
+---
+
+### Question 2
+
+```javascript
+var a = 10;
+
+var a = 20;
+
+console.log(a);
+```
+
+**Answer**
+
+```
+20
+```
+
+---
+
+### Question 3
+
+```javascript
+if(true){
+
+    var x = 100;
+
+}
+
+console.log(x);
+```
+
+**Answer**
+
+```
+100
+```
+
+---
+
+### Question 4
+
+```javascript
+function test(){
+
+    var x = 50;
+
+}
+
+console.log(x);
+```
+
+**Answer**
+
+```
+ReferenceError
+```
+
+---
+
+### Question 5
+
+```javascript
+for(var i=0;i<3;i++){
+
+}
+
+console.log(i);
+```
+
+**Answer**
+
+```
+3
+```
+
+---
+
+### Question 6
+
+```javascript
+console.log(a);
+
+var a;
+
+a = 10;
+```
+
+**Answer**
+
+```
+undefined
+```
+
+---
+
+### Question 7
+
+```javascript
+var a = 10;
+
+function demo(){
+
+    console.log(a);
+
+    var a = 20;
+
+}
+
+demo();
+```
+
+**Answer**
+
+```
+undefined
+```
+
+Explanation:
+
+Inside `demo`, the local `var a` is hoisted:
+
+```javascript
+function demo() {
+    var a;
+    console.log(a);
+    a = 20;
+}
+```
+
+The local variable shadows the outer `a`, so `console.log(a)` prints `undefined`.
+
+---
+
+# Real-World Example
+
+```javascript
+function shoppingCart(){
+
+    var total = 0;
+
+    function add(price){
+
+        total += price;
+
+        console.log(total);
+
+    }
+
+    return add;
+
+}
+
+const cart = shoppingCart();
+
+cart(500);
+
+cart(1000);
+
+cart(250);
+```
+
+Output
+
+```
+500
+
+1500
+
+1750
+```
+
+The `total` variable persists because of a closure.
+
+---
+
+# Best Practices
+
+Although `var` is still valid JavaScript, modern code generally prefers `let` and `const`.
+
+* Use `const` by default.
+* Use `let` when a value needs to change.
+* Avoid `var` in new projects because its function scope and hoisting can lead to subtle bugs.
+
+---
+
+# Practice Questions (Easy → Advanced)
+
+### Easy
+
+1. What is `var`?
+2. Can `var` be redeclared?
+3. Can `var` be reassigned?
+4. Is `var` block-scoped?
+5. Is `var` function-scoped?
+6. What is the default value of a declared `var`?
+7. Does `var` support hoisting?
+8. What happens if you access a `var` before initialization?
+
+### Intermediate
+
+9. Explain hoisting with an example.
+10. Explain the difference between declaration and initialization.
+11. Why does `var` ignore block scope?
+12. What happens to `var` inside `if`, `for`, `switch`, and `try` blocks?
+13. Why does `for (var i...)` often cause problems with asynchronous code?
+14. What is the difference between `var`, `let`, and `const`?
+15. Does global `var` become a property of `window`? When does it not?
+
+### Advanced
+
+16. Explain why `6 6 6 6 6` is printed in the `setTimeout` example.
+17. Fix the `setTimeout` problem using an IIFE.
+18. Explain how closures interact with `var`.
+19. Why does `console.log(a)` print `undefined` inside a function that later declares `var a`?
+20. Describe the creation phase and execution phase of JavaScript memory allocation for `var`.
+
+Mastering these scenarios will prepare you for most `var`-related JavaScript interview questions and help you understand why modern JavaScript favors `let` and `const`.
+
+This is one of the **most important JavaScript concepts**. If you truly understand the **Creation Phase** and **Execution Phase**, then you'll never be confused about **hoisting**, **`var`**, **functions**, **`let`**, **`const`**, or even **closures**.
+
+I'm going to explain this as if you're the **JavaScript Engine** itself.
+
+---
+
+# Before We Start
+
+Many beginners think JavaScript executes code like this:
+
+```
+Line 1
+↓
+
+Line 2
+↓
+
+Line 3
+↓
+
+Line 4
+```
+
+❌ That's NOT true.
+
+JavaScript actually executes every program in **two phases**.
+
+```
+          JavaScript Code
+
+                 │
+                 ▼
+
+        Phase 1 : Creation Phase
+                 │
+                 ▼
+
+        Phase 2 : Execution Phase
+```
+
+These two phases happen **every time an Execution Context is created**.
+
+For example:
+
+* Global Execution Context
+* Function Execution Context
+
+Both have these two phases.
+
+---
+
+# What is an Execution Context?
+
+Think of it as a **workspace** where JavaScript executes code.
+
+Whenever JavaScript starts running,
+
+it creates
+
+```
+Global Execution Context
+```
+
+Inside that execution context,
+
+JavaScript performs
+
+```
+1. Creation Phase
+
+2. Execution Phase
+```
+
+---
+
+# Imagine You're Opening a Restaurant
+
+Suppose you're opening a restaurant.
+
+Before customers arrive, what do you do?
+
+You don't immediately start cooking.
+
+Instead,
+
+```
+Clean tables
+
+Arrange chairs
+
+Switch on lights
+
+Prepare utensils
+
+Prepare menu
+
+Hire staff
+```
+
+Only after everything is prepared do customers enter.
+
+Then cooking begins.
+
+Exactly the same thing happens in JavaScript.
+
+---
+
+```
+Preparation
+↓
+
+Creation Phase
+```
+
+```
+Actual Work
+↓
+
+Execution Phase
+```
+
+---
+
+# Let's Take the Simplest Code
+
+```javascript
+console.log(age);
+
+var age = 25;
+
+console.log(age);
+```
+
+Most beginners think
+
+```
+Step 1
+
+console.log(age)
+
+↓
+
+Error
+
+because age doesn't exist
+```
+
+Wrong.
+
+Let's become JavaScript.
+
+---
+
+# Step 1
+
+JavaScript first reads the ENTIRE file.
+
+Not line by line.
+
+It scans everything.
+
+```
+console.log(age);
+
+var age = 25;
+
+console.log(age);
+```
+
+Now it says
+
+"I found one variable."
+
+```
+age
+```
+
+---
+
+# Step 2
+
+Now JavaScript enters
+
+```
+Creation Phase
+```
+
+In this phase,
+
+JavaScript allocates memory.
+
+Think of memory as boxes.
+
+Initially
+
+```
+Memory
+
+age
+
+↓
+
+undefined
+```
+
+Notice
+
+Not
+
+```
+25
+```
+
+Just
+
+```
+undefined
+```
+
+Why?
+
+Because
+
+Creation Phase never executes code.
+
+It only allocates memory.
+
+---
+
+## Important Rule
+
+During the Creation Phase:
+
+* All `var` variables are created in memory.
+* They are automatically initialized with `undefined`.
+* The assignment (`= value`) is **not** executed yet.
+
+---
+
+# Memory After Creation Phase
+
+```
+Memory
+
+age
+
+↓
+
+undefined
+```
+
+Execution hasn't started.
+
+---
+
+# Phase 2 Begins
+
+Now JavaScript starts executing line by line.
+
+---
+
+## Line 1
+
+```javascript
+console.log(age);
+```
+
+Memory currently
+
+```
+age
+
+↓
+
+undefined
+```
+
+Output
+
+```
+undefined
+```
+
+---
+
+## Line 2
+
+```javascript
+var age = 25;
+```
+
+This line has two parts.
+
+```
+var age
+
+=
+
+25
+```
+
+People think JavaScript executes both.
+
+Wrong.
+
+The declaration
+
+```
+var age
+```
+
+already happened during Creation Phase.
+
+So JavaScript ignores it.
+
+It only executes
+
+```
+age = 25;
+```
+
+Memory becomes
+
+```
+age
+
+↓
+
+25
+```
+
+---
+
+## Line 3
+
+```javascript
+console.log(age);
+```
+
+Now
+
+```
+age
+
+↓
+
+25
+```
+
+Output
+
+```
+25
+```
+
+Final Output
+
+```
+undefined
+
+25
+```
+
+---
+
+# Internal Timeline
+
+```
+Code
+
+console.log(age);
+
+var age = 25;
+
+console.log(age);
+```
+
+---
+
+## Creation Phase
+
+```
+Read entire file
+
+↓
+
+Found variable age
+
+↓
+
+Allocate memory
+
+↓
+
+age = undefined
+```
+
+Memory
+
+```
+age
+
+↓
+
+undefined
+```
+
+---
+
+## Execution Phase
+
+Execute
+
+```
+console.log(age)
+```
+
+Output
+
+```
+undefined
+```
+
+Execute
+
+```
+age = 25
+```
+
+Memory
+
+```
+age
+
+↓
+
+25
+```
+
+Execute
+
+```
+console.log(age)
+```
+
+Output
+
+```
+25
+```
+
+---
+
+# Why Do We Say "`var` is Hoisted"?
+
+People say
+
+```
+var is moved to the top.
+```
+
+This is **not literally true**.
+
+The JavaScript engine **does not rewrite your code**.
+
+Instead, during the **Creation Phase**, it creates memory for all `var` declarations before executing any line.
+
+So this:
+
+```javascript
+console.log(age);
+
+var age = 25;
+```
+
+behaves **as if** it were:
+
+```javascript
+var age;
+
+console.log(age);
+
+age = 25;
+```
+
+This "as if" behavior is what we call **hoisting**.
+
+---
+
+# Example 2
+
+```javascript
+var a = 10;
+
+var b = 20;
+
+console.log(a + b);
+```
+
+Creation Phase
+
+```
+Memory
+
+a → undefined
+
+b → undefined
+```
+
+Execution Phase
+
+Line 1
+
+```
+a = 10
+```
+
+Memory
+
+```
+a → 10
+
+b → undefined
+```
+
+Line 2
+
+```
+b = 20
+```
+
+Memory
+
+```
+a → 10
+
+b → 20
+```
+
+Line 3
+
+```
+console.log(30)
+```
+
+Output
+
+```
+30
+```
+
+---
+
+# Example 3
+
+```javascript
+var x = 10;
+
+console.log(x);
+
+x = 50;
+
+console.log(x);
+```
+
+Creation Phase
+
+```
+x
+
+↓
+
+undefined
+```
+
+Execution
+
+```
+x = 10
+```
+
+Memory
+
+```
+x
+
+↓
+
+10
+```
+
+Output
+
+```
+10
+```
+
+Then
+
+```
+x = 50
+```
+
+Memory
+
+```
+x
+
+↓
+
+50
+```
+
+Output
+
+```
+50
+```
+
+---
+
+# Example 4
+
+```javascript
+console.log(a);
+
+console.log(b);
+
+var a = 10;
+
+var b = 20;
+```
+
+Creation Phase
+
+```
+Memory
+
+a → undefined
+
+b → undefined
+```
+
+Execution
+
+```
+console.log(a)
+
+↓
+
+undefined
+```
+
+```
+console.log(b)
+
+↓
+
+undefined
+```
+
+Assignments
+
+```
+a = 10
+
+b = 20
+```
+
+Memory
+
+```
+a → 10
+
+b → 20
+```
+
+---
+
+# Example 5 (Function Scope)
+
+```javascript
+function test() {
+
+    console.log(a);
+
+    var a = 100;
+
+    console.log(a);
+
+}
+
+test();
+```
+
+When `test()` is called, a **new Function Execution Context** is created.
+
+### Creation Phase (inside `test`)
+
+JavaScript scans the function and finds:
+
+```javascript
+var a;
+```
+
+Memory:
+
+```
+a
+
+↓
+
+undefined
+```
+
+### Execution Phase
+
+First line:
+
+```javascript
+console.log(a);
+```
+
+Output:
+
+```
+undefined
+```
+
+Next:
+
+```javascript
+a = 100;
+```
+
+Memory:
+
+```
+a
+
+↓
+
+100
+```
+
+Last line:
+
+```javascript
+console.log(a);
+```
+
+Output:
+
+```
+100
+```
+
+Final Output:
+
+```
+undefined
+
+100
+```
+
+---
+
+# Memory Visualization
+
+Imagine RAM as shelves.
+
+Initially
+
+```
+RAM
+
++-----------+
+| age       |
+| undefined |
++-----------+
+```
+
+After assignment
+
+```
+RAM
+
++-----------+
+| age       |
+|    25     |
++-----------+
+```
+
+---
+
+# Interview Question
+
+```javascript
+console.log(a);
+
+var a = 10;
+
+console.log(a);
+
+var a = 50;
+
+console.log(a);
+```
+
+### Creation Phase
+
+```
+Memory
+
+a
+
+↓
+
+undefined
+```
+
+Notice that even though `a` is declared twice, only **one variable** is created because `var` allows redeclaration.
+
+### Execution Phase
+
+```
+console.log(a)
+
+↓
+
+undefined
+```
+
+```
+a = 10
+```
+
+Memory
+
+```
+a
+
+↓
+
+10
+```
+
+```
+console.log(a)
+
+↓
+
+10
+```
+
+```
+a = 50
+```
+
+Memory
+
+```
+a
+
+↓
+
+50
+```
+
+```
+console.log(a)
+
+↓
+
+50
+```
+
+Final Output:
+
+```
+undefined
+
+10
+
+50
+```
+
+---
+
+# Key Points to Remember
+
+| Creation Phase                     | Execution Phase                       |
+| ---------------------------------- | ------------------------------------- |
+| Happens first                      | Happens second                        |
+| Scans the entire scope             | Executes line by line                 |
+| Creates memory for `var` variables | Assigns actual values                 |
+| Initializes `var` with `undefined` | Runs assignments and other statements |
+| Does **not** execute `= value`     | Executes `= value`                    |
+| No `console.log()` calls run       | `console.log()` statements execute    |
+
+---
+
+# Golden Rule (Memorize This)
+
+Whenever JavaScript enters an execution context:
+
+1. **Creation Phase**
+
+   * Scan the entire scope.
+   * Create memory for all `var` variables.
+   * Initialize each `var` to `undefined`.
+   * Register function declarations (their full function objects are available immediately).
+
+2. **Execution Phase**
+
+   * Execute the code from top to bottom.
+   * Perform assignments.
+   * Evaluate expressions.
+   * Call functions.
+   * Update values in memory.
+
+Understanding these two phases is the foundation for mastering **hoisting**, **function execution contexts**, **`let`/`const` and the Temporal Dead Zone**, **closures**, and the **JavaScript execution model**.

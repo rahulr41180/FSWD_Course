@@ -1,0 +1,56 @@
+
+1st Split part of our dockerfile
+
+FROM Ubunto
+Run command to install all packages
+In multi stage or in this case I will not have this step called CMD command in first build stage
+So instead of executing the CMD here itself what I will do I will take the binary of first Dockerfile build from this Dockerfile into next split of Dockerfile
+so in the Ubunto base image we have curl, wget so these things we need while building the Dockerfile
+
+2nd Split part of our Dockerfile
+FROM node.js/Java/Python/distroless image
+so in the these image we don't have curl or wget so we don't need to download or install them because these things required us only
+
+at the time of build process not at the time of run or execution time of Dockerfile or application
+
+so at the end we only have final image means we don't have these two stage image and final image only have node.js/java runtime image 
+instead of having curl and many things as like stage 1 image
+
+=============================================================
+
+Now lets take an example which would have three things like frontend / backend / database
+let's choose frontend React.js and backend java and database as MySQL
+So this will be a three tire architecture
+
+1st :
+first we choose base image like
+FROM UBUNTU
+question is why we can't choose java/node.js runtime image instead of choosing UBUNTU base in first stage
+if we install java/node.js runtime then furthur we have to installed hell lot of things and our Dockerfile steps will become very 
+complicated
+
+instead what we do we choose very reach base image what do I mean very reach base image means that has all the dependencies
+at first stage we would not worry about reach image size could 1GB, 2GB because at the end stage we will have only runtime image 
+because this reach image stage is only needed for build the Docker image
+means these all will remove this stage1 or stage2 and at the end we will have only final image which is running
+
+stage 1 =>
+FROM Ubunto as stageOneBuild (1GB)
+Node.js (500MB)
+
+final stage =>
+FROM node.js runtime (100MB)
+COPY -- from stageOneBuild (this will be a binary data not whole things of stage 1 because we build the stage 1 and we are just using build data that is binary data) (50MB)
+ENTRYPOINT [node, index.js]
+
+so stage1 around 1.5GB
+and final stage will because 150MB
+
+Note: There can be n number of stage in one project
+and in the all these stage will become in final stage with very minimal image size
+
+Example :
+stage 1 -> frontend image
+stage 2 -> backend image
+stage 3 -> database image
+final stage -> stage 1 + stage 2 + stage 3 with minimal size of image
